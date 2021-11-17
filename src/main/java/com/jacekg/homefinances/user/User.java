@@ -26,7 +26,7 @@ public class User {
 	private Long id;
 
 	@Column(name = "username")
-	private String userName;
+	private String username;
 
 	@Column(name = "password")
 	private String password;
@@ -60,12 +60,12 @@ public class User {
 
 	}
 
-	public User(Long id, String userName, String password, String firstName, String lastName, String email,
+	public User(Long id, String username, String password, String firstName, String lastName, String email,
 			boolean isEnabled, boolean isNonExpired, boolean isCredentialsNonExpired, boolean isNonLocked,
 			Collection<Role> roles) {
 		super();
 		this.id = id;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -86,11 +86,11 @@ public class User {
 	}
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
