@@ -3,6 +3,8 @@ package com.jacekg.homefinances.jwt;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,9 +29,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+		
+		System.out.println("log: get User");
 		User user = userDAO.findByUsername(username);
-
+		user.getRoles();
+		
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password");
 		}
