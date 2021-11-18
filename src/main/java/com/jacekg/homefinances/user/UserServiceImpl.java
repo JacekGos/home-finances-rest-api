@@ -31,12 +31,12 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		
 		user.setId(userDTO.getId());
-		user.setUserName(userDTO.getUserName());
+		user.setUserName(userDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		user.setFirstName(StringUtils.capitalize(userDTO.getFirstName()));
 		user.setLastName(StringUtils.capitalize(userDTO.getLastName()));
 		user.setEmail(userDTO.getEmail());
-		user.setEnabled(userDTO.isEnabled());
+		user.setEnabled(true);
 		user.setNonExpired(true);
 		user.setCredentialsNonExpired(true);
 		user.setNonLocked(true);

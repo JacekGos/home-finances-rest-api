@@ -7,21 +7,21 @@ public class UserDTO {
 	
 private Long id;
 	
-	private String userName;
+	private String username;
 	
 	private String password;
 	
-	@NotNull(message = "wymagane")
-	@Size(min = 1, max = 50, message = "za długie imię")
+//	@NotNull(message = "wymagane")
+//	@Size(min = 1, max = 50, message = "za długie imię")
 	private String firstName;
 	
-	@NotNull(message = "wymagane")
-	@Size(min = 1, max = 50, message = "za długie nazwisko")
+//	@NotNull(message = "wymagane")
+//	@Size(min = 1, max = 50, message = "za długie nazwisko")
 	private String lastName;
 	
 //	@ValidEmail
-	@NotNull(message = "wymagane")
-	@Size(min = 1, max = 50, message = "za długi email")
+//	@NotNull(message = "wymagane")
+//	@Size(min = 1, max = 50, message = "za długi email")
 	private String email;
 	
 	private String role;
@@ -46,12 +46,12 @@ private Long id;
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -128,7 +128,7 @@ private Long id;
 
 	@Override
 	public String toString() {
-		return "FormUser [userName=" + userName + ", password=" + password + ", firstName=" + firstName + ", lastName="
+		return "FormUser [userName=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", email=" + email + ", role=" + role + "]";
 	}
 	
