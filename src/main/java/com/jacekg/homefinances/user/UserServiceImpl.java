@@ -48,7 +48,9 @@ public class UserServiceImpl implements UserService {
 			user.setRoles(Arrays.asList(
 					roleDAO.findByName("ROLE_USER"),
 					roleDAO.findByName("ROLE_ADMIN")));
-		} 
+		} else {
+			user.setRoles(Arrays.asList(roleDAO.findByName("ROLE_USER")));
+		}
 		
 		userDAO.save(user);
 	}
