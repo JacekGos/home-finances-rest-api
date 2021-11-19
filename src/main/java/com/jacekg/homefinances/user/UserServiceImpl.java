@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		
 		user.setId(userDTO.getId());
-		user.setUserName(userDTO.getUsername());
+		user.setUsername(userDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		user.setFirstName(StringUtils.capitalize(userDTO.getFirstName()));
 		user.setLastName(StringUtils.capitalize(userDTO.getLastName()));

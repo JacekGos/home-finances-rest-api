@@ -39,7 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 		
 		return new org.springframework.security.core.userdetails.User(
-				user.getUserName(), 
+				user.getUsername(), 
 				user.getPassword(),
 				user.isEnabled(),
 				user.isNonExpired(),
