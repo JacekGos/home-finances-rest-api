@@ -21,18 +21,18 @@ class UserRestControllerTest {
 	@Test
 	void addUser_ShouldReturn_ValidUser() {
 		
-		UserDTO user = new UserDTO();
-		User addedUser = new User();
-		addedUser.setId(10L);
+		UserDTO inputUser = new UserDTO();
+		User outputUser = new User();
+		outputUser.setId(10L);
 		
-		when(userService.save(user)).thenReturn(addedUser);
-		UserDTO outputUser = controller.addUser(user);
+		when(userService.save(inputUser)).thenReturn(outputUser);
+		User returnedUser = controller.addUser(inputUser);
 		
-		assertNotNull(outputUser);
-		assertNotNull(outputUser.getId());
-		assertEquals(10L, outputUser.getId());
+		assertNotNull(returnedUser);
+		assertNotNull(returnedUser.getId());
+		assertEquals(10L, returnedUser.getId());
 		
-		verify(userService).save(user);
+		verify(userService).save(inputUser);
 	}
 
 }
