@@ -13,7 +13,7 @@ import com.jacekg.homefinances.role.RoleDAO;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	private UserDAO userDAO;
+	private UserRepository userDAO;
 	
 	private RoleDAO roleDAO;
 	
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO) {
+	public UserServiceImpl(UserRepository userDAO, RoleDAO roleDAO) {
 		this.userDAO = userDAO;
 		this.roleDAO = roleDAO;
 	}

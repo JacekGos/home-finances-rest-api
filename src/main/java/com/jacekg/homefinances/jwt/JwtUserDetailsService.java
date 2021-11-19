@@ -15,23 +15,23 @@ import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
-import com.jacekg.homefinances.user.UserDAO;
+import com.jacekg.homefinances.user.UserRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-	private UserDAO userDAO;
+	private UserRepository userRepository;
 
 	@Autowired
-	public JwtUserDetailsService(UserDAO userDAO) {
-		this.userDAO = userDAO;
+	public JwtUserDetailsService(UserRepository userDAO) {
+		this.userRepository = userDAO;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		System.out.println("log: get User");
-		User user = userDAO.findByUsername(username);
+		User user = userRepository.findByUsername(username);
 		user.getRoles();
 		
 		if (user == null) {
