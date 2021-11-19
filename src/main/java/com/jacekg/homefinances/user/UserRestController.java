@@ -2,12 +2,16 @@ package com.jacekg.homefinances.user;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -24,12 +28,19 @@ public class UserRestController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public UserDTO addUser(@RequestBody UserDTO userDTO) {
 		
-		userService.save(userDTO);
+		User addedUser = new User();
+		UserDTO returnedUser = new UserDTO();
 		
-		userDTO.setEnabled(true);
-		userDTO.setCredentialsNonExpired(true);
-		userDTO.setNonExpired(true);
-		userDTO.setNonLocked(true);
+		try {
+			addedUser = userService.save(userDTO);
+			userDTO.setId(addedUser.getId());
+			userDTO.setEnabled(true);
+			userDTO.setCredentialsNonExpired(true);
+			userDTO.setNonExpired(true);
+			userDTO.setNonLocked(true);
+		} catch (ConstraintViolationException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
 		
 		return userDTO;
 	}

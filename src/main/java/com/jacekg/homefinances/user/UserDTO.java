@@ -25,17 +25,17 @@ private Long id;
 	
 	private String password;
 	
-//	@NotNull(message = "wymagane")
-//	@Size(min = 1, max = 50, message = "za długie imię")
+	@NotNull(message = "wymagane")
+	@Size(min = 1, max = 50, message = "za długie imię")
 	private String firstName;
 	
-//	@NotNull(message = "wymagane")
-//	@Size(min = 1, max = 50, message = "za długie nazwisko")
+	@NotNull(message = "wymagane")
+	@Size(min = 1, max = 50, message = "za długie nazwisko")
 	private String lastName;
 	
 //	@ValidEmail
-//	@NotNull(message = "wymagane")
-//	@Size(min = 1, max = 50, message = "za długi email")
+	@NotNull(message = "wymagane")
+	@Size(min = 1, max = 50, message = "za długi email")
 	private String email;
 	
 	private String role;

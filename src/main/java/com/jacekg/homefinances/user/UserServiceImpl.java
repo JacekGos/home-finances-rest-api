@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void save(UserDTO userDTO) {
+	public User save(UserDTO userDTO) {
 		
 		User user = new User();
 		
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 			user.setRoles(Arrays.asList(roleDAO.findByName("ROLE_USER")));
 		}
 		
-		userDAO.save(user);
+		return userDAO.save(user);
 	}
 
 	@Override
