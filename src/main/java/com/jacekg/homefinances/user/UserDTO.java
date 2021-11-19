@@ -11,10 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class UserDTO {
 	
 private Long id;
@@ -45,11 +47,5 @@ private Long id;
 	private boolean isCredentialsNonExpired;
 	 
 	private boolean isNonLocked;
-	
-	@Override
-	public String toString() {
-		return "FormUser [userName=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", email=" + email + ", role=" + role + "]";
-	}
 	
 }
