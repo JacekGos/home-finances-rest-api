@@ -3,6 +3,7 @@ package com.jacekg.homefinances.user;
 import java.util.List;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class UserRestController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public UserDTO addUser(@RequestBody UserDTO userDTO) {
+	public UserDTO addUser(@Valid @RequestBody UserDTO userDTO) {
 		
 		User addedUser = new User();
 		UserDTO returnedUser = new UserDTO();

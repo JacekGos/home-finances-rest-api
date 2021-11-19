@@ -2,6 +2,7 @@ package com.jacekg.homefinances.user;
 
 import java.util.Collection;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,6 +31,7 @@ private Long id;
 	private String firstName;
 	
 	@NotNull(message = "wymagane")
+	@NotBlank
 	@Size(min = 1, max = 50, message = "za długie nazwisko")
 	private String lastName;
 	
