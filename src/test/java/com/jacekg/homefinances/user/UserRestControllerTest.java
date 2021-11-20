@@ -1,13 +1,18 @@
 package com.jacekg.homefinances.user;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.sun.xml.bind.v2.schemagen.xmlschema.Any;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserRestControllerTest {
@@ -34,8 +39,41 @@ class UserRestControllerTest {
 		
 		verify(userService).save(inputUser);
 	}
+	
+	@Test
+	void addUser_ShouldThrow_UserNotValidException() {
+		
+		UserDTO user = new UserDTO();
+		user.setUsername("user");
+		
+		when(userService.findByUsername(user.getUsername())).thenThrow(UserNotValidException.class);
+		
+		assertThrows(UserNotValidException.class, () -> controller.addUser(user));
+		
+		verify(userService).findByUsername(user.getUsername());
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
