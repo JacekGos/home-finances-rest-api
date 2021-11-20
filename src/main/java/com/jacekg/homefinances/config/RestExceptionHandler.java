@@ -9,7 +9,7 @@ import com.jacekg.homefinances.user.UserErrorResponse;
 import com.jacekg.homefinances.user.UserNotValidException;
 
 @ControllerAdvice
-public class ExceptionHandlers {
+public class RestExceptionHandler {
 	
 	@ExceptionHandler
 	public ResponseEntity<UserErrorResponse> handleException(UserNotValidException exc) {

@@ -8,22 +8,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.jacekg.homefinances.role.RoleDAO;
+import com.jacekg.homefinances.role.RoleRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
 	
-	private UserRepository userDAO;
+	private UserRepository userRepository;
 	
-	private RoleDAO roleDAO;
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userDAO, RoleDAO roleDAO) {
-		this.userDAO = userDAO;
-		this.roleDAO = roleDAO;
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 	}
 	
 	@Override
@@ -43,22 +43,35 @@ public class UserServiceImpl implements UserService {
 		user.setNonLocked(true);
 		
 		if (userDTO.getRole().equals("USER")) {
-			user.setRoles(Arrays.asList(roleDAO.findByName("ROLE_USER")));
+			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		} 
 		else if (userDTO.getRole().equals("ADMIN")) {
 			user.setRoles(Arrays.asList(
-					roleDAO.findByName("ROLE_USER"),
-					roleDAO.findByName("ROLE_ADMIN")));
+					roleRepository.findByName("ROLE_USER"),
+					roleRepository.findByName("ROLE_ADMIN")));
 		} else {
-			user.setRoles(Arrays.asList(roleDAO.findByName("ROLE_USER")));
+			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		}
 		
-		return userDAO.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
 	public List<User> findAll() {
-		return userDAO.findAll();
+		return userRepository.findAll();
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 
 }
+
+
+
+
+
+
+
+

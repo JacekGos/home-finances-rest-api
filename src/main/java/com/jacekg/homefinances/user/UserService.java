@@ -7,4 +7,6 @@ public interface UserService {
 	public User save(UserDTO user);
 	
 	public List<User> findAll();
+	
+	public User findByUsername(String username);
 }

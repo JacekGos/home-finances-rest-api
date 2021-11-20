@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@RequestMapping("/users")
 public class UserRestController {
 
 	private UserService userService;
@@ -27,6 +26,11 @@ public class UserRestController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public User addUser(@Valid @RequestBody UserDTO userDTO) {
+		
+		if (userService.findByUsername(userDTO.getUsername()) != null) {
+			throw new UserNotValidException("Podana nazwa jest zajęta");
+		}
+		
 		return userService.save(userDTO);
 	}
 
