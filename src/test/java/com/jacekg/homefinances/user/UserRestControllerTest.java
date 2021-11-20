@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -51,6 +52,22 @@ class UserRestControllerTest {
 		assertThrows(UserNotValidException.class, () -> controller.addUser(user));
 		
 		verify(userService).findByUsername(user.getUsername());
+	}
+	
+	@Test
+	void findAll_ShouldReturn_UsersList() {
+		
+		List<User> userList = new ArrayList<>();
+		userList.add(new User());
+		
+		when(userService.findAll()).thenReturn(userList);
+		
+		List<User> returnedUserList = controller.findAll();
+		
+		assertNotNull(returnedUserList);
+		
+		verify(userService).findAll();
+		
 	}
 
 }
