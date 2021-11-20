@@ -34,23 +34,7 @@ public class UserRestController {
 	public List<User> findAll() {
 		return userService.findAll();
 	}
-	
-	@ExceptionHandler
-	public ResponseEntity<UserErrorResponse> handleException(UserNotValidException exc) {
-		
-		UserErrorResponse error = new UserErrorResponse();
-		
-		error.setStatus(HttpStatus.BAD_REQUEST.value());
-		error.setMessage(exc.getMessage());
-		error.setTimestamp(System.currentTimeMillis());
-		
-		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-	}
-	
 }
-
-
-
 
 
 
