@@ -17,13 +17,13 @@ public class UserServiceImpl implements UserService {
 	
 	private RoleRepository roleRepository;
 	
-	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Override
