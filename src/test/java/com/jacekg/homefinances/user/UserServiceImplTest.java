@@ -9,15 +9,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.matchers.Any;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.role.RoleRepository;
-
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -71,18 +72,20 @@ class UserServiceImplTest {
 	}
 	
 	@Test
-	void test() {
+	void save_ShouldReturn_User() {
 		
+		User user = new User();
 		User savedUser = new User();
-		User userFromRepository = new User();
 		UserDTO inputUser = new UserDTO();
 		inputUser.setRole("USER");
 		
-		when(userRepository.save(savedUser)).thenReturn(userFromRepository);
+		when(userRepository.save(user)).thenReturn(savedUser);
 		
-		User returnedUser = service.save(inputUser);
+		User outputUser = service.save(inputUser);
 		
-		assertNotNull(returnedUser);
+		assertNotNull(outputUser);
+		
+		verify(userRepository).save(user);
 	}
 	
 	@Test

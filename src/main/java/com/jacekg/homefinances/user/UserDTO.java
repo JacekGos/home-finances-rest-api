@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.jacekg.homefinances.role.Role;
+import com.jacekg.homefinances.validation.ValidEmail;
+import com.jacekg.reportSystem.validation.FieldMatch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +20,9 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@FieldMatch.List({
+	@FieldMatch(first = "password", second = "matchingPassword", message = "podane hasła muszą się zgadzać")
+})
 public class UserDTO {
 
 	private Long id;
@@ -27,8 +32,14 @@ public class UserDTO {
 	private String username;
 
 	@NotNull(message = "wymagane")
-	@Size(min = 5, max = 20, message = "za długie hasło")
+	@Size(max = 30, message = "za długie hasło (max 30 znaków)")
+	@Size(min = 5, message = "za krótkie hasło (min 5 znaków)")
 	private String password;
+	
+	@NotNull(message = "wymagane")
+	@Size(max = 30, message = "za długie hasło (max 30 znaków)")
+	@Size(min = 5, message = "za krótkie hasło (min 5 znaków)")
+	private String matchingPassword;
 
 	@NotNull(message = "wymagane")
 	@Size(min = 1, max = 50, message = "za długie imię")
@@ -38,7 +49,7 @@ public class UserDTO {
 	@Size(min = 1, max = 50, message = "za długie nazwisko")
 	private String lastName;
 
-//	@ValidEmail
+	@ValidEmail
 	@NotNull(message = "wymagane")
 	@Size(min = 1, max = 50, message = "za długi email")
 	private String email;
