@@ -6,13 +6,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Any;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
 
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.role.RoleRepository;
@@ -21,6 +22,9 @@ import com.jacekg.homefinances.role.RoleRepository;
 @SpringBootTest
 class UserServiceImplTest {
 
+	@InjectMocks
+	UserServiceImpl service;
+	
 	@Mock
 	private UserRepository userRepository;
 	
@@ -30,9 +34,6 @@ class UserServiceImplTest {
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@InjectMocks
-	UserServiceImpl service;
-
 	@Test
 	void save_ShouldReturn_UserWithAdminRole() {
 		
@@ -72,23 +73,47 @@ class UserServiceImplTest {
 	@Test
 	void test() {
 		
-		UserDTO userDTO = new UserDTO();
-		userDTO.setRole("USER");
+		User savedUser = new User();
+		User userFromRepository = new User();
+		UserDTO inputUser = new UserDTO();
+		inputUser.setRole("USER");
+		
+		when(userRepository.save(savedUser)).thenReturn(userFromRepository);
+		
+		User returnedUser = service.save(inputUser);
+		
+		assertNotNull(returnedUser);
+	}
+	
+	@Test
+	void findAll_ShouldReturn_UsersList() {
+		
+		List<User> usersList = new ArrayList<>();
+		usersList.add(new User());
+		
+		when(userRepository.findAll()).thenReturn(usersList);
+		
+		List<User> returnedList = service.findAll();
+		
+		assertNotNull(returnedList);
+		
+		verify(userRepository).findAll();
+	}
+	
+	@Test
+	void findByUserName_ShouldReturn_User() {
 		
 		User user = new User();
-		user.setId(1L);
-		User returnedUserFromRepository = new User();
-		returnedUserFromRepository.setId(1L);
+		user.setUsername("user");
 		
-		when(userRepository.save(user)).thenReturn(returnedUserFromRepository);
+		when(userRepository.findByUsername("user")).thenReturn(user);
 		
-		User returnedUser = service.save(userDTO);
+		User returnerUser = service.findByUsername("user");
 		
-//		assertNotNull(returnedUser);
-		assertEquals(1L, returnedUser.getId());
+		assertNotNull(returnerUser);
+		assertEquals("user", returnerUser.getUsername());
 		
-		verify(userRepository).save(user);
-		
+		verify(userRepository).findByUsername("user");
 	}
 }
 
