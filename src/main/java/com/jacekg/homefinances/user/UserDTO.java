@@ -1,16 +1,12 @@
 package com.jacekg.homefinances.user;
 
-import java.util.Collection;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.jacekg.homefinances.role.Role;
+import com.jacekg.homefinances.validation.FieldMatch;
 import com.jacekg.homefinances.validation.ValidEmail;
-import com.jacekg.reportSystem.validation.FieldMatch;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
