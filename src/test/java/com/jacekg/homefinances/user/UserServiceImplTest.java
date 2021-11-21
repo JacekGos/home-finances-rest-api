@@ -76,8 +76,11 @@ class UserServiceImplTest {
 		userDTO.setRole("USER");
 		
 		User user = new User();
+		user.setId(1L);
+		User returnedUserFromRepository = new User();
+		returnedUserFromRepository.setId(1L);
 		
-		when(userRepository.save(user)).thenReturn(new User());
+		when(userRepository.save(user)).thenReturn(returnedUserFromRepository);
 		
 		User returnedUser = service.save(userDTO);
 		
