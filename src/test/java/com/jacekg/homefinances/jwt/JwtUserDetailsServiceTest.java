@@ -15,10 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
 
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotValidException;
 import com.jacekg.homefinances.user.UserRepository;
 
 @SpringBootTest
@@ -55,6 +57,19 @@ class JwtUserDetailsServiceTest {
 		assertEquals("user", returnedUser.getUsername());
 		
 		verify(userRepository).findByUsername(user.getUsername());
+		
+	}
+	
+	@Test
+	void loadUserByUsername_ShouldThrow_UsernameNotFoundException() {
+		
+		User user = null;
+		
+		when(userRepository.findByUsername("username")).thenReturn(user);
+		
+		assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername("username"));
+		
+		verify(userRepository).findByUsername("username");
 		
 	}
 }

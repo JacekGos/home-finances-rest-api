@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		User user = userRepository.findByUsername(username);
-		user.getRoles();
+//		user.getRoles();
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password");
