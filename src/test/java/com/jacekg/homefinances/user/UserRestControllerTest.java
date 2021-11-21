@@ -11,8 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.sun.xml.bind.v2.schemagen.xmlschema.Any;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
