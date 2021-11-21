@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
@@ -34,10 +35,16 @@ class JwtUserDetailsServiceTest {
 		
 		Collection<Role> roles = new ArrayList<Role>();
 		Role role = new Role();
+		role.setName("USER");
 		roles.add(role);
 		
 		User user = new User();
 		user.setUsername("user");
+		user.setPassword("password");
+		user.setEnabled(true);
+		user.setNonExpired(true);
+		user.setCredentialsNonExpired(true);
+		user.setNonLocked(true);
 		user.setRoles(roles);
 		
 		when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
@@ -45,16 +52,11 @@ class JwtUserDetailsServiceTest {
 		UserDetails returnedUser = service.loadUserByUsername(user.getUsername());
 		
 		assertNotNull(returnedUser);
-//		assertEquals("user", returnedUser.getUsername());
+		assertEquals("user", returnedUser.getUsername());
 		
 		verify(userRepository).findByUsername(user.getUsername());
 		
 	}
-	
-	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-	}
-
 }
 
 
