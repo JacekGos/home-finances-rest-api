@@ -1,5 +1,9 @@
 package com.jacekg.homefinances.expenses;
 
-public class ConstantExpense {
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "constant-expense")
+public class ConstantExpense {
 }

@@ -1,5 +1,9 @@
 package com.jacekg.homefinances.expenses;
 
-public class OneTimeExpense {
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "irregular-expense")
+public class OneTimeExpense extends Expense {
 }
