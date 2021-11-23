@@ -3,7 +3,10 @@ package com.jacekg.homefinances.budget;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.expenses.ConstantExpense;
@@ -30,6 +33,9 @@ public class MonthlyBudget {
 	
 	private int finalBalance;
 	
+	@OneToMany(fetch = FetchType.LAZY, 
+			cascade = {CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<ConstantExpense> constantExpenses;
 	
 	private List<OneTimeExpense> oneTimeExpenses;
