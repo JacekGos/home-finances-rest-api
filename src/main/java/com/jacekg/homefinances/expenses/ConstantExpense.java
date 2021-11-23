@@ -4,6 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "constant-expense")
+@Table(name = "constant_expense")
 public class ConstantExpense {
 }

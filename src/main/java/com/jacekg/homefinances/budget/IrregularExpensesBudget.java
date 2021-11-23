@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.expenses.ConstantExpense;
+import com.jacekg.homefinances.expenses.IrregularExpense;
 import com.jacekg.homefinances.expenses.OneTimeExpense;
 
 import lombok.AllArgsConstructor;
@@ -19,21 +20,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "monthly_budget")
-public class MonthlyBudget {
-	
+@Table(name = "irregular_expenses_budget")
+public class IrregularExpensesBudget {
+
 	private int id;
-	
+
 	private LocalDate date;
 	
-	private int previousMonthEarnings;
+	private int annualExpensesSum;
 	
-	private int finalBalance;
+	private int necessaryMonthlySavings;
 	
-	private List<ConstantExpense> constantExpenses;
-	
-	private List<OneTimeExpense> oneTimeExpenses;
+	private List<IrregularExpense> irregularExpenses;
+
 }
+
 
 
 

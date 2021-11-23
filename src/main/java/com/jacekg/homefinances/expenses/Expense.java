@@ -27,5 +27,5 @@ public abstract class Expense {
 	private String name;
 	
 	@Column(name = "amount")
-	private Integer amount;
+	private int amount;
 }
