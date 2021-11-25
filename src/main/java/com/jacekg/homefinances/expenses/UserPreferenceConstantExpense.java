@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "UserPreferenceConstantExpense")
+@Table(name = "user_preference_constant_expense")
 public class UserPreferenceConstantExpense {
 	
 	@Id

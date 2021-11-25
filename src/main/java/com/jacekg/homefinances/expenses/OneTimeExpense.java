@@ -4,6 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "irregular_expense")
+@Table(name = "one_time_expense")
 public class OneTimeExpense extends Expense {
 }
