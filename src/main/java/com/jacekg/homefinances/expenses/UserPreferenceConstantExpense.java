@@ -1,4 +1,5 @@
-package com.jacekg.homefinances.fund;
+package com.jacekg.homefinances.expenses;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,29 +13,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "fund")
-public class Fund {
+@Table(name = "UserPreferenceConstantExpense")
+public class UserPreferenceConstantExpense {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private long id;
 	
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "amount")
-	private int amount;
 }
-
-
-
-
-
-
-
