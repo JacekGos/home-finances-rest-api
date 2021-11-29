@@ -9,7 +9,9 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.jacekg.homefinances.expenses.ConstantExpense;
+import com.jacekg.homefinances.expenses.ExpenseDTO;
 import com.jacekg.homefinances.expenses.OneTimeExpense;
+import com.jacekg.homefinances.expenses.OneTimeExpenseDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,9 +39,9 @@ public class MonthlyBudgetDTO {
 	private int finalBalance;
 	
 	@NotNull(message = "wymagane")
-	private List<ConstantExpense> constantExpenses;
+	private List<ExpenseDTO> constantExpenses;
 	
-	private List<OneTimeExpense> oneTimeExpenses;
+	private List<OneTimeExpenseDTO> oneTimeExpenses;
 }
 
 
