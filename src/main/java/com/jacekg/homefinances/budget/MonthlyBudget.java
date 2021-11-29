@@ -51,7 +51,7 @@ public class MonthlyBudget {
 					CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "user_id")
 	private User user;
-
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "monthly_budget_id")
 	private List<ConstantExpense> constantExpenses;
