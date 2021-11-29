@@ -21,11 +21,18 @@ public abstract class Expense {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "amount")
-	private int amount;
+	@Column(name = "planned_amount")
+	private int plannedAmount;
+	
+	@Column(name = "current_amount")
+	private int currentAmount;
 }
+
+
+
+
