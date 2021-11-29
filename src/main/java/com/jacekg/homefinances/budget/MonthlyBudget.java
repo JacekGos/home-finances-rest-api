@@ -11,11 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.expenses.ConstantExpense;
 import com.jacekg.homefinances.expenses.OneTimeExpense;
+import com.jacekg.homefinances.user.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,6 +45,12 @@ public class MonthlyBudget {
 	
 	@Column(name = "final_balance")
 	private int finalBalance;
+	
+	@ManyToOne(fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "monthly_budget_id")

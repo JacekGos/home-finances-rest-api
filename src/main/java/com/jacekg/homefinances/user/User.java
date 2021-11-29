@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.jacekg.homefinances.budget.MonthlyBudget;
 import com.jacekg.homefinances.expenses.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 
@@ -63,6 +64,12 @@ public class User {
 
 	@Column(name = "is_non_locked")
 	private boolean isNonLocked;
+	
+	@OneToMany(fetch = FetchType.LAZY,
+			mappedBy = "user",
+			cascade = {CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.PERSIST, CascadeType.REFRESH})
+	private List<MonthlyBudget> monthlyBudgets;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
