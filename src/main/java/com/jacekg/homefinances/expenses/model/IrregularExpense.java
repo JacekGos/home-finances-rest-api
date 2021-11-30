@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.expenses;
+package com.jacekg.homefinances.expenses.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

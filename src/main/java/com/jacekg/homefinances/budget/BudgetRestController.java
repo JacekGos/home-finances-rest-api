@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class BudgetRestController {
 	
 	@PostMapping("/monthly-budgets")
-	public MonthlyBudget addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
+	public MonthlyBudgetDTO addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
 		
-		return null;
+		MonthlyBudget monthlyBudget = new MonthlyBudget();
+		monthlyBudget.setFinalBalance(1000);
+		
+		return monthlyBudgetDTO;
 	}
 	
 }

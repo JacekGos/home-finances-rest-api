@@ -8,10 +8,17 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.jacekg.homefinances.expenses.ConstantExpense;
-import com.jacekg.homefinances.expenses.ExpenseDTO;
-import com.jacekg.homefinances.expenses.OneTimeExpense;
-import com.jacekg.homefinances.expenses.OneTimeExpenseDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
+import com.jacekg.homefinances.expenses.model.ExpenseDTO;
+import com.jacekg.homefinances.expenses.model.OneTimeExpense;
+import com.jacekg.homefinances.expenses.model.OneTimeExpenseDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +35,7 @@ public class MonthlyBudgetDTO {
 	
 	private Long userId;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "wymagane")
 	private LocalDate date;
@@ -38,7 +46,10 @@ public class MonthlyBudgetDTO {
 	
 	private int finalBalance;
 	
-	@NotNull(message = "wymagane")
+//	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, 
+//			include = JsonTypeInfo.As.PROPERTY, 
+//			property = "className")
+//	@NotNull(message = "wymagane")
 	private List<ExpenseDTO> constantExpenses;
 	
 	private List<OneTimeExpenseDTO> oneTimeExpenses;

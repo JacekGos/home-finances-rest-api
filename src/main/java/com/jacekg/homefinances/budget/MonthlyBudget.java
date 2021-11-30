@@ -15,8 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.jacekg.homefinances.expenses.ConstantExpense;
-import com.jacekg.homefinances.expenses.OneTimeExpense;
+import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.user.User;
 
 import lombok.AllArgsConstructor;

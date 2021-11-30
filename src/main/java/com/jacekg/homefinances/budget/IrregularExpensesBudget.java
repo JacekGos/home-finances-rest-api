@@ -14,9 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.jacekg.homefinances.expenses.ConstantExpense;
-import com.jacekg.homefinances.expenses.IrregularExpense;
-import com.jacekg.homefinances.expenses.OneTimeExpense;
+import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.IrregularExpense;
+import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

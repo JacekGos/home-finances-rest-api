@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.budget.MonthlyBudget;
-import com.jacekg.homefinances.expenses.UserPreferenceConstantExpense;
+import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 
 import lombok.AllArgsConstructor;
