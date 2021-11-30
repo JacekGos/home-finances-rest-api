@@ -27,7 +27,7 @@ public class BudgetRestController {
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
 		monthlyBudget.setFinalBalance(1000);
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMyyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
 		LocalDate date = LocalDate.now();
 		String text = date.format(formatter);
