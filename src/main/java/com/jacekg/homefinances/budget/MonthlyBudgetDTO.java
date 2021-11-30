@@ -36,8 +36,8 @@ public class MonthlyBudgetDTO {
 	private Long userId;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "wymagane")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@NotNull(message = "wymagane")
 	private LocalDate date;
 	
 	@NotNull(message = "wymagane")
@@ -46,11 +46,8 @@ public class MonthlyBudgetDTO {
 	
 	private int finalBalance;
 	
-//	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, 
-//			include = JsonTypeInfo.As.PROPERTY, 
-//			property = "className")
-//	@NotNull(message = "wymagane")
-	private List<ExpenseDTO> constantExpenses;
+	@NotNull(message = "wymagane")
+	private List<ConstantExpenseDTO> constantExpenses;
 	
 	private List<OneTimeExpenseDTO> oneTimeExpenses;
 }

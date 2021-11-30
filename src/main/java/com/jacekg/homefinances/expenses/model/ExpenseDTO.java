@@ -20,9 +20,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@JsonTypeInfo( use = JsonTypeInfo.Id.CLASS, 
-//	include = JsonTypeInfo.As.PROPERTY, 
-//	property = "className")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = ConstantExpenseDTO.class, name = "constantExpenseDTO"),
 		@Type(value = OneTimeExpenseDTO.class, name = "oneTimeExpenseDTO"),
@@ -42,7 +39,3 @@ public abstract class ExpenseDTO {
 	private int currentAmount;
 
 }
-
-//"userId": null,
-//"date": "",
-//"previousMonthEarnings": "",

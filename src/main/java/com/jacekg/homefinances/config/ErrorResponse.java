@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.user;
+package com.jacekg.homefinances.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserErrorResponse {
+public class ErrorResponse {
 	
 	private int status;
 	private String message;

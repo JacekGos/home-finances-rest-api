@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BudgetRestController {
 	
 	@PostMapping("/monthly-budgets")
-	public MonthlyBudgetDTO addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
+	public MonthlyBudget addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
 		
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
 		monthlyBudget.setFinalBalance(1000);
 		
-		return monthlyBudgetDTO;
+		if (true) {
+			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
+		}
+		
+		return monthlyBudget;
 	}
 	
 }
