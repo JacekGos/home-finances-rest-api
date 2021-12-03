@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,19 +24,15 @@ public class BudgetRestController {
 	}
 
 	@PostMapping("/monthly-budgets")
-	public MonthlyBudget addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
+	public MonthlyBudget addMonthlyBudget(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
 
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
 		
-		LocalDate date = LocalDate.now();
-		String text = date.format(formatter);
-		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		System.out.println("date: " + date);
 		
-		System.out.println("date: " + parsedDate);
-		
-		if (budgetService.findByUserIdAndDate(1L, parsedDate) == null) {
+		if (budgetService.findByUserIdAndDate(1L, date) != null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 
