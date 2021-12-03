@@ -4,5 +4,5 @@ import java.time.LocalDate;
 
 public interface BudgetService {
 	
-	MonthlyBudget findByUserAndDate(Long userId, LocalDate date);
+	MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date);
 }

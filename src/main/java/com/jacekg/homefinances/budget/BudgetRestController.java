@@ -25,7 +25,6 @@ public class BudgetRestController {
 	public MonthlyBudget addMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
 
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
-		monthlyBudget.setFinalBalance(1000);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
@@ -35,7 +34,7 @@ public class BudgetRestController {
 		
 		System.out.println("date: " + parsedDate);
 		
-		if (budgetService.findByUserAndDate(1L, parsedDate) != null) {
+		if (budgetService.findByUserIdAndDate(1L, parsedDate) == null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 

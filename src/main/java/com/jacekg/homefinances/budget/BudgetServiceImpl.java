@@ -16,8 +16,8 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 	
 	@Override
-	public MonthlyBudget findByUserAndDate(Long userId, LocalDate date) {
-		return monthlyBudgetRepository.findByUserAndDate(userId, date);
+	public MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date) {
+		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
 	}
 
 }
