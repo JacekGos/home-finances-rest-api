@@ -70,6 +70,11 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUsername(username);
 	}
 	
+	@Override
+	public User findByUserId(Long userId) {
+		return userRepository.findByUserId(userId);
+	}
+	
 	private UserDTO convertToDTO(User user) {
 		
 		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
@@ -81,7 +86,6 @@ public class UserServiceImpl implements UserService {
 		User user = modelMapper.map(userDTO, User.class);
 		return user;
 	}
-
 }
 
 

@@ -30,8 +30,7 @@ public class BudgetRestController {
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
 		
 		LocalDate date = LocalDate.now().withDayOfMonth(1);
-		
-		System.out.println("date: " + date);
+		monthlyBudgetDTO.setDate(date);
 		
 		if (budgetService.findByUserIdAndDate(1L, date) != null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
