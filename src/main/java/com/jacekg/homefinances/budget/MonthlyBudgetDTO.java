@@ -43,7 +43,7 @@ public class MonthlyBudgetDTO {
 	
 	@NotNull(message = "wymagane")
 	@Min(value = 0)
-	@Max(value = 1000)
+	@Max(value = 10000)
 	private int previousMonthEarnings;
 	
 	private int finalBalance;

@@ -24,7 +24,7 @@ public class BudgetRestController {
 	}
 
 	@PostMapping("/monthly-budgets")
-	public MonthlyBudget addMonthlyBudget(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
+	public MonthlyBudgetDTO addMonthlyBudget(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
 
 		MonthlyBudget monthlyBudget = new MonthlyBudget();
 		
@@ -36,7 +36,7 @@ public class BudgetRestController {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 
-		return monthlyBudget;
+		return new MonthlyBudgetDTO();
 	}
 
 }
