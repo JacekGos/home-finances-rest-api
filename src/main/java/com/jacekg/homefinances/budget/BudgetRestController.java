@@ -37,6 +37,6 @@ public class BudgetRestController {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 
-		return new MonthlyBudgetDTO();
+		return budgetService.save(monthlyBudgetDTO);
 	}
 }

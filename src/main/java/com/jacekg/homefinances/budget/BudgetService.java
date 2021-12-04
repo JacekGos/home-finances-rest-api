@@ -5,4 +5,6 @@ import java.time.LocalDate;
 public interface BudgetService {
 	
 	MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date);
+	
+	MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO);
 }

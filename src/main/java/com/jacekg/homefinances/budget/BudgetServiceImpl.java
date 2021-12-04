@@ -24,6 +24,13 @@ public class BudgetServiceImpl implements BudgetService {
 		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
 	}
 
+	@Override
+	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
+		
+		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
+		return convertToDTO(monthlyBudget);
+	}
+	
 	private MonthlyBudgetDTO convertToDTO(MonthlyBudget monthlyBudget) {
 		
 		MonthlyBudgetDTO monthlyBudgetDTO = modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
@@ -33,6 +40,8 @@ public class BudgetServiceImpl implements BudgetService {
 	private MonthlyBudget convertToEntity(MonthlyBudgetDTO monthlyBudgetDTO) {
 		
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
+		
 		return monthlyBudget;
 	}
+
 }
