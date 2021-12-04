@@ -23,7 +23,7 @@ public class BudgetServiceImpl implements BudgetService {
 	public MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date) {
 		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
 	}
-	
+
 	private MonthlyBudgetDTO convertToDTO(MonthlyBudget monthlyBudget) {
 		
 		MonthlyBudgetDTO monthlyBudgetDTO = modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
@@ -35,5 +35,4 @@ public class BudgetServiceImpl implements BudgetService {
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 		return monthlyBudget;
 	}
-
 }

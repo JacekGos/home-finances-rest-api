@@ -26,7 +26,7 @@ public class UserRestController {
 	}
 
 	@PostMapping("/signup")
-	public User addUser(@Valid @RequestBody UserDTO userDTO) {
+	public UserDTO addUser(@Valid @RequestBody UserDTO userDTO) {
 		
 		if (userService.findByUsername(userDTO.getUsername()) != null) {
 			throw new UserNotValidException("Podana nazwa jest zajęta");

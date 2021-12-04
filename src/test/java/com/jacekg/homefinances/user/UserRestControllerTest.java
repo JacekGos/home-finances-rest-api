@@ -22,6 +22,7 @@ class UserRestControllerTest {
 	@InjectMocks
 	UserRestController controller;
 	
+	/*
 	@Test
 	void addUser_ShouldReturn_ValidUser() {
 		
@@ -67,7 +68,7 @@ class UserRestControllerTest {
 		verify(userService).findAll();
 		
 	}
-
+	*/
 }
 
 
