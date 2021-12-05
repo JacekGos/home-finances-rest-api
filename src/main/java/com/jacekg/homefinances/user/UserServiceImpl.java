@@ -3,6 +3,8 @@ package com.jacekg.homefinances.user;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
 		this.modelMapper = modelMapper;
 	}
 	
+	@Transactional
 	@Override
 	public UserDTO save(UserDTO userDTO) {
 		
@@ -59,10 +62,15 @@ public class UserServiceImpl implements UserService {
 		
 		return convertToDTO(userRepository.save(user));
 	}
-
+	
+	@Transactional
 	@Override
 	public List<User> findAll() {
-		return userRepository.findAll();
+		
+		List<User> users = userRepository.findAll();
+		System.out.println("users: " + users.get(0).toString());
+		
+		return users;
 	}
 
 	@Override

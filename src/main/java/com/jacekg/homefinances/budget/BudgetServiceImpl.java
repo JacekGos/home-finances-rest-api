@@ -38,18 +38,15 @@ public class BudgetServiceImpl implements BudgetService {
 	public MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date) {
 		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
 	}
-
+	
+	@Transactional
 	@Override
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 		
 		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
 		
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
-//		user.getUserPreferenceConstantExpenses();
-		System.out.println("User: " + user.toString());
 		monthlyBudget.setUser(user);
-		
-		user.setUserPreferenceConstantExpenses(null);
 		
 		return convertToDTO(monthlyBudgetRepository.save(monthlyBudget));
 	}

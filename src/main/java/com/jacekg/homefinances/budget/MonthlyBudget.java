@@ -34,8 +34,6 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "monthly_budget")
-//@NamedEntityGraph(name = "MonthlyBudget.detail",
-//attributeNodes = @NamedAttributeNode("members"))
 public class MonthlyBudget {
 	
 	@Id
