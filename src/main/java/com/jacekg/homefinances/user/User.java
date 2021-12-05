@@ -78,7 +78,7 @@ public class User {
 	private Collection<Role> roles;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private List<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
 
 }
