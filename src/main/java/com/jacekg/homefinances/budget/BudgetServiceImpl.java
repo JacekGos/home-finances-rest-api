@@ -32,7 +32,6 @@ public class BudgetServiceImpl implements BudgetService {
 		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
 	}
 
-	@Transactional
 	@Override
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 		

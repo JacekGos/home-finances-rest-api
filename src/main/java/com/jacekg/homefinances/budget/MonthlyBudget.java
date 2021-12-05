@@ -55,11 +55,11 @@ public class MonthlyBudget {
 	private User user;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "monthly_budget_id")
+	@JoinColumn(name = "monthly_budget_id", nullable = false)
 	private List<ConstantExpense> constantExpenses;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "monthly_budget_id")
+	@JoinColumn(name = "monthly_budget_id", nullable = false)
 	private List<OneTimeExpense> oneTimeExpenses;
 }
 
