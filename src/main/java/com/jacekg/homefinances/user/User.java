@@ -1,5 +1,7 @@
 package com.jacekg.homefinances.user;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -83,5 +85,17 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	private List<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
-
+	
+	public String getRoleName() {
+		
+		List<Role> roles = new ArrayList<>(this.roles);
+		
+		int roleIndex = roles.size() - 1;
+		
+		return roles.get(roleIndex).getName();
+	}
 }
+
+
+
+

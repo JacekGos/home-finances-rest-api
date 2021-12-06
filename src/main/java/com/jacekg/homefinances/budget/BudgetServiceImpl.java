@@ -7,15 +7,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Constants.ConstantException;
 import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
-import com.jacekg.homefinances.expenses.model.Expense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;

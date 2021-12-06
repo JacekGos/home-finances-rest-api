@@ -5,9 +5,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeMap;
 import org.modelmapper.spi.Mapping;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,10 @@ public class UserServiceImpl implements UserService {
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.modelMapper = modelMapper;
+//		this.modelMapper.typeMap(UserDTO.class, User.class)
+//			.addMapping(UserDTO::getRoleName, User::setRole);
+//		this.modelMapper.typeMap(User.class, UserDTO.class)
+//			.addMapping(User::getRoleName, UserDTO::setRole);
 	}
 	
 	@Transactional
@@ -62,6 +70,17 @@ public class UserServiceImpl implements UserService {
 			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		}
 		
+//		User user = convertToEntity(userDTO);
+//		user.setEnabled(true);
+//		user.setNonExpired(true);
+//		user.setCredentialsNonExpired(true);
+//		user.setNonLocked(true);
+//		System.out.println("created user: " + user.toString());
+		
+		System.out.println("getRoleName: " + user.getRoleName());
+		UserDTO returnedUserDTO = convertToDTO(user);
+		System.out.println("test user: " + returnedUserDTO);
+		
 		return convertToDTO(userRepository.save(user));
 	}
 	
@@ -85,6 +104,13 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUserId(userId);
 	}
 	
+//	private UserDTO convertToDTO(User user) {
+//		
+//		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+//		
+//		return userDTO;
+//	}
+	
 	private UserDTO convertToDTO(User user) {
 		
 		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
@@ -92,11 +118,39 @@ public class UserServiceImpl implements UserService {
 		return userDTO;
 	}
 	
+//	Converter<User, UserDTO> userDTOConverter = new Converter<User, UserDTO>() {
+//
+//		@Override
+//		public UserDTO convert(MappingContext<User, UserDTO> context) {
+//
+//			User source = context.getSource();
+//			UserDTO destination = context.getDestination();
+//			
+//			System.out.println("convert: " + source.getRoleName());
+//			
+//			destination.setRole(source.getRoleName());
+//			return destination;
+//		}
+//	};
+	
 	private User convertToEntity(UserDTO userDTO) {
-		
+
 		User user = modelMapper.map(userDTO, User.class);
 		return user;
 	}
+
+//	Converter<UserDTO, User> userConverter = new Converter<UserDTO, User>() {
+//
+//		@Override
+//		public User convert(MappingContext<UserDTO, User> context) {
+//			UserDTO userDTO = context.getSource();
+//			User user = context.getDestination();
+//			user.setRoles(() -> {
+//				return Arrays.asList(roleRepository.findByName("ROLE_USER"));
+//			});
+//			return user;
+//		}
+//	};
 }
 
 
