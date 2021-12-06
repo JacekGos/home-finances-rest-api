@@ -19,7 +19,6 @@ public class HomeFinancesApplication {
 
 	@Bean
 	public ModelMapper modelMapper() {
-		
 		return new ModelMapper();
 	}
 

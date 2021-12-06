@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.matchers.Any;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +38,8 @@ class UserServiceImplTest {
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Mock
+	private ModelMapper modelMapper;
 	
 	@Test
 	void save_ShouldReturn_UserWithAdminRole() {
@@ -48,17 +53,6 @@ class UserServiceImplTest {
 		
 		User user = new User();
 		user.setRoles(roles);
-		
-//		userDTO.setId(1L);
-//		userDTO.setUsername("username");
-//		userDTO.setPassword(passwordEncoder.encode("password"));
-//		userDTO.setFirstName(StringUtils.capitalize("firstName"));
-//		userDTO.setLastName(StringUtils.capitalize("lastName"));
-//		userDTO.setEmail("email");
-//		userDTO.setEnabled(true);
-//		userDTO.setNonExpired(true);
-//		userDTO.setCredentialsNonExpired(true);
-//		userDTO.setNonLocked(true);
 		
 		when(roleRepository.findByName(userDTO.getRole())).thenReturn(new Role(1L, "ROLE_USER"));
 		when(userRepository.save(user)).thenReturn(user);
@@ -119,6 +113,37 @@ class UserServiceImplTest {
 		verify(userRepository).findByUsername("user");
 	}
 	
+	@Test
+	void convertToDTO_ShouldReturn_UserDTO() {
+		
+		User inputUser = new User();
+		UserDTO outputUser = new UserDTO();
+		
+		inputUser.setId(10L);
+		inputUser.setUsername("username");
+		inputUser.setPassword("password");
+		inputUser.setFirstName("name");
+		inputUser.setLastName("lastname");
+		inputUser.setEmail("email");
+		inputUser.setRoles(Arrays.asList(
+					roleRepository.findByName("ROLE_USER"),
+					roleRepository.findByName("ROLE_ADMIN")));
+		
+		when(modelMapper.map(inputUser, UserDTO.class)).thenReturn(outputUser);
+		
+		UserDTO returnedUser = modelMapper.map(inputUser, UserDTO.class);
+		
+		assertNotNull(returnedUser);
+		assertEquals(10L, returnedUser.getId());
+		assertEquals("username", returnedUser.getUsername());
+		assertEquals("password", returnedUser.getPassword());
+		assertEquals("name", returnedUser.getFirstName());
+		assertEquals("lastname", returnedUser.getLastName());
+		assertEquals("email", returnedUser.getEmail());
+		assertEquals("ROLE_ADMIN", returnedUser.getRole());
+
+		verify(modelMapper).map(inputUser, UserDTO.class);
+	}
 }
 
 
