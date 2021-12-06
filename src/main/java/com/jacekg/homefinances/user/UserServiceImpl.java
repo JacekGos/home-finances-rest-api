@@ -6,6 +6,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+import org.modelmapper.spi.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -86,6 +88,7 @@ public class UserServiceImpl implements UserService {
 	private UserDTO convertToDTO(User user) {
 		
 		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+		
 		return userDTO;
 	}
 	
