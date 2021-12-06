@@ -48,7 +48,7 @@ public class MonthlyBudgetDTO {
 	
 	private int finalBalance;
 	
-	@NotNull(message = "wymagane")
+//	@NotNull(message = "wymagane")
 	private List<ConstantExpenseDTO> constantExpenses;
 	
 	private List<OneTimeExpenseDTO> oneTimeExpenses;

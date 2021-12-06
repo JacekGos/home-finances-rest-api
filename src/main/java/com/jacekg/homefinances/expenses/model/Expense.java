@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @ToString
 @MappedSuperclass
 public abstract class Expense {
@@ -33,6 +33,12 @@ public abstract class Expense {
 	
 	@Column(name = "current_amount")
 	private int currentAmount;
+	
+	public Expense(String name, int plannedAmount, int currentAmount) {
+		this.name = name;
+		this.plannedAmount = plannedAmount;
+		this.currentAmount = currentAmount;
+	}
 }
 
 
