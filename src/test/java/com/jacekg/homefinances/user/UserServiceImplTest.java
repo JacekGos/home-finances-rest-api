@@ -35,7 +35,7 @@ class UserServiceImplTest {
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	/*
+	
 	@Test
 	void save_ShouldReturn_UserWithAdminRole() {
 		
@@ -60,13 +60,12 @@ class UserServiceImplTest {
 //		userDTO.setCredentialsNonExpired(true);
 //		userDTO.setNonLocked(true);
 		
-		
 		when(roleRepository.findByName(userDTO.getRole())).thenReturn(new Role(1L, "ROLE_USER"));
 		when(userRepository.save(user)).thenReturn(user);
 		
-		User returnedUser = service.save(userDTO);
+		UserDTO returnedUser = service.save(userDTO);
 		
-		assertEquals("ROLE_USER", returnedUser.getRoles());
+		assertEquals("ROLE_USER", returnedUser.getRole());
 		
 		verify(roleRepository).findByName(userDTO.getRole());
 		verify(userRepository).save(user);
@@ -82,7 +81,7 @@ class UserServiceImplTest {
 		
 		when(userRepository.save(user)).thenReturn(savedUser);
 		
-		User outputUser = service.save(inputUser);
+		UserDTO outputUser = service.save(inputUser);
 		
 		assertNotNull(outputUser);
 		
@@ -119,7 +118,7 @@ class UserServiceImplTest {
 		
 		verify(userRepository).findByUsername("user");
 	}
-	*/
+	
 }
 
 

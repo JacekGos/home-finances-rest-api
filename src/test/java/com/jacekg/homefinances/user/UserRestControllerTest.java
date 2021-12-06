@@ -22,16 +22,16 @@ class UserRestControllerTest {
 	@InjectMocks
 	UserRestController controller;
 	
-	/*
+	
 	@Test
 	void addUser_ShouldReturn_ValidUser() {
 		
 		UserDTO inputUser = new UserDTO();
-		User outputUser = new User();
+		UserDTO outputUser = new UserDTO();
 		outputUser.setId(10L);
 		
 		when(userService.save(inputUser)).thenReturn(outputUser);
-		User returnedUser = controller.addUser(inputUser);
+		UserDTO returnedUser = controller.addUser(inputUser);
 		
 		assertNotNull(returnedUser);
 		assertNotNull(returnedUser.getId());
@@ -68,7 +68,6 @@ class UserRestControllerTest {
 		verify(userService).findAll();
 		
 	}
-	*/
 }
 
 

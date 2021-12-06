@@ -20,15 +20,7 @@ public class HomeFinancesApplication {
 	@Bean
 	public ModelMapper modelMapper() {
 		
-		ModelMapper modelMapper = new ModelMapper();
-		
-		modelMapper.addMappings(new PropertyMap<User, UserDTO>() {
-			protected void configure() {
-				map().setRole(source.getRoleName());
-			}
-		});
-		
-		return modelMapper;
+		return new ModelMapper();
 	}
 
 	@Bean
