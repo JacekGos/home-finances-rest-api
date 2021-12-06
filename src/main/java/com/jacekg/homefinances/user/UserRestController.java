@@ -32,7 +32,10 @@ public class UserRestController {
 			throw new UserNotValidException("Podana nazwa jest zajęta");
 		}
 		
-		return userService.save(userDTO);
+		userDTO = userService.save(userDTO);
+		userDTO.setPassword(null);
+		
+		return userDTO;
 	}
 
 	@GetMapping("/users")
