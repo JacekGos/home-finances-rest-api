@@ -76,15 +76,15 @@ public class User {
 					CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<MonthlyBudget> monthlyBudgets;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_roles", 
-		joinColumns = @JoinColumn(name = "user_id"), 
-		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Collection<Role> roles;
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	private List<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_roles", 
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Collection<Role> roles;
 	
 	public String getRoleName() {
 		
