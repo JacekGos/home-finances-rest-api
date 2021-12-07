@@ -15,19 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/budget")
+@AllArgsConstructor
 public class BudgetRestController {
 
-	private BudgetService budgetService;
+	private final BudgetService budgetService;
 	
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	public BudgetRestController(BudgetService budgetService, UserService userService) {
-		this.budgetService = budgetService;
-		this.userService = userService;
-	}
+//	@Autowired
+//	public BudgetRestController(BudgetService budgetService, UserService userService) {
+//		this.budgetService = budgetService;
+//		this.userService = userService;
+//	}
 
 	@PostMapping("/monthly-budgets")
 	public MonthlyBudgetDTO addMonthlyBudget(
