@@ -116,6 +116,8 @@ class UserServiceImplTest {
 	@Test
 	void convertToDTO_ShouldReturn_UserDTO() {
 		
+		ModelMapper modelMapper = new ModelMapper();
+		
 		User inputUser = new User();
 		UserDTO outputUser = new UserDTO();
 		
@@ -125,11 +127,15 @@ class UserServiceImplTest {
 		inputUser.setFirstName("name");
 		inputUser.setLastName("lastname");
 		inputUser.setEmail("email");
-		inputUser.setRoles(Arrays.asList(
-					roleRepository.findByName("ROLE_USER"),
-					roleRepository.findByName("ROLE_ADMIN")));
+//		inputUser.setRoles(Arrays.asList(
+//					roleRepository.findByName("ROLE_USER"),
+//					roleRepository.findByName("ROLE_ADMIN")));
 		
-		when(modelMapper.map(inputUser, UserDTO.class)).thenReturn(outputUser);
+		inputUser.setRoles(Arrays.asList(
+				new Role(1L, "ROLE_USER"), 
+				new Role(2L, "ROLE_ADMIN")));
+		
+//		when(modelMapper.map(inputUser, UserDTO.class)).thenReturn(outputUser);
 		
 		UserDTO returnedUser = modelMapper.map(inputUser, UserDTO.class);
 		
@@ -142,7 +148,7 @@ class UserServiceImplTest {
 		assertEquals("email", returnedUser.getEmail());
 		assertEquals("ROLE_ADMIN", returnedUser.getRole());
 
-		verify(modelMapper).map(inputUser, UserDTO.class);
+//		verify(modelMapper).map(inputUser, UserDTO.class);
 	}
 }
 
