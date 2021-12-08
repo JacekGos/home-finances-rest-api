@@ -53,6 +53,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UserDTO save(UserDTO userDTO) {
 		
+		if (userRepository.findByUsername(userDTO.getUsername()) != null) {
+			throw new UserNotValidException("Podana nazwa jest zajęta");
+		} 
+		
 		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		
 		User user = convertToEntity(userDTO);
@@ -71,8 +75,11 @@ public class UserServiceImpl implements UserService {
 		} else {
 			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		}
+		 
+		UserDTO responseUser = convertToDTO(userRepository.save(user));
+		responseUser.setPassword(null);
 		
-		return convertToDTO(userRepository.save(user));
+		return responseUser;
 	}
 	
 	@Override

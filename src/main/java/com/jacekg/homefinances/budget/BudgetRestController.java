@@ -36,7 +36,7 @@ public class BudgetRestController {
 	public MonthlyBudgetDTO addMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 
-		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		LocalDate date = LocalDate.now().withDayOfMonth(1); 
 		
 		User user = userService.findByUsername(principal.getName());
 		

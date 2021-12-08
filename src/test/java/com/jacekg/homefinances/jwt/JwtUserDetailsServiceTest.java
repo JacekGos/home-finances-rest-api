@@ -9,8 +9,10 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +25,8 @@ import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserNotValidException;
 import com.jacekg.homefinances.user.UserRepository;
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class JwtUserDetailsServiceTest {
 	
 	@Mock
