@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Any;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,13 +121,34 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void findAll_ShouldReturn_UsersList() {
+	void findAll_CanReturn_UsersList() {
 
 		service.findAll();
 
 		verify(userRepository).findAll();
 	}
-
+	
+	@Test
+	void findByUsername_CanReturn_User() {
+		
+		String username = "username";
+		
+		service.findByUsername(username);
+		
+		verify(userRepository).findByUsername(username);
+	}
+	
+	@Test
+	void findByUserId_CanReturn_User() {
+		
+		Long userId = 1L;
+		
+		service.findByUserId(userId);
+		
+		verify(userRepository).findByUserId(userId);
+	}
+	
+	/*
 	@Test
 	void findByUserName_ShouldReturn_User() {
 
@@ -142,6 +164,7 @@ class UserServiceImplTest {
 
 		verify(userRepository).findByUsername("user");
 	}
+	*/
 
 	@Test
 	void convertToDTO_ShouldReturn_UserDTO() {

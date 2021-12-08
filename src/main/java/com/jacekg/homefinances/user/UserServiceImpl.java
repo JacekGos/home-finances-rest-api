@@ -59,19 +59,6 @@ public class UserServiceImpl implements UserService {
 		user.setCredentialsNonExpired(true);
 		user.setNonLocked(true);
 		
-//		User user = new User(
-//				userDTO.getId(),
-//				userDTO.getUsername(),
-//				passwordEncoder.encode(userDTO.getPassword()),
-//				StringUtils.capitalize(userDTO.getFirstName()),
-//				StringUtils.capitalize(userDTO.getLastName()),
-//				userDTO.getEmail(),
-//				userDTO.isEnabled(),
-//				true,
-//				true,
-//				true, null, null, null);
-//				
-		
 		if (userDTO.getRole().equals("USER")) {
 			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		} 
@@ -87,7 +74,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	@Transactional
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
