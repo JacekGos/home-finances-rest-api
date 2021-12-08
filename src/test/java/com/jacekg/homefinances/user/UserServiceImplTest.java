@@ -39,7 +39,7 @@ class UserServiceImplTest {
 	UserServiceImpl service;
 
 	@Mock
-	private UserRepository userRepository;
+	private UserRepository userRepository; 
 
 	@Mock
 	private RoleRepository roleRepository;
@@ -147,24 +147,6 @@ class UserServiceImplTest {
 		
 		verify(userRepository).findByUserId(userId);
 	}
-	
-	/*
-	@Test
-	void findByUserName_ShouldReturn_User() {
-
-		User user = new User();
-		user.setUsername("user");
-
-		when(userRepository.findByUsername("user")).thenReturn(user);
-
-		User returnerUser = service.findByUsername("user");
-
-		assertNotNull(returnerUser);
-		assertEquals("user", returnerUser.getUsername());
-
-		verify(userRepository).findByUsername("user");
-	}
-	*/
 
 	@Test
 	void convertToDTO_ShouldReturn_UserDTO() {

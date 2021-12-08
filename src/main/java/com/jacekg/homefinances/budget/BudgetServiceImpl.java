@@ -16,7 +16,10 @@ import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class BudgetServiceImpl implements BudgetService {
 	
 	private MonthlyBudgetRepository monthlyBudgetRepository;
@@ -24,14 +27,6 @@ public class BudgetServiceImpl implements BudgetService {
 	private UserRepository userRepository;
 	
 	private ModelMapper modelMapper;
-	
-	@Autowired
-	public BudgetServiceImpl(MonthlyBudgetRepository monthlyBudgetRepository, ModelMapper modelMapper, UserRepository userRepository) {
-		
-		this.monthlyBudgetRepository = monthlyBudgetRepository;
-		this.modelMapper = modelMapper;
-		this.userRepository = userRepository;
-	}
 	
 	@Override
 	public MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date) {

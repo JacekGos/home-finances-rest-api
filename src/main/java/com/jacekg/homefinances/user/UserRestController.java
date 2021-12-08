@@ -28,14 +28,14 @@ public class UserRestController {
 		
 		if (userService.findByUsername(userDTO.getUsername()) != null) {
 			throw new UserNotValidException("Podana nazwa jest zajęta");
-		}
+		} 
 		
 		userDTO = userService.save(userDTO);
 		userDTO.setPassword(null);
 		
 		return userDTO;
 	}
-
+	
 	@GetMapping("/users")
 	public List<User> findAll() {
 		return userService.findAll();
