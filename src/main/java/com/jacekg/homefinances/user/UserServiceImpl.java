@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UserDTO save(UserDTO userDTO) {
 		
+		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		
 		User user = convertToEntity(userDTO);
 		user.setEnabled(true);
 		user.setNonExpired(true);
