@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -79,43 +81,74 @@ class UserServiceImplTest {
 	@Disabled
 	void save_ShouldReturn_User() {
 		
-		ModelMapper modelMapper = new ModelMapper();
-		UserDTO inputUserDTO = new UserDTO();
+//		ModelMapper modelMapper = new ModelMapper();
+//		UserDTO inputUserDTO = new UserDTO(
+//				10L,
+//				"username",
+//				"password",
+//				"password",
+//				"firstname",
+//				"lastname",
+//				"email",
+//				"ROLE_ADMIN", 
+//				true, true, true, true); 
+//		
+//		User mappedUser = new User(
+//				10L,
+//				"username",
+//				"password",
+//				"firstname",
+//				"lastname",
+//				"email",
+//				true, true, true, true,
+//				null,
+//				null,
+//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+//		
+//		User expectedUser = new User(
+//				10L,
+//				"username",
+//				"password",
+//				"firstname",
+//				"lastname",
+//				"email",
+//				true, true, true, true,
+//				null,
+//				null,
+//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+//		
+//		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
+//		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
+//		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
+//		
+//		UserDTO returnedUser = service.save(inputUserDTO);
 		
-		inputUserDTO.setId(10L);
-		inputUserDTO.setUsername("username");
-		inputUserDTO.setPassword("password");
-		inputUserDTO.setFirstName("name");
-		inputUserDTO.setLastName("lastname");
-		inputUserDTO.setEmail("email");
-		inputUserDTO.setRole("ROLE_ADMIN");
-		
-		User inputUser = new User();
-
-		inputUser.setId(10L);
-		inputUser.setUsername("username");
-		inputUser.setPassword("password");
-		inputUser.setFirstName("name");
-		inputUser.setLastName("lastname");
-		inputUser.setEmail("email");
-		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-		
-		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(inputUser);
+//		User inputUser = new User();
+//
+//		inputUser.setId(10L);
+//		inputUser.setUsername("username");
+//		inputUser.setPassword("password");
+//		inputUser.setFirstName("name");
+//		inputUser.setLastName("lastname");
+//		inputUser.setEmail("email");
+//		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+//		
+//		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(inputUser);
 		
 //		User savedUser = modelMapper.map(inputUserDTO, User.class);
 		
-		service.save(inputUserDTO);
-		
-		ArgumentCaptor<User> userArgumentCaptor =
-				ArgumentCaptor.forClass(User.class);
+//		service.save(inputUserDTO);
+//		
+//		ArgumentCaptor<User> userArgumentCaptor =
+//				ArgumentCaptor.forClass(User.class);
 		
 //		verify(userRepository).save(userArgumentCaptor.capture());
-		verify(userRepository).save(inputUser);
+//		verify(userRepository).save(inputUser);
 		
-		User capturedUser = userArgumentCaptor.getValue();
-		
-		assertNotNull(capturedUser);
-		assertEquals(10L, capturedUser.getId());
+//		User capturedUser = userArgumentCaptor.getValue();
+//		
+//		assertNotNull(capturedUser);
+//		assertEquals(10L, capturedUser.getId());
 //		assertEquals("ROLE_ADMIN", capturedUser.getRoleName());
 		
 	}
@@ -152,26 +185,28 @@ class UserServiceImplTest {
 	void convertToDTO_ShouldReturn_UserDTO() {
 
 		ModelMapper modelMapper = new ModelMapper();
-
-		User inputUser = new User();
-
-		inputUser.setId(10L);
-		inputUser.setUsername("username");
-		inputUser.setPassword("password");
-		inputUser.setFirstName("name");
-		inputUser.setLastName("lastname");
-		inputUser.setEmail("email");
-		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+		User inputUser = new User(
+				10L,
+				"username",
+				"password",
+				"name",
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
 
 		UserDTO returnedUser = modelMapper.map(inputUser, UserDTO.class);
-
-		assertEquals(10L, returnedUser.getId());
-		assertEquals("username", returnedUser.getUsername());
-		assertEquals("password", returnedUser.getPassword());
-		assertEquals("name", returnedUser.getFirstName());
-		assertEquals("lastname", returnedUser.getLastName());
-		assertEquals("email", returnedUser.getEmail());
-		assertEquals("ROLE_ADMIN", returnedUser.getRole());
+		
+		Assertions.assertThat(returnedUser.getId()).isEqualTo(10L);
+		Assertions.assertThat(returnedUser.getUsername()).isEqualTo("username");
+		Assertions.assertThat(returnedUser.getPassword()).isEqualTo("password");
+		Assertions.assertThat(returnedUser.getFirstName()).isEqualTo("name");
+		Assertions.assertThat(returnedUser.getLastName()).isEqualTo("lastname");
+		Assertions.assertThat(returnedUser.getEmail()).isEqualTo("email");
+		Assertions.assertThat(returnedUser.getRole()).isEqualTo("ROLE_ADMIN");
 	}
 
 	@Test
@@ -179,22 +214,24 @@ class UserServiceImplTest {
 
 		ModelMapper modelMapper = new ModelMapper();
 
-		UserDTO inputUserDTO = new UserDTO();
-
-		inputUserDTO.setId(10L);
-		inputUserDTO.setUsername("username");
-		inputUserDTO.setPassword("password");
-		inputUserDTO.setFirstName("name");
-		inputUserDTO.setLastName("lastname");
-		inputUserDTO.setEmail("email");
+		UserDTO inputUserDTO = new UserDTO(
+				10L,
+				"username",
+				"password",
+				"password",
+				"name",
+				"lastname",
+				"email",
+				"ROLE_ADMIN", 
+				true, true, true, true); 
 
 		User returnedUser = modelMapper.map(inputUserDTO, User.class);
-
-		assertEquals(10L, returnedUser.getId());
-		assertEquals("username", returnedUser.getUsername());
-		assertEquals("password", returnedUser.getPassword());
-		assertEquals("name", returnedUser.getFirstName());
-		assertEquals("lastname", returnedUser.getLastName());
-		assertEquals("email", returnedUser.getEmail());
+		
+		Assertions.assertThat(inputUserDTO.getId()).isEqualTo(10L);
+		Assertions.assertThat(inputUserDTO.getUsername()).isEqualTo("username");
+		Assertions.assertThat(inputUserDTO.getPassword()).isEqualTo("password");
+		Assertions.assertThat(inputUserDTO.getFirstName()).isEqualTo("name");
+		Assertions.assertThat(inputUserDTO.getLastName()).isEqualTo("lastname");
+		Assertions.assertThat(inputUserDTO.getEmail()).isEqualTo("email");
 	}
 }

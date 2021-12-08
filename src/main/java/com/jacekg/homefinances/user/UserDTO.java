@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jacekg.homefinances.validation.FieldMatch;
 import com.jacekg.homefinances.validation.ValidEmail;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @FieldMatch.List({
 	@FieldMatch(first = "password", second = "matchingPassword", message = "podane hasła muszą się zgadzać")
