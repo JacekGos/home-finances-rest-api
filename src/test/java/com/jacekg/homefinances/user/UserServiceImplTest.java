@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -78,78 +79,87 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	void save_ShouldReturn_User() {
 		
-//		ModelMapper modelMapper = new ModelMapper();
-//		UserDTO inputUserDTO = new UserDTO(
-//				10L,
-//				"username",
-//				"password",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				"ROLE_ADMIN", 
-//				true, true, true, true); 
-//		
-//		User mappedUser = new User(
-//				10L,
-//				"username",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				true, true, true, true,
-//				null,
-//				null,
-//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
-//		User expectedUser = new User(
-//				10L,
-//				"username",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				true, true, true, true,
-//				null,
-//				null,
-//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
+		ModelMapper modelMapper = new ModelMapper();
+		
+		UserDTO inputUserDTO = new UserDTO(
+				10L,
+				"username",
+				"password",
+				"password",
+				"firstname",
+				"lastname",
+				"email",
+				"ROLE_ADMIN", 
+				true, true, true, true); 
+	
+		User mappedUser = new User(
+				10L,
+				"username",
+				"password",
+				"firstname",
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+		User expectedUser = new User(
+				10L,
+				"username",
+				"password",
+				"firstname",
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
 //		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
 //		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
 //		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
 //		
 //		UserDTO returnedUser = service.save(inputUserDTO);
 		
-//		User inputUser = new User();
-//
-//		inputUser.setId(10L);
-//		inputUser.setUsername("username");
-//		inputUser.setPassword("password");
-//		inputUser.setFirstName("name");
-//		inputUser.setLastName("lastname");
-//		inputUser.setEmail("email");
-//		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
-//		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(inputUser);
+		User inputUser = new User();
+
+		inputUser.setId(10L);
+		inputUser.setUsername("username");
+		inputUser.setPassword("password");
+		inputUser.setFirstName("name");
+		inputUser.setLastName("lastname");
+		inputUser.setEmail("email");
+		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
 		
-//		User savedUser = modelMapper.map(inputUserDTO, User.class);
+//		when(modelMapper.map(inputUserDTO, org.mockito.ArgumentMatchers.any())).thenReturn(inputUser);
+//		when(modelMapper.map(Mockito.any(UserDTO.class), Mockito.any(User.class))).thenReturn(inputUser);
+//		when(modelMapper.map(new UserDTO(), User.class)).thenReturn(inputUser);
+//		when(modelMapper.map(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).
+//			thenReturn(inputUser);
 		
-//		service.save(inputUserDTO);
-//		
-//		ArgumentCaptor<User> userArgumentCaptor =
-//				ArgumentCaptor.forClass(User.class);
+		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
+//		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
+		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
 		
-//		verify(userRepository).save(userArgumentCaptor.capture());
-//		verify(userRepository).save(inputUser);
+		User savedUser = modelMapper.map(inputUserDTO, User.class);
 		
-//		User capturedUser = userArgumentCaptor.getValue();
-//		
-//		assertNotNull(capturedUser);
-//		assertEquals(10L, capturedUser.getId());
-//		assertEquals("ROLE_ADMIN", capturedUser.getRoleName());
+		service.save(inputUserDTO);
+		
+		ArgumentCaptor<User> userArgumentCaptor =
+				ArgumentCaptor.forClass(User.class);
+		
+		verify(userRepository).save(userArgumentCaptor.capture());
+		verify(userRepository).save(inputUser);
+		
+		User capturedUser = userArgumentCaptor.getValue();
+		
+		assertNotNull(capturedUser);
+		assertEquals(10L, capturedUser.getId());
+		assertEquals("ROLE_ADMIN", capturedUser.getRoleName());
 		
 	}
 
