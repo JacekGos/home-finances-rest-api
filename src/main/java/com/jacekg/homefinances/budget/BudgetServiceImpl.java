@@ -3,6 +3,7 @@ package com.jacekg.homefinances.budget;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -14,6 +15,7 @@ import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserDTO;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -63,12 +65,17 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
+	@Transactional
 	public List<MonthlyBudgetDTO> findAllByUserId(Long userId) {
 		
 //		return posts.stream().map(postMapper::mapToDto).collect(toList());
 		
 //		return monthlyBudgetRepository.findAllByUserId(userId);
-		return null;
+		
+		return monthlyBudgetRepository.findAllByUserId(userId)
+				.stream()
+				.map(budget -> modelMapper.map(budget, MonthlyBudgetDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	private MonthlyBudgetDTO convertToDTO(MonthlyBudget monthlyBudget) {
