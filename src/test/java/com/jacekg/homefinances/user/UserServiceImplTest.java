@@ -4,40 +4,34 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.internal.matchers.Any;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
-import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.role.RoleRepository;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
-
+	
 	@InjectMocks
 	UserServiceImpl service;
 
@@ -49,7 +43,7 @@ class UserServiceImplTest {
 
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
 	@Mock
 	private ModelMapper modelMapper;
 	
@@ -118,9 +112,9 @@ class UserServiceImplTest {
 				null,
 				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
 		
-//		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
+		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(new User());
 //		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
-//		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
+		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
 //		
 //		UserDTO returnedUser = service.save(inputUserDTO);
 		
@@ -141,10 +135,10 @@ class UserServiceImplTest {
 //			thenReturn(inputUser);
 		
 		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
-//		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
+		when(modelMapper.map(new UserDTO(), org.mockito.ArgumentMatchers.any())).thenReturn(mappedUser);
 		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
 		
-		User savedUser = modelMapper.map(inputUserDTO, User.class);
+//		User savedUser = modelMapper.map(inputUserDTO, User.class);
 		
 		service.save(inputUserDTO);
 		
