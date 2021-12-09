@@ -2,11 +2,14 @@ package com.jacekg.homefinances.budget;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +29,11 @@ public class BudgetRestController {
 	
 	private final UserService userService;
 
-//	@Autowired
-//	public BudgetRestController(BudgetService budgetService, UserService userService) {
-//		this.budgetService = budgetService;
-//		this.userService = userService;
-//	}
-
 	@PostMapping("/monthly-budgets")
 	public MonthlyBudgetDTO addMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 
-		LocalDate date = LocalDate.now().withDayOfMonth(1); 
+		LocalDate date = LocalDate.now().withDayOfMonth(1);  
 		
 		User user = userService.findByUsername(principal.getName());
 		
@@ -49,4 +46,14 @@ public class BudgetRestController {
 
 		return budgetService.save(monthlyBudgetDTO);
 	}
+	
+	@GetMapping("/monthly-budgets") 
+	public List<MonthlyBudgetDTO> getAllMonthlyBudgets(Principal principal) {
+		
+		User user = userService.findByUsername(principal.getName());
+		
+		return budgetService.findAllByUserId(user.getId());
+	}
+	
+	
 }
