@@ -37,7 +37,8 @@ public class BudgetServiceImpl implements BudgetService {
 	@Transactional
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 
-		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
+//		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
+		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 
@@ -56,12 +57,18 @@ public class BudgetServiceImpl implements BudgetService {
 		monthlyBudget.setOneTimeExpenses(oneTimeExpenses); 
 		monthlyBudget.setUser(user);
 
-		return convertToDTO(monthlyBudgetRepository.save(monthlyBudget));
+//		return convertToDTO(monthlyBudgetRepository.save(monthlyBudget));
+		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
+
 	}
 
 	@Override
 	public List<MonthlyBudgetDTO> findAllByUserId(Long userId) {
-		return monthlyBudgetRepository.findAllByUserId(userId);
+		
+//		return posts.stream().map(postMapper::mapToDto).collect(toList());
+		
+//		return monthlyBudgetRepository.findAllByUserId(userId);
+		return null;
 	}
 
 	private MonthlyBudgetDTO convertToDTO(MonthlyBudget monthlyBudget) {
