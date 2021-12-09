@@ -37,7 +37,7 @@ public class BudgetServiceImpl implements BudgetService {
 	@Transactional
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 
-		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
+		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO); 
 
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 

@@ -79,7 +79,7 @@ class UserServiceImplTest {
 	}
 
 	@Test
-//	@Disabled
+	@Disabled
 	void save_ShouldReturn_User() {
 		
 		ModelMapper modelMapper = new ModelMapper();
@@ -103,8 +103,7 @@ class UserServiceImplTest {
 				"lastname",
 				"email",
 				true, true, true, true,
-				null,
-				null,
+				null, null,
 				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
 		
 		User expectedUser = new User(
