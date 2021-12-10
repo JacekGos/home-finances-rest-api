@@ -31,15 +31,14 @@ public class BudgetServiceImpl implements BudgetService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date) {
-		return monthlyBudgetRepository.findByUserIdAndDate(userId, date);
+	public MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date) {
+		return modelMapper.map(monthlyBudgetRepository.findByUserIdAndDate(userId, date), MonthlyBudgetDTO.class);
 	}
 
 	@Override
 	@Transactional
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 
-//		MonthlyBudget monthlyBudget = convertToEntity(monthlyBudgetDTO);
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
@@ -59,7 +58,6 @@ public class BudgetServiceImpl implements BudgetService {
 		monthlyBudget.setOneTimeExpenses(oneTimeExpenses); 
 		monthlyBudget.setUser(user);
 
-//		return convertToDTO(monthlyBudgetRepository.save(monthlyBudget));
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 
 	}
@@ -68,29 +66,27 @@ public class BudgetServiceImpl implements BudgetService {
 	@Transactional
 	public List<MonthlyBudgetDTO> findAllByUserId(Long userId) {
 		
-//		return posts.stream().map(postMapper::mapToDto).collect(toList());
-		
-//		return monthlyBudgetRepository.findAllByUserId(userId);
-		
 		return monthlyBudgetRepository.findAllByUserId(userId)
 				.stream()
 				.map(budget -> modelMapper.map(budget, MonthlyBudgetDTO.class))
 				.collect(Collectors.toList());
 	}
 
-	private MonthlyBudgetDTO convertToDTO(MonthlyBudget monthlyBudget) {
-
-		MonthlyBudgetDTO monthlyBudgetDTO = modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
-
-		return monthlyBudgetDTO;
-	}
-
-	private MonthlyBudget convertToEntity(MonthlyBudgetDTO monthlyBudgetDTO) {
-
+	@Override
+	public MonthlyBudgetDTO updatate(MonthlyBudgetDTO monthlyBudgetDTO) {
+		
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
-
-		return monthlyBudget;
+		
+		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
-
-
 }
+
+
+
+
+
+
+
+
+
+

@@ -5,9 +5,11 @@ import java.util.List;
 
 public interface BudgetService {
 	
-	MonthlyBudget findByUserIdAndDate(Long userId, LocalDate date);
+	MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date);
 	
 	MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO);
 
 	List<MonthlyBudgetDTO> findAllByUserId(Long userId);
+	
+	MonthlyBudgetDTO updatate(MonthlyBudgetDTO monthlyBudgetDTO);
 }
