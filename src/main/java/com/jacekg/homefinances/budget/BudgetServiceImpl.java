@@ -32,7 +32,14 @@ public class BudgetServiceImpl implements BudgetService {
 
 	@Override
 	public MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date) {
-		return modelMapper.map(monthlyBudgetRepository.findByUserIdAndDate(userId, date), MonthlyBudgetDTO.class);
+		
+		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, date);
+		
+		if (monthlyBudget == null) {
+			return null;
+		} else {
+			return modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
+		}
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class BudgetRestController {
 		if (budgetService.findByUserIdAndDate(user.getId(), date) != null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
-
+		System.out.println("budget: " + monthlyBudgetDTO);
 		return budgetService.save(monthlyBudgetDTO);
 	}
 	
