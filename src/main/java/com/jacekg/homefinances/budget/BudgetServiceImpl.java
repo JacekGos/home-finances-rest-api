@@ -31,10 +31,12 @@ public class BudgetServiceImpl implements BudgetService {
 	private ModelMapper modelMapper;
 
 	@Override
+//	@Transactional
 	public MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date) {
 		
+		System.out.println("get budget");
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, date);
-		
+		System.out.println("budget2: " + monthlyBudget.toString());
 		if (monthlyBudget == null) {
 			return null;
 		} else {
@@ -66,7 +68,6 @@ public class BudgetServiceImpl implements BudgetService {
 		monthlyBudget.setUser(user);
 
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
-
 	}
 
 	@Override
@@ -80,9 +81,13 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
-	public MonthlyBudgetDTO updatate(MonthlyBudgetDTO monthlyBudgetDTO) {
+	@Transactional
+	public MonthlyBudgetDTO update(MonthlyBudgetDTO monthlyBudgetDTO) {
+		
+		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
+		monthlyBudget.setUser(user);
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

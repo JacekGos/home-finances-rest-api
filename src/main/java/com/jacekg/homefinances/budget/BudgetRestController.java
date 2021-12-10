@@ -36,12 +36,12 @@ public class BudgetRestController {
 
 		LocalDate date = LocalDate.now().withDayOfMonth(1);  
 		
-		User user = userService.findByUsername(principal.getName());
+		User loggedUser = userService.findByUsername(principal.getName());
 		
 		monthlyBudgetDTO.setDate(date);
-		monthlyBudgetDTO.setUserId(user.getId());
+		monthlyBudgetDTO.setUserId(loggedUser.getId());
 		
-		if (budgetService.findByUserIdAndDate(user.getId(), date) != null) {
+		if (budgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 		System.out.println("budget: " + monthlyBudgetDTO);
@@ -51,17 +51,15 @@ public class BudgetRestController {
 	@GetMapping("/monthly-budgets") 
 	public List<MonthlyBudgetDTO> getAllMonthlyBudgets(Principal principal) {
 		
-		User user = userService.findByUsername(principal.getName());
+		User loggedUser = userService.findByUsername(principal.getName());
 		
-		return budgetService.findAllByUserId(user.getId());
+		return budgetService.findAllByUserId(loggedUser.getId());
 	}
 	
 	@PutMapping("/monthly-budgets") 
-	public MonthlyBudgetDTO updateMonthlyBudget(@RequestBody MonthlyBudgetDTO monthlyBudgetDTO) {
-		return budgetService.updatate(monthlyBudgetDTO);
+	public MonthlyBudgetDTO updateMonthlyBudget(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
+		return budgetService.update(monthlyBudgetDTO);
 	}
-	
-	
 }
 
 

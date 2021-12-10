@@ -11,5 +11,5 @@ public interface BudgetService {
 
 	List<MonthlyBudgetDTO> findAllByUserId(Long userId);
 	
-	MonthlyBudgetDTO updatate(MonthlyBudgetDTO monthlyBudgetDTO);
+	MonthlyBudgetDTO update(MonthlyBudgetDTO monthlyBudgetDTO);
 }
