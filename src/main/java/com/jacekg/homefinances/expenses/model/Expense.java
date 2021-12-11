@@ -39,6 +39,10 @@ public abstract class Expense {
 		this.plannedAmount = plannedAmount;
 		this.currentAmount = currentAmount;
 	}
+	
+	public void setName(String name) {
+		this.name = name.toLowerCase();
+	}
 }
 
 

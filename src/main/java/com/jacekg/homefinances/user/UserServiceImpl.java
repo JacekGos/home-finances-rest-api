@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
 		
 		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		
-//		User user = convertToEntity(userDTO);
 		User user = modelMapper.map(userDTO, User.class);
 		user.setEnabled(true);
 		user.setNonExpired(true);
@@ -71,7 +70,6 @@ public class UserServiceImpl implements UserService {
 			user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		}
 		 
-//		UserDTO responseUser = convertToDTO(userRepository.save(user));
 		UserDTO responseUser = modelMapper.map(userRepository.save(user), UserDTO.class);
 		responseUser.setPassword(null);
 		

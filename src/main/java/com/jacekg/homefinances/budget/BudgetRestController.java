@@ -57,7 +57,8 @@ public class BudgetRestController {
 	}
 	
 	@PutMapping("/monthly-budgets") 
-	public MonthlyBudgetDTO updateMonthlyBudget(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
+	public MonthlyBudgetDTO updateMonthlyBudget(
+			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 		return budgetService.update(monthlyBudgetDTO);
 	}
 }

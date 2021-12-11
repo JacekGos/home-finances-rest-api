@@ -2,7 +2,10 @@ package com.jacekg.homefinances.budget;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -31,12 +34,11 @@ public class BudgetServiceImpl implements BudgetService {
 	private ModelMapper modelMapper;
 
 	@Override
-//	@Transactional
+	@Transactional
 	public MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date) {
 		
 		System.out.println("get budget");
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, date);
-		System.out.println("budget2: " + monthlyBudget.toString());
 		if (monthlyBudget == null) {
 			return null;
 		} else {
@@ -84,10 +86,39 @@ public class BudgetServiceImpl implements BudgetService {
 	@Transactional
 	public MonthlyBudgetDTO update(MonthlyBudgetDTO monthlyBudgetDTO) {
 		
-		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
-		
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
+		
+		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		monthlyBudget.setUser(user);
+		
+		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses = 
+				user.getUserPreferenceConstantExpenses();
+		
+//		if (userPreferenceConstantExpenses.get().getName() == null) {
+//			System.out.println("list null");
+//		}
+		
+		System.out.println("--------------------------");
+//		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
+//			
+//			for (UserPreferenceConstantExpense userConstantExepnse : userPreferenceConstantExpenses) {
+//				if (!(userPreferenceConstantExpenses.getName().equalsIgnoreCase(constantExpense.getName())
+//						|| user)) {
+//					userPreferenceConstantExpenses
+//						.add(new UserPreferenceConstantExpense(0L, constantExpense.getName()));
+//					continue;
+//				}
+//			}
+//		}
+		
+		for (UserPreferenceConstantExpense expense : userPreferenceConstantExpenses) {
+			System.out.println("expense: " + expense);
+		}
+			
+		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
+		userRepository.save(user);
+		
+		System.out.println("--------------------------");
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

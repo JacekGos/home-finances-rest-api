@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -78,7 +79,7 @@ public class User {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
-	private List<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
+	private Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", 
@@ -95,6 +96,17 @@ public class User {
 		return roles.get(roleIndex).getName();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
