@@ -2,23 +2,20 @@ package com.jacekg.homefinances.budget;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
-import com.jacekg.homefinances.user.UserDTO;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +27,8 @@ public class BudgetServiceImpl implements BudgetService {
 	private MonthlyBudgetRepository monthlyBudgetRepository;
 
 	private UserRepository userRepository;
+	
+	private ConstantExpenseRepository constantExpenseRepository;
 
 	private ModelMapper modelMapper;
 
@@ -91,14 +90,39 @@ public class BudgetServiceImpl implements BudgetService {
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		monthlyBudget.setUser(user);
 		
-		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses = 
-				user.getUserPreferenceConstantExpenses();
+		List<ConstantExpense> currentConstantExpenses = constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId());
+		List<ConstantExpense> updatedConstantExpenses = monthlyBudget.getConstantExpenses();
 		
+		System.out.println("current: " + currentConstantExpenses);
+		System.out.println("updated: " + updatedConstantExpenses);
+		
+		boolean constantExpenseAlreadyExists = false;
+		
+		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
+			for (int j = 0; j < currentConstantExpenses.size(); j++) {
+				if (updatedConstantExpenses.get(i).getId()
+						!= (currentConstantExpenses.get(j).getId())
+						&& updatedConstantExpenses.get(i).getName()
+						.equals(currentConstantExpenses.get(j).getName())) {
+					updatedConstantExpenses.remove(i);
+					monthlyBudget.getConstantExpenses().remove(i);
+				}
+			}
+		}
+		
+		System.out.println("modified expenses: ");
+		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
+			System.out.println(constantExpense);
+		}
+		
+//		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses = 
+//				user.getUserPreferenceConstantExpenses();
+//		
 //		if (userPreferenceConstantExpenses.get().getName() == null) {
 //			System.out.println("list null");
 //		}
-		
-		System.out.println("--------------------------");
+//		
+//		System.out.println("--------------------------");
 //		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
 //			
 //			for (UserPreferenceConstantExpense userConstantExepnse : userPreferenceConstantExpenses) {
@@ -110,15 +134,15 @@ public class BudgetServiceImpl implements BudgetService {
 //				}
 //			}
 //		}
-		
-		for (UserPreferenceConstantExpense expense : userPreferenceConstantExpenses) {
-			System.out.println("expense: " + expense);
-		}
-			
-		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
-		userRepository.save(user);
-		
-		System.out.println("--------------------------");
+//		
+//		for (UserPreferenceConstantExpense expense : userPreferenceConstantExpenses) {
+//			System.out.println("expense: " + expense);
+//		}
+//			
+//		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
+//		userRepository.save(user);
+//		
+//		System.out.println("--------------------------");
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

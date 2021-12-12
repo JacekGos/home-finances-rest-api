@@ -41,7 +41,7 @@ public abstract class Expense {
 	}
 	
 	public void setName(String name) {
-		this.name = name.toLowerCase();
+		this.name = name.toLowerCase().trim();
 	}
 }
 
