@@ -6,7 +6,7 @@ import com.jacekg.homefinances.expenses.model.ConstantExpense;
 
 public class BudgetUtilities {
 
-	public static List<ConstantExpense> findDuplicatedConstantExpenses(List<ConstantExpense> currentConstantExpenses,
+	public static List<ConstantExpense> removeDuplicatedConstantExpenses(List<ConstantExpense> currentConstantExpenses,
 			List<ConstantExpense> updatedConstantExpenses) {
 
 		ConstantExpense currentConstantExpense;

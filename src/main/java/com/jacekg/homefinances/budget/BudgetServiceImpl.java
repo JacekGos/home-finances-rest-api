@@ -56,11 +56,8 @@ public class BudgetServiceImpl implements BudgetService {
 		List<OneTimeExpense> oneTimeExpenses = new ArrayList<OneTimeExpense>();
 
 		for (UserPreferenceConstantExpense preferencedConstantExpense : user.getUserPreferenceConstantExpenses()) {
-
 			ConstantExpense constantExpense = new ConstantExpense(preferencedConstantExpense.getName(), 0, 0);
-
 			constantExpenses.add(constantExpense);
-			System.out.println("const expense: " + constantExpense);
 		}
 
 		monthlyBudget.setConstantExpenses(constantExpenses);
@@ -89,7 +86,7 @@ public class BudgetServiceImpl implements BudgetService {
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		monthlyBudget.setUser(user);
 		
-		monthlyBudget.setConstantExpenses(BudgetUtilities.findDuplicatedConstantExpenses
+		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedConstantExpenses
 				(constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId()),  monthlyBudget.getConstantExpenses())
 		); 
 		
