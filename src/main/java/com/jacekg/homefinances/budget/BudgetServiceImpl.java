@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
-import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
@@ -90,46 +89,14 @@ public class BudgetServiceImpl implements BudgetService {
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		monthlyBudget.setUser(user);
 		
-		List<ConstantExpense> currentConstantExpenses = constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId());
-		List<ConstantExpense> updatedConstantExpenses = monthlyBudget.getConstantExpenses();
-		
-		System.out.println("current: " + currentConstantExpenses);
-		System.out.println("updated: " + updatedConstantExpenses);
-		
-		ConstantExpense currentConstantExpense;
-		ConstantExpense updatedConstantExpense;
-		
-		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
-			
-			updatedConstantExpense = updatedConstantExpenses.get(i);
-			System.out.println("updatedConstantExpense: " 
-					+ updatedConstantExpense.getId() + " " + updatedConstantExpense.getName());
-			
-			for (int j = 0; j < currentConstantExpenses.size(); j++) {
-				
-				currentConstantExpense = currentConstantExpenses.get(j);
-				System.out.println("currentConstantExpense: " 
-						+ currentConstantExpense.getId() + " " + currentConstantExpense.getName());
-				
-				if (updatedConstantExpense.getId()
-						!= (currentConstantExpense.getId())
-						&& updatedConstantExpense.getName()
-						.equals(currentConstantExpense.getName())) {
-					System.out.println("zdublowane current: " + currentConstantExpense);
-					System.out.println("zdublowane updated" + updatedConstantExpense);
-					updatedConstantExpenses.remove(i);
-				}
-			}
-		}
-		
-//		System.out.println("modified expenses: ");
-//		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
-//			System.out.println(constantExpense);
-//		}
+		monthlyBudget.setConstantExpenses(BudgetUtilities.findDuplicatedConstantExpenses
+				(constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId()),  monthlyBudget.getConstantExpenses())
+		); 
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
 }
+
 
 
 
