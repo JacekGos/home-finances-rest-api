@@ -96,53 +96,36 @@ public class BudgetServiceImpl implements BudgetService {
 		System.out.println("current: " + currentConstantExpenses);
 		System.out.println("updated: " + updatedConstantExpenses);
 		
-		boolean constantExpenseAlreadyExists = false;
+		ConstantExpense currentConstantExpense;
+		ConstantExpense updatedConstantExpense;
 		
 		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
+			
+			updatedConstantExpense = updatedConstantExpenses.get(i);
+			System.out.println("updatedConstantExpense: " 
+					+ updatedConstantExpense.getId() + " " + updatedConstantExpense.getName());
+			
 			for (int j = 0; j < currentConstantExpenses.size(); j++) {
-				if (updatedConstantExpenses.get(i).getId()
-						!= (currentConstantExpenses.get(j).getId())
-						&& updatedConstantExpenses.get(i).getName()
-						.equals(currentConstantExpenses.get(j).getName())) {
+				
+				currentConstantExpense = currentConstantExpenses.get(j);
+				System.out.println("currentConstantExpense: " 
+						+ currentConstantExpense.getId() + " " + currentConstantExpense.getName());
+				
+				if (updatedConstantExpense.getId()
+						!= (currentConstantExpense.getId())
+						&& updatedConstantExpense.getName()
+						.equals(currentConstantExpense.getName())) {
+					System.out.println("zdublowane current: " + currentConstantExpense);
+					System.out.println("zdublowane updated" + updatedConstantExpense);
 					updatedConstantExpenses.remove(i);
-					monthlyBudget.getConstantExpenses().remove(i);
 				}
 			}
 		}
 		
-		System.out.println("modified expenses: ");
-		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
-			System.out.println(constantExpense);
-		}
-		
-//		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses = 
-//				user.getUserPreferenceConstantExpenses();
-//		
-//		if (userPreferenceConstantExpenses.get().getName() == null) {
-//			System.out.println("list null");
-//		}
-//		
-//		System.out.println("--------------------------");
+//		System.out.println("modified expenses: ");
 //		for (ConstantExpense constantExpense : monthlyBudget.getConstantExpenses()) {
-//			
-//			for (UserPreferenceConstantExpense userConstantExepnse : userPreferenceConstantExpenses) {
-//				if (!(userPreferenceConstantExpenses.getName().equalsIgnoreCase(constantExpense.getName())
-//						|| user)) {
-//					userPreferenceConstantExpenses
-//						.add(new UserPreferenceConstantExpense(0L, constantExpense.getName()));
-//					continue;
-//				}
-//			}
+//			System.out.println(constantExpense);
 //		}
-//		
-//		for (UserPreferenceConstantExpense expense : userPreferenceConstantExpenses) {
-//			System.out.println("expense: " + expense);
-//		}
-//			
-//		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
-//		userRepository.save(user);
-//		
-//		System.out.println("--------------------------");
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
