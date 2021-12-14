@@ -40,7 +40,6 @@ public class BudgetUtilities {
 		List<Long> constantExpensesIdToRemove = new ArrayList<>();
 
 		for (ConstantExpense constantExpense : currentConstantExpenses) {
-			System.out.println("tested ConstantExpense: " + constantExpense);
 			
 			ConstantExpense searchedConstantExpense = updatedConstantExpenses
 					.stream()
@@ -49,7 +48,6 @@ public class BudgetUtilities {
 					.findFirst().orElse(null);
 
 			if (searchedConstantExpense == null) {
-				System.out.println("test result id: " + constantExpense.getId());
 				constantExpensesIdToRemove.add(constantExpense.getId());
 			}
 		}

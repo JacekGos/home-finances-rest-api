@@ -10,13 +10,12 @@ import com.jacekg.homefinances.expenses.model.ConstantExpense;
 
 public interface ConstantExpenseRepository extends JpaRepository<ConstantExpense, Long> {
 	
-//	@Query("FROM ConstantExpense ce WHERE monthly_budget_id=:monthlyBudgetId")
-//	List<ConstantExpense> findAllByMonthlyBudgetId
-//		(@Param(value = "monthlyBudgetId") Long monthlyBudgetId);
-	
-//	@Query("FROM ConstantExpense ce WHERE monthly_budget_id=:monthlyBudgetId")
+	@Query("FROM ConstantExpense ce WHERE monthly_budget_id=:monthlyBudgetId")
 	List<ConstantExpense> findAllByMonthlyBudgetId
-		(Long monthlyBudgetId);
+		(@Param(value = "monthlyBudgetId") Long monthlyBudgetId);
 	
-	Void deleteByConstantExpenseId(Long constantExpenseId);
+//	@Query("FROM ConstantExpense ce WHERE monthly_budget_id=:monthlyBudgetId")
+//	List<ConstantExpense> findAllById(Long id);
+	
+//	void deleteById(Long id);
 }
