@@ -86,9 +86,22 @@ public class BudgetServiceImpl implements BudgetService {
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		monthlyBudget.setUser(user);
 		
+		List<ConstantExpense> currentConstantExpenses 
+			= constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId());
+		List<ConstantExpense> updatedConstantExpenses
+			= monthlyBudget.getConstantExpenses();
+			
 		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedConstantExpenses
-				(constantExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId()),  monthlyBudget.getConstantExpenses())
-		); 
+				(currentConstantExpenses, updatedConstantExpenses)); 
+
+		List<Long> constantExpensesIdToRemove = 
+				BudgetUtilities.findConstantExpensesIdToRemove(currentConstantExpenses, updatedConstantExpenses);
+		
+		for (Long contantExpenseIdToRemove : constantExpensesIdToRemove) {
+			constantExpenseRepository.deleteByConstantExpenseId(contantExpenseIdToRemove);
+		}
+		
+		System.out.println(constantExpensesIdToRemove);
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
