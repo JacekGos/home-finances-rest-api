@@ -97,12 +97,10 @@ public class BudgetServiceImpl implements BudgetService {
 		List<Long> constantExpensesIdToRemove = 
 				BudgetUtilities.findConstantExpensesIdToRemove(currentConstantExpenses, updatedConstantExpenses);
 		
-		System.out.println("removed id: " + constantExpensesIdToRemove);
-		for (Long contantExpenseIdToRemove : constantExpensesIdToRemove) {
-			constantExpenseRepository.deleteById(contantExpenseIdToRemove);
-		}
+		System.out.println("to remove id: " + constantExpensesIdToRemove);
 		
-		
+		constantExpenseRepository.deleteAllById(constantExpensesIdToRemove);
+
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
 }
