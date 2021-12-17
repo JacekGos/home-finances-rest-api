@@ -35,18 +35,23 @@ public class BudgetUtilities {
 	
 	public static <T> List<T> removeDuplicatedExpenses(List<T> currentExpenses,
 			List<T> updatedExpenses) {
-
+		
+		System.out.println("currentExpense: " + currentExpenses);
+		System.out.println("updatedExpense: " + updatedExpenses);
+		
 		T currentExpense;
 		T updatedExpense;
 
 		for (int i = 0; i < updatedExpenses.size(); i++) {
 
 			updatedExpense = updatedExpenses.get(i);
-
+			System.out.println("updated:" + updatedExpense.toString());
+			
 			for (int j = 0; j < currentExpenses.size(); j++) {
 
 				currentExpense = currentExpenses.get(j);
-
+				System.out.println("current: " + currentExpense);
+				
 				if (((Expense) updatedExpense).getId() != (((Expense) currentExpense).getId())
 						&& ((Expense) updatedExpense).getName().equals(((Expense) currentExpense).getName())) {
 					updatedExpenses.remove(i);
@@ -79,19 +84,23 @@ public class BudgetUtilities {
 //		return constantExpensesIdToRemove;
 //	}
 	
-	public static <T> List<Long> findExpensesIdsToRemove(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
-
+	public static <T> List<Long> findExpensesIdsToRemove(
+			Collection<T> currentExpenses, Collection<T> updatedExpenses) {
+		
+//		System.out.println("currentExpense: " + currentExpenses);
+//		System.out.println("updatedExpense: " + updatedExpenses);
+		
 		List<Long> constantExpensesIdToRemove = new ArrayList<>();
 
-		for (T constantExpense : currentExpenses) {
+		for (T expense : currentExpenses) {
 
-			T searchedConstantExpense = updatedExpenses.stream()
-					.filter(updatedConstantExpense -> ((Expense) constantExpense).getName()
-							.equals(((Expense) updatedConstantExpense).getName()))
+			T searchedExpense = updatedExpenses.stream()
+					.filter(updatedExpense -> ((Expense) expense).getName()
+							.equals(((Expense) updatedExpense).getName()))
 					.findFirst().orElse(null);
 
-			if (searchedConstantExpense == null) {
-				constantExpensesIdToRemove.add(((Expense) constantExpense).getId());
+			if (searchedExpense == null) {
+				constantExpensesIdToRemove.add(((Expense) expense).getId());
 			}
 		}
 
