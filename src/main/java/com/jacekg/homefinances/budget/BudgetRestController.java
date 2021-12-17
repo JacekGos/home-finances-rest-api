@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import static org.springframework.http.HttpStatus.OK;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +51,7 @@ public class BudgetRestController {
 		if (budgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
-		System.out.println("budget: " + monthlyBudgetDTO);
+		
 		return budgetService.save(monthlyBudgetDTO);
 	}
 	
@@ -69,9 +71,13 @@ public class BudgetRestController {
 	
 	@DeleteMapping("/monthly-budgets/{monthlyBudgetDate}")
 	public ResponseEntity<String> deleteMonthlyBudget
-		(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate monthlyBudgetDate ) {
+		(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate monthlyBudgetDate, Principal principal) {
 		
-		System.out.println("date: " + monthlyBudgetDate);
+		User loggedUser = userService.findByUsername(principal.getName());
+		
+		monthlyBudgetDate = monthlyBudgetDate.withDayOfMonth(1);
+		
+		budgetService.deleteByDate(monthlyBudgetDate, loggedUser.getId());
 		
 		return ResponseEntity.status(OK).body("Monthly budget of date: " + monthlyBudgetDate + " deleted sucessfully");
 	}

@@ -12,4 +12,6 @@ public interface BudgetService {
 	List<MonthlyBudgetDTO> findAllByUserId(Long userId);
 	
 	MonthlyBudgetDTO update(MonthlyBudgetDTO monthlyBudgetDTO);
+	
+	void deleteByDate(LocalDate localDate, Long userId);
 }

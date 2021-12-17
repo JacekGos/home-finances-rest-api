@@ -117,6 +117,18 @@ public class BudgetServiceImpl implements BudgetService {
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
+
+	@Override
+	public void deleteByDate(LocalDate monthlyBudgetDate, Long userId) {
+		
+		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, monthlyBudgetDate);
+		
+		if (monthlyBudget == null) {
+			throw new BudgetDoesntExistsException("Budget with this date doesn't exists!");
+		}
+		
+		monthlyBudgetRepository.delete(monthlyBudget);
+	}
 }
 
 
