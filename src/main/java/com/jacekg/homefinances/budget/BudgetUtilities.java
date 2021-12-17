@@ -57,25 +57,48 @@ public class BudgetUtilities {
 		return updatedExpenses;
 	}
 	
-	public static List<Long> findConstantExpensesIdToRemove
-		(Collection<ConstantExpense> currentConstantExpenses,
-		Collection<ConstantExpense> updatedConstantExpenses) {
+//	public static List<Long> findConstantExpensesIdToRemove
+//		(Collection<ConstantExpense> currentConstantExpenses,
+//		Collection<ConstantExpense> updatedConstantExpenses) {
+//
+//		List<Long> constantExpensesIdToRemove = new ArrayList<>();
+//
+//		for (ConstantExpense constantExpense : currentConstantExpenses) {
+//			
+//			ConstantExpense searchedConstantExpense = updatedConstantExpenses
+//					.stream()
+//					.filter(
+//					updatedConstantExpense -> constantExpense.getName().equals(updatedConstantExpense.getName()))
+//					.findFirst().orElse(null);
+//
+//			if (searchedConstantExpense == null) {
+//				constantExpensesIdToRemove.add(constantExpense.getId());
+//			}
+//		}
+//
+//		return constantExpensesIdToRemove;
+//	}
+	
+	public static <T> List<Long> findExpensesIdsToRemove 
+	(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
 
-		List<Long> constantExpensesIdToRemove = new ArrayList<>();
+	List<Long> constantExpensesIdToRemove = new ArrayList<>();
 
-		for (ConstantExpense constantExpense : currentConstantExpenses) {
-			
-			ConstantExpense searchedConstantExpense = updatedConstantExpenses
-					.stream()
-					.filter(
-					updatedConstantExpense -> constantExpense.getName().equals(updatedConstantExpense.getName()))
-					.findFirst().orElse(null);
+	for (T constantExpense : currentExpenses) {
+		
+		T searchedConstantExpense = updatedExpenses
+				.stream()
+				.filter(
+				updatedConstantExpense -> ((Expense) constantExpense).getName()
+					.equals(((Expense) updatedConstantExpense).getName()))
+				.findFirst().orElse(null);
 
-			if (searchedConstantExpense == null) {
-				constantExpensesIdToRemove.add(constantExpense.getId());
-			}
+		if (searchedConstantExpense == null) {
+			constantExpensesIdToRemove.add(((Expense) constantExpense).getId());
 		}
-
-		return constantExpensesIdToRemove;
 	}
+
+	return constantExpensesIdToRemove;
+}
+	
 }

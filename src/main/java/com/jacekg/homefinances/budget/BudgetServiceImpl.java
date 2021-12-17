@@ -95,7 +95,7 @@ public class BudgetServiceImpl implements BudgetService {
 				(currentConstantExpenses, updatedConstantExpenses)); 
 
 		List<Long> constantExpensesIdToRemove = 
-				BudgetUtilities.findConstantExpensesIdToRemove(currentConstantExpenses, updatedConstantExpenses);
+				BudgetUtilities.findExpensesIdsToRemove(currentConstantExpenses, updatedConstantExpenses);
 		
 //		System.out.println("to remove id: " + constantExpensesIdToRemove);
 		
