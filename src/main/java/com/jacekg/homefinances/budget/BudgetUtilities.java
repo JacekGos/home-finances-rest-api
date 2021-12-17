@@ -79,26 +79,23 @@ public class BudgetUtilities {
 //		return constantExpensesIdToRemove;
 //	}
 	
-	public static <T> List<Long> findExpensesIdsToRemove 
-	(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
+	public static <T> List<Long> findExpensesIdsToRemove(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
 
-	List<Long> constantExpensesIdToRemove = new ArrayList<>();
+		List<Long> constantExpensesIdToRemove = new ArrayList<>();
 
-	for (T constantExpense : currentExpenses) {
-		
-		T searchedConstantExpense = updatedExpenses
-				.stream()
-				.filter(
-				updatedConstantExpense -> ((Expense) constantExpense).getName()
-					.equals(((Expense) updatedConstantExpense).getName()))
-				.findFirst().orElse(null);
+		for (T constantExpense : currentExpenses) {
 
-		if (searchedConstantExpense == null) {
-			constantExpensesIdToRemove.add(((Expense) constantExpense).getId());
+			T searchedConstantExpense = updatedExpenses.stream()
+					.filter(updatedConstantExpense -> ((Expense) constantExpense).getName()
+							.equals(((Expense) updatedConstantExpense).getName()))
+					.findFirst().orElse(null);
+
+			if (searchedConstantExpense == null) {
+				constantExpensesIdToRemove.add(((Expense) constantExpense).getId());
+			}
 		}
-	}
 
-	return constantExpensesIdToRemove;
-}
+		return constantExpensesIdToRemove;
+	}
 	
 }

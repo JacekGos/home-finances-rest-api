@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
+import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
@@ -28,6 +29,8 @@ public class BudgetServiceImpl implements BudgetService {
 	private UserRepository userRepository;
 	
 	private ConstantExpenseRepository constantExpenseRepository;
+	
+	private OneTimeExpenseRepository oneTimeExpenseRepository;
 
 	private ModelMapper modelMapper;
 
@@ -91,16 +94,26 @@ public class BudgetServiceImpl implements BudgetService {
 		List<ConstantExpense> updatedConstantExpenses
 			= monthlyBudget.getConstantExpenses();
 		
+		List<OneTimeExpense> currentOneTimeExpenses 
+			= oneTimeExpenseRepository.findAllByMonthlyBudgetId(monthlyBudget.getId());
+		List<OneTimeExpense> updatedOneTimeExpenses
+			= monthlyBudget.getOneTimeExpenses();
+		
 		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentConstantExpenses, updatedConstantExpenses)); 
-
-		List<Long> constantExpensesIdToRemove = 
+		monthlyBudget.setOneTimeExpenses(BudgetUtilities.removeDuplicatedExpenses
+				(currentOneTimeExpenses, updatedOneTimeExpenses)); 
+		
+		List<Long> constantExpensesIdsToRemove = 
 				BudgetUtilities.findExpensesIdsToRemove(currentConstantExpenses, updatedConstantExpenses);
+		List<Long> oneTimeExpensesIdsToRemove = 
+				BudgetUtilities.findExpensesIdsToRemove(currentOneTimeExpenses, updatedOneTimeExpenses);
 		
-//		System.out.println("to remove id: " + constantExpensesIdToRemove);
+		System.out.println("to remove id: " + constantExpensesIdsToRemove);
 		
-		constantExpenseRepository.deleteAllById(constantExpensesIdToRemove);
-
+		constantExpenseRepository.deleteAllById(constantExpensesIdsToRemove);
+		oneTimeExpenseRepository.deleteAllById(oneTimeExpensesIdsToRemove);
+		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
 }
