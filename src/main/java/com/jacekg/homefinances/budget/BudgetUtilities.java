@@ -5,60 +5,57 @@ import java.util.Collection;
 import java.util.List;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.Expense;
 
 public class BudgetUtilities {
 	
-	/*
-	public static List<ConstantExpense> removeDuplicatedConstantExpenses
-		(List<ConstantExpense> currentConstantExpenses,
-		 List<ConstantExpense> updatedConstantExpenses) {
-
-		ConstantExpense currentConstantExpense;
-		ConstantExpense updatedConstantExpense;
-
-		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
-
-			updatedConstantExpense = updatedConstantExpenses.get(i);
-
-			for (int j = 0; j < currentConstantExpenses.size(); j++) {
-
-				currentConstantExpense = currentConstantExpenses.get(j);
-
-				if (updatedConstantExpense.getId() != (currentConstantExpense.getId())
-						&& updatedConstantExpense.getName().equals(currentConstantExpense.getName())) {
-					updatedConstantExpenses.remove(i);
-				}
-			}
-		}
-
-		return updatedConstantExpenses;
-	} */
+//	public static List<ConstantExpense> removeDuplicatedConstantExpenses(List<ConstantExpense> currentConstantExpenses,
+//			List<ConstantExpense> updatedConstantExpenses) {
+//
+//		ConstantExpense currentConstantExpense;
+//		ConstantExpense updatedConstantExpense;
+//
+//		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
+//
+//			updatedConstantExpense = updatedConstantExpenses.get(i);
+//
+//			for (int j = 0; j < currentConstantExpenses.size(); j++) {
+//
+//				currentConstantExpense = currentConstantExpenses.get(j);
+//
+//				if (updatedConstantExpense.getId() != (currentConstantExpense.getId())
+//						&& updatedConstantExpense.getName().equals(currentConstantExpense.getName())) {
+//					updatedConstantExpenses.remove(i);
+//				}
+//			}
+//		}
+//
+//		return updatedConstantExpenses;
+//	}
 	
-	public static List<ConstantExpense> removeDuplicatedConstantExpenses(List<ConstantExpense> currentConstantExpenses,
-			List<ConstantExpense> updatedConstantExpenses) {
+	public static <T> List<T> removeDuplicatedExpenses(List<T> currentExpenses,
+			List<T> updatedExpenses) {
 
-		ConstantExpense currentConstantExpense;
-		ConstantExpense updatedConstantExpense;
+		T currentExpense;
+		T updatedExpense;
 
-		for (int i = 0; i < updatedConstantExpenses.size(); i++) {
+		for (int i = 0; i < updatedExpenses.size(); i++) {
 
-			updatedConstantExpense = updatedConstantExpenses.get(i);
+			updatedExpense = updatedExpenses.get(i);
 
-			for (int j = 0; j < currentConstantExpenses.size(); j++) {
+			for (int j = 0; j < currentExpenses.size(); j++) {
 
-				currentConstantExpense = currentConstantExpenses.get(j);
+				currentExpense = currentExpenses.get(j);
 
-				if (updatedConstantExpense.getId() != (currentConstantExpense.getId())
-						&& updatedConstantExpense.getName().equals(currentConstantExpense.getName())) {
-					updatedConstantExpenses.remove(i);
+				if (((Expense) updatedExpense).getId() != (((Expense) currentExpense).getId())
+						&& ((Expense) updatedExpense).getName().equals(((Expense) currentExpense).getName())) {
+					updatedExpenses.remove(i);
 				}
 			}
 		}
 
-		return updatedConstantExpenses;
+		return updatedExpenses;
 	}
-	
-	
 	
 	public static List<Long> findConstantExpensesIdToRemove
 		(Collection<ConstantExpense> currentConstantExpenses,

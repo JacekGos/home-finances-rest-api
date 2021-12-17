@@ -91,13 +91,13 @@ public class BudgetServiceImpl implements BudgetService {
 		List<ConstantExpense> updatedConstantExpenses
 			= monthlyBudget.getConstantExpenses();
 		
-		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedConstantExpenses
+		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentConstantExpenses, updatedConstantExpenses)); 
 
 		List<Long> constantExpensesIdToRemove = 
 				BudgetUtilities.findConstantExpensesIdToRemove(currentConstantExpenses, updatedConstantExpenses);
 		
-		System.out.println("to remove id: " + constantExpensesIdToRemove);
+//		System.out.println("to remove id: " + constantExpensesIdToRemove);
 		
 		constantExpenseRepository.deleteAllById(constantExpensesIdToRemove);
 

@@ -16,6 +16,4 @@ public interface ConstantExpenseRepository extends JpaRepository<ConstantExpense
 	
 //	@Query("FROM ConstantExpense ce WHERE monthly_budget_id=:monthlyBudgetId")
 //	List<ConstantExpense> findAllById(Long id);
-	
-//	void deleteById(Long id);
 }
