@@ -30,4 +30,8 @@ public class UserPreferenceConstantExpense {
 	
 	@Column(name = "name")
 	private String name;
+	
+	public UserPreferenceConstantExpense(String name) {
+		this.name = name;
+	}
 }

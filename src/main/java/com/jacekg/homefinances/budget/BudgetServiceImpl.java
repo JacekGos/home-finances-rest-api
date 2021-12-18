@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,8 @@ public class BudgetServiceImpl implements BudgetService {
 	@Transactional
 	public MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date) {
 		
-		System.out.println("get budget");
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, date);
+		
 		if (monthlyBudget == null) {
 			return null;
 		} else {
@@ -119,6 +120,7 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteByDate(LocalDate monthlyBudgetDate, Long userId) {
 		
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, monthlyBudgetDate);

@@ -8,25 +8,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
+import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserService;
 
 import static org.springframework.http.ResponseEntity.status;
+
+import java.security.Principal;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/expense")
+@RequestMapping("/budget")
 @AllArgsConstructor
 public class ExpenseRestController {
 	
 	ExpenseService expenseService;
 	
+	UserService userService;
+	
 	@PostMapping("/expenses")
 	public ResponseEntity<Void> addUserPreferenceConstantExpense
-		(@RequestBody ConstantExpenseDTO constantExpenseDTO) {
+		(@RequestBody ConstantExpenseDTO constantExpenseDTO, Principal principal) {
 		
-		expenseService.save(constantExpenseDTO);
+		User loggedUser = userService.findByUsername(principal.getName());
+		System.out.println("loggedUser controller: " + loggedUser);
+		expenseService.save(constantExpenseDTO, loggedUser);
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
