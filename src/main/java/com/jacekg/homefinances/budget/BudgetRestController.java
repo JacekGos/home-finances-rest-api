@@ -8,8 +8,9 @@ import javax.validation.Valid;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +36,10 @@ public class BudgetRestController {
 	private final UserService userService;
 
 	@PostMapping("/monthly-budgets")
-	public MonthlyBudgetDTO addMonthlyBudget(
+	public ResponseEntity<MonthlyBudgetDTO> addMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 
-		LocalDate date = LocalDate.now().withDayOfMonth(1);  
+		LocalDate date = LocalDate.now().withDayOfMonth(1).withMonth(11);  
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		
@@ -49,21 +50,21 @@ public class BudgetRestController {
 			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 		
-		return budgetService.save(monthlyBudgetDTO);
+		return  status(HttpStatus.CREATED).body(budgetService.save(monthlyBudgetDTO));
 	}
 	
 	@GetMapping("/monthly-budgets") 
-	public List<MonthlyBudgetDTO> getAllMonthlyBudgets(Principal principal) {
+	public ResponseEntity<List<MonthlyBudgetDTO>> getAllMonthlyBudgets(Principal principal) {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		
-		return budgetService.findAllByUserId(loggedUser.getId());
+		return status(HttpStatus.OK).body(budgetService.findAllByUserId(loggedUser.getId()));
 	}
 	
 	@PutMapping("/monthly-budgets") 
-	public MonthlyBudgetDTO updateMonthlyBudget(
+	public ResponseEntity<MonthlyBudgetDTO> updateMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
-		return budgetService.update(monthlyBudgetDTO);
+		return status(HttpStatus.OK).body(budgetService.update(monthlyBudgetDTO));
 	}
 	
 	@DeleteMapping("/monthly-budgets/{monthlyBudgetDate}")
@@ -76,7 +77,7 @@ public class BudgetRestController {
 		
 		budgetService.deleteByDate(monthlyBudgetDate, loggedUser.getId());
 		
-		return ResponseEntity.status(OK).body("Monthly budget of date: " + monthlyBudgetDate + " deleted sucessfully");
+		return status(HttpStatus.OK).body("Monthly budget of date: " + monthlyBudgetDate + " deleted sucessfully");
 	}
 
 }

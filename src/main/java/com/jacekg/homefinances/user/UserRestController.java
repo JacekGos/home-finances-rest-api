@@ -4,15 +4,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.http.ResponseEntity.status;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -24,13 +22,13 @@ public class UserRestController {
 	private final UserService userService;
 
 	@PostMapping("/signup")
-	public UserDTO addUser(@Valid @RequestBody UserDTO userDTO) {
-		return userService.save(userDTO);
+	public ResponseEntity<UserDTO> addUser(@Valid @RequestBody UserDTO userDTO) {
+		return status(HttpStatus.CREATED).body(userService.save(userDTO));
 	}
 	
 	@GetMapping("/users")
-	public List<User> findAll() {
-		return userService.findAll();
+	public ResponseEntity<List<User>> findAll() {
+		return status(HttpStatus.OK).body(userService.findAll());
 	}
 }
 

@@ -56,6 +56,7 @@ class UserRestControllerTest {
 		verify(userService).findByUsername(user.getUsername());
 	}
 	
+	/*
 	@Test
 	void findAll_ShouldReturn_UsersList() {
 		
@@ -71,6 +72,7 @@ class UserRestControllerTest {
 		verify(userService).findAll();
 		
 	}
+	*/
 }
 
 
