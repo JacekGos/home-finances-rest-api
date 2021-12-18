@@ -10,8 +10,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
 	
+	UserPreferenceConstantExpenseRepository userPreferenceConstantExpenseRepository;
+	
 	@Override
 	public void save(ConstantExpenseDTO constantExpenseDTO) {
+		
+		
 		
 	}
 
