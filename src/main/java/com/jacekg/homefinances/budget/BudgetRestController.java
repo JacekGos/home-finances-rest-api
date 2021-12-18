@@ -39,7 +39,7 @@ public class BudgetRestController {
 	public ResponseEntity<MonthlyBudgetDTO> addMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 
-		LocalDate date = LocalDate.now().withDayOfMonth(1).withMonth(11);  
+		LocalDate date = LocalDate.now().withDayOfMonth(1); 
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		

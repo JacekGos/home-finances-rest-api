@@ -36,7 +36,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+	public UserServiceImpl (UserRepository userRepository, 
+				RoleRepository roleRepository, 
+				BCryptPasswordEncoder passwordEncoder, 
+				ModelMapper modelMapper) {
+		
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -89,18 +93,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByUserId(Long userId) {
 		return userRepository.findByUserId(userId);
-	}
-	
-	private UserDTO convertToDTO(User user) {
-		
-		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-		return userDTO;
-	}
-	
-	private User convertToEntity(UserDTO userDTO) {
-
-		User user = modelMapper.map(userDTO, User.class);
-		return user;
 	}
 }
 
