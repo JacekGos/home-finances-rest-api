@@ -36,8 +36,8 @@ public class BudgetRestController {
 	private final UserService userService;
 
 	@PostMapping("/monthly-budgets")
-	public ResponseEntity<MonthlyBudgetDTO> addMonthlyBudget(
-			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
+	public ResponseEntity<MonthlyBudgetDTO> addMonthlyBudget
+			(@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
 
 		LocalDate date = LocalDate.now().withDayOfMonth(1); 
 		
