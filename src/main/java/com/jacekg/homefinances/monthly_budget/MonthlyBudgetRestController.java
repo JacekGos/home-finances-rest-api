@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MonthlyBudgetRestController {
 
-	private final MonthlyBudgetService budgetService;
+	private final MonthlyBudgetService monthlyBudgetService;
 	
 	private final UserService userService;
 
@@ -46,11 +46,11 @@ public class MonthlyBudgetRestController {
 		monthlyBudgetDTO.setDate(date);
 		monthlyBudgetDTO.setUserId(loggedUser.getId());
 		
-		if (budgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
+		if (monthlyBudgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
 			throw new MonthlyBudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 		
-		return  status(HttpStatus.CREATED).body(budgetService.save(monthlyBudgetDTO));
+		return  status(HttpStatus.CREATED).body(monthlyBudgetService.save(monthlyBudgetDTO));
 	}
 	
 	@GetMapping("/monthly-budgets") 
@@ -58,13 +58,13 @@ public class MonthlyBudgetRestController {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		
-		return status(HttpStatus.OK).body(budgetService.findAllByUserId(loggedUser.getId()));
+		return status(HttpStatus.OK).body(monthlyBudgetService.findAllByUserId(loggedUser.getId()));
 	}
 	
 	@PutMapping("/monthly-budgets") 
 	public ResponseEntity<MonthlyBudgetDTO> updateMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
-		return status(HttpStatus.OK).body(budgetService.update(monthlyBudgetDTO));
+		return status(HttpStatus.OK).body(monthlyBudgetService.update(monthlyBudgetDTO));
 	}
 	
 	@DeleteMapping("/monthly-budgets/{monthlyBudgetDate}")
@@ -75,7 +75,7 @@ public class MonthlyBudgetRestController {
 		
 		monthlyBudgetDate = monthlyBudgetDate.withDayOfMonth(1);
 		
-		budgetService.deleteByDate(monthlyBudgetDate, loggedUser.getId());
+		monthlyBudgetService.deleteByDate(monthlyBudgetDate, loggedUser.getId());
 		
 		return status(HttpStatus.OK).body("Monthly budget of date: " + monthlyBudgetDate + " deleted sucessfully");
 	}
