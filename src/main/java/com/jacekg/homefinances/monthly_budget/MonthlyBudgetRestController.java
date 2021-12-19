@@ -29,9 +29,9 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/budget")
 @AllArgsConstructor
-public class BudgetRestController {
+public class MonthlyBudgetRestController {
 
-	private final BudgetService budgetService;
+	private final MonthlyBudgetService budgetService;
 	
 	private final UserService userService;
 
@@ -47,7 +47,7 @@ public class BudgetRestController {
 		monthlyBudgetDTO.setUserId(loggedUser.getId());
 		
 		if (budgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
-			throw new BudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
+			throw new MonthlyBudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
 		
 		return  status(HttpStatus.CREATED).body(budgetService.save(monthlyBudgetDTO));

@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.jacekg.homefinances.monthly_budget.BudgetServiceImpl;
+import com.jacekg.homefinances.monthly_budget.MonthlyBudgetServiceImpl;
 import com.jacekg.homefinances.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.monthly_budget.MonthlyBudgetRepository;
 import com.jacekg.homefinances.user.UserRepository;
@@ -19,7 +19,7 @@ import com.jacekg.homefinances.user.UserRepository;
 class BudgetServiceImplTest {
 	
 	@InjectMocks
-	BudgetServiceImpl budgetServiceImpl; 
+	MonthlyBudgetServiceImpl budgetServiceImpl; 
 	
 	@Mock
 	private UserRepository userRepository;

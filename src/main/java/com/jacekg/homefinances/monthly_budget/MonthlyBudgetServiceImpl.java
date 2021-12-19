@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class BudgetServiceImpl implements BudgetService {
+public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
 	private MonthlyBudgetRepository monthlyBudgetRepository;
 
@@ -128,7 +128,7 @@ public class BudgetServiceImpl implements BudgetService {
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository.findByUserIdAndDate(userId, monthlyBudgetDate);
 		
 		if (monthlyBudget == null) {
-			throw new BudgetDoesntExistsException("Budget with this date doesn't exists!");
+			throw new MonthlyBudgetDoesntExistsException("Budget with this date doesn't exists!");
 		}
 		
 		monthlyBudgetRepository.delete(monthlyBudget);

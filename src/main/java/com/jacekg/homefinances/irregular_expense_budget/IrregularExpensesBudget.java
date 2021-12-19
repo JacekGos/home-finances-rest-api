@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.monthly_budget;
+package com.jacekg.homefinances.irregular_expense_budget;
 
 import java.time.LocalDate;
 import java.util.List;

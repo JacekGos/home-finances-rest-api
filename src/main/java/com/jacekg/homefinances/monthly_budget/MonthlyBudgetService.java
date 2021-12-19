@@ -3,7 +3,7 @@ package com.jacekg.homefinances.monthly_budget;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface BudgetService {
+public interface MonthlyBudgetService {
 	
 	MonthlyBudgetDTO findByUserIdAndDate(Long userId, LocalDate date);
 	
