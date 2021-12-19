@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
+import com.jacekg.homefinances.user.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,8 +47,14 @@ public class IrregularExpensesBudget {
 	@Column(name = "necessary_monthly_savings")
 	private int necessaryMonthlySavings;
 	
+	@ManyToOne(fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "irregular_expenses_budget_id")
+	@JoinColumn(name = "irregular_expenses_budget_id", nullable = false)
 	private List<IrregularExpense> irregularExpenses;
 
 }
