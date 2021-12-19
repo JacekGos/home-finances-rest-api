@@ -77,7 +77,7 @@ public class User {
 					CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<MonthlyBudget> monthlyBudgets;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id", nullable = false)
 	private Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses;
 	

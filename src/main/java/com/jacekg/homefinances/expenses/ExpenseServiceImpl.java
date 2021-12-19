@@ -49,14 +49,10 @@ public class ExpenseServiceImpl implements ExpenseService {
 		UserPreferenceConstantExpense userPreferenceConstantExpense 
 			= new UserPreferenceConstantExpense(constantExpenseDTO.getName());
 		
-		System.out.println("prefs: " + userPreferenceConstantExpenses);
-		
 		userPreferenceConstantExpenses
 			.removeIf(item -> (item.getName().equals(userPreferenceConstantExpense.getName())));
 		
 		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
-		
-		System.out.println("prefs after: " + userPreferenceConstantExpenses);
 		
 		userRepository.save(user);
 	}
