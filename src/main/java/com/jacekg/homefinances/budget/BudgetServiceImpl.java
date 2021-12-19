@@ -100,7 +100,6 @@ public class BudgetServiceImpl implements BudgetService {
 		List<OneTimeExpense> updatedOneTimeExpenses
 			= monthlyBudget.getOneTimeExpenses();
 		
-		System.out.println("updated in service: " + updatedConstantExpenses);
 		monthlyBudget.setConstantExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentConstantExpenses, updatedConstantExpenses)); 
 		monthlyBudget.setOneTimeExpenses(BudgetUtilities.removeDuplicatedExpenses
@@ -111,10 +110,13 @@ public class BudgetServiceImpl implements BudgetService {
 		List<Long> oneTimeExpensesIdsToRemove = 
 				BudgetUtilities.findExpensesIdsToRemove(currentOneTimeExpenses, updatedOneTimeExpenses);
 		
-		System.out.println("to remove id: " + constantExpensesIdsToRemove);
-		
 		constantExpenseRepository.deleteAllById(constantExpensesIdsToRemove);
 		oneTimeExpenseRepository.deleteAllById(oneTimeExpensesIdsToRemove);
+		
+		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+			(monthlyBudget.getConstantExpenses(),
+					monthlyBudget.getOneTimeExpenses(), 
+					monthlyBudget.getPreviousMonthEarnings()));
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

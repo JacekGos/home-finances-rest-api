@@ -3,6 +3,7 @@ package com.jacekg.homefinances.budget;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -48,9 +49,9 @@ public class MonthlyBudgetDTO {
 	
 	private int finalBalance;
 	
-//	@NotNull(message = "wymagane")
+	@Valid
 	private List<ConstantExpenseDTO> constantExpenses;
-	
+	@Valid
 	private List<OneTimeExpenseDTO> oneTimeExpenses;
 }
 

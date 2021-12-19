@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.Expense;
+import com.jacekg.homefinances.expenses.model.OneTimeExpense;
+
+import net.bytebuddy.asm.Advice.This;
 
 public class BudgetUtilities {
 	
@@ -34,24 +38,42 @@ public class BudgetUtilities {
 		return updatedExpenses;
 	}
 	
-	public static <T> List<Long> findExpensesIdsToRemove(
-			Collection<T> currentExpenses, Collection<T> updatedExpenses) {
+	public static <T extends Expense> List<Long> findExpensesIdsToRemove
+		(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
 		
 		List<Long> constantExpensesIdToRemove = new ArrayList<>();
 
 		for (T expense : currentExpenses) {
 
 			T searchedExpense = updatedExpenses.stream()
-					.filter(updatedExpense -> ((Expense) expense).getName()
-							.equals(((Expense) updatedExpense).getName()))
+					.filter(updatedExpense -> expense.getName()
+							.equals(updatedExpense.getName()))
 					.findFirst().orElse(null);
 
 			if (searchedExpense == null) {
-				constantExpensesIdToRemove.add(((Expense) expense).getId());
+				constantExpensesIdToRemove.add(expense.getId());
 			}
 		}
 
 		return constantExpensesIdToRemove;
 	}
 	
+	public static int calculateFinalBalance
+		(List<ConstantExpense> currentExpenses, 
+				List<OneTimeExpense> oneTimeExpenses, 
+				int previousMonthEarnings) {
+		
+		return previousMonthEarnings - calculateExpenses(currentExpenses) + calculateExpenses(oneTimeExpenses);
+	}
+	
+	private static <T extends Expense> int calculateExpenses(List<T> expenses) {
+		
+		int sumOfExpenses = 0;
+		
+		for (T expense : expenses) {
+			sumOfExpenses += expense.getPlannedAmount();
+		}
+		
+		return sumOfExpenses;
+	}
 }
