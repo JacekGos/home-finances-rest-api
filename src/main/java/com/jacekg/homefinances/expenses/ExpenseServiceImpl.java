@@ -34,7 +34,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if (ExpenseUtilities.isUserPreferenceConstantExpenseDuplicated
 				(userPreferenceConstantExpenses, userPreferenceConstantExpense) == true) {
 			
-			user.setUserPreferenceConstantExpenses(Set.of(userPreferenceConstantExpense));
+			userPreferenceConstantExpenses.add(userPreferenceConstantExpense);
+			
+			user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
 			userRepository.save(user);
 		} 
 	}
