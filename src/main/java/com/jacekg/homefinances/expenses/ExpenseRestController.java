@@ -34,7 +34,7 @@ public class ExpenseRestController {
 		(@RequestBody ConstantExpenseDTO constantExpenseDTO, Principal principal) {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
-		System.out.println("loggedUser controller: " + loggedUser);
+
 		expenseService.save(constantExpenseDTO, loggedUser);
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);

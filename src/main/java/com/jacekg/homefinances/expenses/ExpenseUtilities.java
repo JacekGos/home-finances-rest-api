@@ -10,9 +10,9 @@ import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 
 public class ExpenseUtilities {
 	
-	public static boolean isUserPreferenceConstantExpenseIsDuplicated
-		(Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses
-				, UserPreferenceConstantExpense userPreferenceConstantExpense) {
+	public static boolean isUserPreferenceConstantExpenseDuplicated
+		(Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses,
+				UserPreferenceConstantExpense userPreferenceConstantExpense) {
 		
 		UserPreferenceConstantExpense searchedUserPreferenceConstantExpense
 			= userPreferenceConstantExpenses.stream()
@@ -20,7 +20,7 @@ public class ExpenseUtilities {
 						.equals(constantExpense.getName()))
 				.findFirst().orElse(null);
 
-		return searchedUserPreferenceConstantExpense != null ? true : false;
+		return searchedUserPreferenceConstantExpense == null ? true : false;
 	}
 	
 	public static <T extends Expense> List<T> removeDuplicatedExpenses(List<T> currentExpenses,

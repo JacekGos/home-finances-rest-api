@@ -27,14 +27,15 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 		UserPreferenceConstantExpense userPreferenceConstantExpense 
 			= new UserPreferenceConstantExpense(constantExpenseDTO.getName());
-		
+
 		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
-			= user.getUserPreferenceConstantExpenses();
+			= userPreferenceConstantExpenseRepository.findAllByUserId(user.getId());
 		
-		if (ExpenseUtilities.isUserPreferenceConstantExpenseIsDuplicated
+		if (ExpenseUtilities.isUserPreferenceConstantExpenseDuplicated
 				(userPreferenceConstantExpenses, userPreferenceConstantExpense) == true) {
+			
 			user.setUserPreferenceConstantExpenses(Set.of(userPreferenceConstantExpense));
+			userRepository.save(user);
 		} 
 	}
-
 }
