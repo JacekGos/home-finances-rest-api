@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.budget;
+package com.jacekg.homefinances.monthly_budget;
 
 public class BudgetDoesntExistsException extends RuntimeException {
 

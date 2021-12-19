@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.budget;
+package com.jacekg.homefinances.monthly_budget;
 
 import java.util.ArrayList;
 import java.util.Collection;
