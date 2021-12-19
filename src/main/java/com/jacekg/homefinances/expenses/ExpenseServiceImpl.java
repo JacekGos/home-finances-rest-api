@@ -38,4 +38,26 @@ public class ExpenseServiceImpl implements ExpenseService {
 			userRepository.save(user);
 		} 
 	}
+
+	@Override
+	@Transactional
+	public void delete(ConstantExpenseDTO constantExpenseDTO, User user) {
+		
+		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
+			= userPreferenceConstantExpenseRepository.findAllByUserId(user.getId());
+		
+		UserPreferenceConstantExpense userPreferenceConstantExpense 
+			= new UserPreferenceConstantExpense(constantExpenseDTO.getName());
+		
+		System.out.println("prefs: " + userPreferenceConstantExpenses);
+		
+		userPreferenceConstantExpenses
+			.removeIf(item -> (item.getName().equals(userPreferenceConstantExpense.getName())));
+		
+		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
+		
+		System.out.println("prefs after: " + userPreferenceConstantExpenses);
+		
+		userRepository.save(user);
+	}
 }

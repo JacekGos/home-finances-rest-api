@@ -25,11 +25,6 @@ public class UserRestController {
 	public ResponseEntity<UserDTO> addUser(@Valid @RequestBody UserDTO userDTO) {
 		return status(HttpStatus.CREATED).body(userService.save(userDTO));
 	}
-	
-	@GetMapping("/users")
-	public ResponseEntity<List<User>> findAll() {
-		return status(HttpStatus.OK).body(userService.findAll());
-	}
 }
 
 

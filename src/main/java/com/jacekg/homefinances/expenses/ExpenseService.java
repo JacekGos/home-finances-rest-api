@@ -7,4 +7,6 @@ import com.jacekg.homefinances.user.User;
 public interface ExpenseService {
 	
 	void save(ConstantExpenseDTO constantExpenseDTO, User user);
+
+	void delete(ConstantExpenseDTO constantExpenseDTO, User user);
 }

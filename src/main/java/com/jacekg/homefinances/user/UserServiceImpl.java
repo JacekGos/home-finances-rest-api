@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.role.RoleRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
@@ -33,18 +36,6 @@ public class UserServiceImpl implements UserService {
 				map().setRole(source.getRoleName());
 			}
 		});
-	}
-	
-	@Autowired
-	public UserServiceImpl (UserRepository userRepository, 
-				RoleRepository roleRepository, 
-				BCryptPasswordEncoder passwordEncoder, 
-				ModelMapper modelMapper) {
-		
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.modelMapper = modelMapper;
 	}
 	
 	@Override
@@ -80,11 +71,6 @@ public class UserServiceImpl implements UserService {
 		return responseUser;
 	}
 	
-	@Override
-	public List<User> findAll() {
-		return userRepository.findAll();
-	}
-
 	@Override
 	public User findByUsername(String username) {
 		return userRepository.findByUsername(username);

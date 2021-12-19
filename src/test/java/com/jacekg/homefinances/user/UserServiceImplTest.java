@@ -157,14 +157,6 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void findAll_CanReturn_UsersList() {
-
-		service.findAll();
-
-		verify(userRepository).findAll();
-	}
-	
-	@Test
 	void findByUsername_CanReturn_User() {
 		
 		String username = "username";

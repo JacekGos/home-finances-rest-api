@@ -6,8 +6,6 @@ public interface UserService {
 	
 	public UserDTO save(UserDTO user);
 	
-	public List<User> findAll();
-	
 	public User findByUsername(String username);
 	
 	public User findByUserId(Long userId);
