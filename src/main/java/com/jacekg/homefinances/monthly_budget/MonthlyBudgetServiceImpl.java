@@ -110,13 +110,13 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 		List<Long> oneTimeExpensesIdsToRemove = 
 				BudgetUtilities.findExpensesIdsToRemove(currentOneTimeExpenses, updatedOneTimeExpenses);
 		
-		constantExpenseRepository.deleteAllById(constantExpensesIdsToRemove);
-		oneTimeExpenseRepository.deleteAllById(oneTimeExpensesIdsToRemove);
-		
-		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
-			(monthlyBudget.getConstantExpenses(),
-					monthlyBudget.getOneTimeExpenses(), 
-					monthlyBudget.getPreviousMonthEarnings()));
+//		constantExpenseRepository.deleteAllById(constantExpensesIdsToRemove);
+//		oneTimeExpenseRepository.deleteAllById(oneTimeExpensesIdsToRemove);
+//		
+//		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+//			(monthlyBudget.getConstantExpenses(),
+//					monthlyBudget.getOneTimeExpenses(), 
+//					monthlyBudget.getPreviousMonthEarnings()));
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

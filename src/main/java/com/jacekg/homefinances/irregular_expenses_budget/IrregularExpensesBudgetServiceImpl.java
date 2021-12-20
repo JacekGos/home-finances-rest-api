@@ -1,6 +1,7 @@
 package com.jacekg.homefinances.irregular_expenses_budget;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,12 +53,15 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				("Budżet wydatków nieregularnych na dany rok istnieje!");
 		}
 		
+		List<IrregularExpense> irregularExpenses = new ArrayList<IrregularExpense>();
+		
 		IrregularExpensesBudget irregularExpensesBudget 
 			= modelMapper.map(irregularExpensesBudgetDTO, IrregularExpensesBudget.class);
 		
 		User user = userRepository.findByUserId(irregularExpensesBudgetDTO.getUserId());
 		
 		irregularExpensesBudget.setUser(user);
+		irregularExpensesBudget.setIrregularExpenses(irregularExpenses);
 		
 		return modelMapper
 				.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget),
@@ -77,24 +81,22 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	@Override
 	@Transactional
 	public IrregularExpensesBudgetDTO update(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO) {
-	
-		IrregularExpensesBudget irregularExpensesBudget 
-			= modelMapper.map(irregularExpensesBudgetDTO, IrregularExpensesBudget.class);
-		
+
+		IrregularExpensesBudget irregularExpensesBudget = modelMapper.map(irregularExpensesBudgetDTO,
+				IrregularExpensesBudget.class);
+
 		User user = userRepository.findByUserId(irregularExpensesBudgetDTO.getUserId());
 		irregularExpensesBudget.setUser(user);
-		
-		List<IrregularExpense> currentIrregularExpenses
-			= irregularExpenseRepository
+
+		List<IrregularExpense> currentIrregularExpenses = irregularExpenseRepository
 				.findAllByIrregularExpensesBudgetId(irregularExpensesBudget.getId());
-		List<IrregularExpense> updatedIrregularExpenses
-			= irregularExpensesBudget.getIrregularExpenses();
-		
-		irregularExpensesBudget.setIrregularExpenses(BudgetUtilities.removeDuplicatedExpenses
-				(currentIrregularExpenses, updatedIrregularExpenses)); 
-		
-		return modelMapper
-				.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget), IrregularExpensesBudgetDTO.class);
+		List<IrregularExpense> updatedIrregularExpenses = irregularExpensesBudget.getIrregularExpenses();
+
+		irregularExpensesBudget.setIrregularExpenses(
+				BudgetUtilities.removeDuplicatedExpenses(currentIrregularExpenses, updatedIrregularExpenses));
+
+		return modelMapper.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget),
+				IrregularExpensesBudgetDTO.class);
 	}
 }
 
