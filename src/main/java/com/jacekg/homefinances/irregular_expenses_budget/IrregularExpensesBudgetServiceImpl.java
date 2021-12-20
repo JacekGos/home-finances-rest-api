@@ -1,11 +1,14 @@
 package com.jacekg.homefinances.irregular_expenses_budget;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jacekg.homefinances.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
 
@@ -45,8 +48,6 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				("Budżet wydatków nieregularnych na dany rok istnieje!");
 		}
 		
-		System.out.println("save method 2");
-		
 		IrregularExpensesBudget irregularExpensesBudget 
 			= modelMapper.map(irregularExpensesBudgetDTO, IrregularExpensesBudget.class);
 		
@@ -57,6 +58,16 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 		return modelMapper
 				.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget),
 						IrregularExpensesBudgetDTO.class);
+	}
+
+	@Override
+	@Transactional
+	public List<IrregularExpensesBudgetDTO> findAllByUserId(Long userId) {
+		
+		return irregularExpensesBudgetRepository.findAllByUserId(userId)
+				.stream()
+				.map(budget -> modelMapper.map(budget, IrregularExpensesBudgetDTO.class))
+				.collect(Collectors.toList());
 	}
 
 }

@@ -12,7 +12,5 @@ public interface MonthlyBudgetRepository extends JpaRepository<MonthlyBudget, Lo
 	@Query("FROM MonthlyBudget mb WHERE user_id=:userId AND date=:date")
 	MonthlyBudget findByUserIdAndDate(@Param("userId") Long userId, @Param("date") LocalDate date);
 	
-	MonthlyBudget save(MonthlyBudget monthlyBudget);
-	
 	List<MonthlyBudget> findAllByUserId(Long userId);
 }

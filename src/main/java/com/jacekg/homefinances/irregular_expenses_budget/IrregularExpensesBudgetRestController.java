@@ -4,14 +4,17 @@ import static org.springframework.http.ResponseEntity.status;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jacekg.homefinances.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 
@@ -41,5 +44,13 @@ public class IrregularExpensesBudgetRestController {
 				.body(irregularExpensesBudgetService.save(irregularExpensesBudgetDTO));
 	}
 	
-	
+	@GetMapping("/irregular-exepnses-budgets")
+	public ResponseEntity<List<IrregularExpensesBudgetDTO>> 
+		getAllIrregularExpensesBudgets(Principal principal) {
+		
+		User loggedUser = userService.findByUsername(principal.getName());
+		
+		return status(HttpStatus.OK)
+				.body(irregularExpensesBudgetService.findAllByUserId(loggedUser.getId()));
+	}
 }
