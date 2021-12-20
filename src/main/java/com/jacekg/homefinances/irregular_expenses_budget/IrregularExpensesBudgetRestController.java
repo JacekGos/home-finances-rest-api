@@ -58,8 +58,8 @@ public class IrregularExpensesBudgetRestController {
 	}
 	
 	@PutMapping("/irregular-exepnses-budgets")
-	public ResponseEntity<IrregularExpensesBudgetDTO> updateIrregularExpensesBudget(
-			@Valid @RequestBody IrregularExpensesBudgetDTO irregularExpensesBudgetDTO, Principal principal) {
+	public ResponseEntity<IrregularExpensesBudgetDTO> updateIrregularExpensesBudget
+			(@Valid @RequestBody IrregularExpensesBudgetDTO irregularExpensesBudgetDTO, Principal principal) {
 		
 		return status(HttpStatus.OK)
 				.body(irregularExpensesBudgetService.update(irregularExpensesBudgetDTO));

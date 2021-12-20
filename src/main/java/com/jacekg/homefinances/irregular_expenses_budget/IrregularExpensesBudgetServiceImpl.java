@@ -75,6 +75,7 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	}
 
 	@Override
+	@Transactional
 	public IrregularExpensesBudgetDTO update(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO) {
 	
 		IrregularExpensesBudget irregularExpensesBudget 

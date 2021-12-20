@@ -39,5 +39,4 @@ public abstract class ExpenseDTO {
 	@Min(value = 0)
 	@Max(value = 1000000)
 	private int currentAmount;
-
 }
