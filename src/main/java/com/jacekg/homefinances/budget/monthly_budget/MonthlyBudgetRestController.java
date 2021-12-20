@@ -46,10 +46,6 @@ public class MonthlyBudgetRestController {
 		monthlyBudgetDTO.setDate(date);
 		monthlyBudgetDTO.setUserId(loggedUser.getId());
 		
-		if (monthlyBudgetService.findByUserIdAndDate(loggedUser.getId(), date) != null) {
-			throw new MonthlyBudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
-		}
-		
 		return  status(HttpStatus.CREATED).body(monthlyBudgetService.save(monthlyBudgetDTO));
 	}
 	
