@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jacekg.homefinances.budget.monthly_budget.BudgetUtilities;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.user.User;
@@ -97,6 +99,21 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 
 		return modelMapper.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget),
 				IrregularExpensesBudgetDTO.class);
+	}
+
+	@Override
+	@Transactional
+	public void deleteByDate(LocalDate monthlyBudgetDate, Long userId) {
+		
+		IrregularExpensesBudget irregularExpensesBudget 
+			= irregularExpensesBudgetRepository.findByUserIdAndDate(userId, monthlyBudgetDate);
+		
+		if (irregularExpensesBudget == null) {
+			throw new IrregularExpensesBudgetDoesntExistsException
+				("Irregular expenses budget with this date doesn't exists!");
+		}
+		
+		irregularExpensesBudgetRepository.delete(irregularExpensesBudget);
 	}
 }
 

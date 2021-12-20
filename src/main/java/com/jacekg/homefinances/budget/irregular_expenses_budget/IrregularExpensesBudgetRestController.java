@@ -8,9 +8,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,4 +67,25 @@ public class IrregularExpensesBudgetRestController {
 		return status(HttpStatus.OK)
 				.body(irregularExpensesBudgetService.update(irregularExpensesBudgetDTO));
 	}
+	
+	@DeleteMapping("/irregular-exepnses-budgets/{date}")
+	public ResponseEntity<String> deleteMonthlyBudget
+		(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, Principal principal) {
+		
+		User loggedUser = userService.findByUsername(principal.getName());
+		
+		date = date.withDayOfMonth(1).withMonth(1);
+		
+		irregularExpensesBudgetService.deleteByDate(date, loggedUser.getId());
+		
+		return status(HttpStatus.OK).body("Irregular expesnes budget of date: " + date + " deleted sucessfully");
+	}
 }
+
+
+
+
+
+
+
+

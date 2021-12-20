@@ -14,4 +14,6 @@ public interface IrregularExpensesBudgetService {
 	List<IrregularExpensesBudgetDTO> findAllByUserId(Long userId);
 
 	IrregularExpensesBudgetDTO update(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO);
+
+	void deleteByDate(LocalDate localDate, Long userId);
 }

@@ -64,17 +64,17 @@ public class MonthlyBudgetRestController {
 		return status(HttpStatus.OK).body(monthlyBudgetService.update(monthlyBudgetDTO));
 	}
 	
-	@DeleteMapping("/monthly-budgets/{monthlyBudgetDate}")
+	@DeleteMapping("/monthly-budgets/{date}")
 	public ResponseEntity<String> deleteMonthlyBudget
-		(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate monthlyBudgetDate, Principal principal) {
+		(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, Principal principal) {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		
-		monthlyBudgetDate = monthlyBudgetDate.withDayOfMonth(1);
+		date = date.withDayOfMonth(1);
 		
-		monthlyBudgetService.deleteByDate(monthlyBudgetDate, loggedUser.getId());
+		monthlyBudgetService.deleteByDate(date, loggedUser.getId());
 		
-		return status(HttpStatus.OK).body("Monthly budget of date: " + monthlyBudgetDate + " deleted sucessfully");
+		return status(HttpStatus.OK).body("Monthly budget of date: " + date + " deleted sucessfully");
 	}
 
 }
