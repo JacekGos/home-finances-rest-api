@@ -55,7 +55,7 @@ public class IrregularExpensesBudget {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "irregular_expenses_budget_id", nullable = false)
 	private List<IrregularExpense> irregularExpenses;
 

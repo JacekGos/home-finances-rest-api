@@ -64,6 +64,7 @@ public class MonthlyBudgetRestController {
 	@PutMapping("/monthly-budgets") 
 	public ResponseEntity<MonthlyBudgetDTO> updateMonthlyBudget(
 			@Valid @RequestBody MonthlyBudgetDTO monthlyBudgetDTO, Principal principal) {
+		
 		return status(HttpStatus.OK).body(monthlyBudgetService.update(monthlyBudgetDTO));
 	}
 	
