@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.jacekg.homefinances.monthly_budget.MonthlyBudgetAlreadyExistsException;
-import com.jacekg.homefinances.monthly_budget.MonthlyBudgetDoesntExistsException;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetAlreadyExistsException;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
 import com.jacekg.homefinances.user.UserNotValidException;
 
 @ControllerAdvice

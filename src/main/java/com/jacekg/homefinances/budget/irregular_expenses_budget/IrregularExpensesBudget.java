@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.monthly_budget;
+package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,12 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.user.User;
 
@@ -33,8 +32,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "monthly_budget")
-public class MonthlyBudget {
+@Table(name = "irregular_expenses_budget")
+public class IrregularExpensesBudget {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +43,11 @@ public class MonthlyBudget {
 	@Column(name = "date")
 	private LocalDate date;
 	
-	@Column(name = "previous_month_earnings")
-	private int previousMonthEarnings;
+	@Column(name = "annual_exepnses_sum")
+	private int annualExpensesSum;
 	
-	@Column(name = "final_balance")
-	private int finalBalance;
+	@Column(name = "necessary_monthly_savings")
+	private int necessaryMonthlySavings;
 	
 	@ManyToOne(fetch = FetchType.LAZY,
 			cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -57,13 +56,17 @@ public class MonthlyBudget {
 	private User user;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "monthly_budget_id", nullable = false)
-	private List<ConstantExpense> constantExpenses;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "monthly_budget_id", nullable = false)
-	private List<OneTimeExpense> oneTimeExpenses;
+	@JoinColumn(name = "irregular_expenses_budget_id", nullable = false)
+	private List<IrregularExpense> irregularExpenses;
+
 }
+
+
+
+
+
+
+
 
 
 

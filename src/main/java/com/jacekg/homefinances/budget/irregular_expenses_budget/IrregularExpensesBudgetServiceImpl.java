@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.irregular_expenses_budget;
+package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jacekg.homefinances.budget.monthly_budget.BudgetUtilities;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
-import com.jacekg.homefinances.monthly_budget.BudgetUtilities;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
 

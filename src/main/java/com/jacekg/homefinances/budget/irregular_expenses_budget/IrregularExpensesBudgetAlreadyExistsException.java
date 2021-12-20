@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.irregular_expenses_budget;
+package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 public class IrregularExpensesBudgetAlreadyExistsException extends RuntimeException {
 	

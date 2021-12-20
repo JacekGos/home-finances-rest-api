@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.irregular_expenses_budget;
+package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jacekg.homefinances.monthly_budget.MonthlyBudgetDTO;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 

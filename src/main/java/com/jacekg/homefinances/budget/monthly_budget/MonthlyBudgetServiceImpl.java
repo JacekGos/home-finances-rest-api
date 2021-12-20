@@ -1,4 +1,4 @@
-package com.jacekg.homefinances.monthly_budget;
+package com.jacekg.homefinances.budget.monthly_budget;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -104,19 +104,6 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 				(currentConstantExpenses, updatedConstantExpenses)); 
 		monthlyBudget.setOneTimeExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentOneTimeExpenses, updatedOneTimeExpenses)); 
-		
-		List<Long> constantExpensesIdsToRemove = 
-				BudgetUtilities.findExpensesIdsToRemove(currentConstantExpenses, updatedConstantExpenses);
-		List<Long> oneTimeExpensesIdsToRemove = 
-				BudgetUtilities.findExpensesIdsToRemove(currentOneTimeExpenses, updatedOneTimeExpenses);
-		
-//		constantExpenseRepository.deleteAllById(constantExpensesIdsToRemove);
-//		oneTimeExpenseRepository.deleteAllById(oneTimeExpensesIdsToRemove);
-//		
-//		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
-//			(monthlyBudget.getConstantExpenses(),
-//					monthlyBudget.getOneTimeExpenses(), 
-//					monthlyBudget.getPreviousMonthEarnings()));
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
