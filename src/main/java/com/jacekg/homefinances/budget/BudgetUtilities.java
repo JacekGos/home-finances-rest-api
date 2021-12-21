@@ -42,26 +42,6 @@ public class BudgetUtilities {
 		return updatedExpenses;
 	}
 	
-//	public static <T extends Expense> List<Long> findExpensesIdsToRemove
-//		(Collection<T> currentExpenses, Collection<T> updatedExpenses) {
-//		
-//		List<Long> constantExpensesIdToRemove = new ArrayList<>();
-//
-//		for (T expense : currentExpenses) {
-//
-//			T searchedExpense = updatedExpenses.stream()
-//					.filter(updatedExpense -> expense.getName()
-//							.equals(updatedExpense.getName()))
-//					.findFirst().orElse(null);
-//
-//			if (searchedExpense == null) {
-//				constantExpensesIdToRemove.add(expense.getId());
-//			}
-//		}
-//
-//		return constantExpensesIdToRemove;
-//	}
-	
 	public static int calculateFinalBalance
 		(List<ConstantExpense> currentExpenses, 
 				List<OneTimeExpense> oneTimeExpenses, 

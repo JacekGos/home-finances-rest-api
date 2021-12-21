@@ -11,10 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jacekg.homefinances.budget.BudgetUtilities;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetService;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
+import com.jacekg.homefinances.expenses.model.Expense;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
@@ -24,6 +27,8 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudgetService {
+	
+	private MonthlyBudgetService monthlyBudgetService;
 	
 	private UserRepository userRepository;
 	
@@ -113,6 +118,63 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				IrregularExpensesBudgetDTO.class);
 	}
 	
+//	@Transactional
+//	private void addIrregularExpenseToRecentMonthlyBudget
+//		(IrregularExpensesBudget irregularExpensesBudget) {
+//		
+//		LocalDate date = LocalDate.now().withDayOfMonth(1); 
+//		
+//		System.out.println("find monthlyBudget");
+//		MonthlyBudget monthlyBudget 
+//			= monthlyBudgetRepository.findByUserIdAndDate
+//				(irregularExpensesBudget.getUser().getId(), date);
+//		
+//		if (monthlyBudget != null) {
+//			
+//			System.out.println("get ConstantExpenses");
+//			List<ConstantExpense> constantExpenses = monthlyBudget.getConstantExpenses();
+//			
+//			boolean isIrregularExpenseAlreadyExists = constantExpenses
+//					.stream()
+//					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
+//					.findFirst()
+//					.isPresent();
+//			
+//			ConstantExpense isIrregularExpenseAlreadyExists2 = constantExpenses
+//					.stream()
+//					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
+//					.findFirst()
+//					.get();
+//			
+//			System.out.println("is true: " + isIrregularExpenseAlreadyExists2);
+//			
+//			if (isIrregularExpenseAlreadyExists == false) {
+//				
+//				ConstantExpense irregularExpense = new ConstantExpense(
+//						"wydatki nieregularne",
+//						irregularExpensesBudget.getNecessaryMonthlySavings(),
+//						0);
+//				
+//				constantExpenses.add(irregularExpense);
+//				
+//				monthlyBudget.setConstantExpenses(constantExpenses);
+//				monthlyBudget.getOneTimeExpenses();
+//				
+////				MonthlyBudgetDTO monthlyBudgetDTO = modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
+//				
+//				monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+//						(monthlyBudget.getConstantExpenses(),
+//								monthlyBudget.getOneTimeExpenses(), 
+//								monthlyBudget.getPreviousMonthEarnings()));
+//				
+//				System.out.println("update MonthlyBudget");
+//				monthlyBudgetRepository.save(monthlyBudget);
+//				
+////				monthlyBudgetService.update(monthlyBudgetDTO);
+//			}
+//		}
+//	}
+	
 	@Transactional
 	private void addIrregularExpenseToRecentMonthlyBudget
 		(IrregularExpensesBudget irregularExpensesBudget) {
@@ -126,15 +188,41 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 		
 		if (monthlyBudget != null) {
 			
-			ConstantExpense irregularExpense = new ConstantExpense(
-					"wydatki nieregularne",
-					irregularExpensesBudget.getNecessaryMonthlySavings(),
-					0);
+			System.out.println("get expenses");
+			List<ConstantExpense> constantExpenses = monthlyBudget.getConstantExpenses();
+			monthlyBudget.getOneTimeExpenses();
 			
-			System.out.println("get ConstantExpenses");
-			monthlyBudget.getConstantExpenses().add(irregularExpense);
+			System.out.println("get irregular");
+			ConstantExpense irregularExpense = constantExpenses
+					.stream()
+					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
+					.findFirst()
+					.orElseGet(null);
 			
-			System.out.println("save MonthlyBudget");
+			System.out.println("is true: " + irregularExpense);
+			
+			if (irregularExpense == null) {
+				
+				ConstantExpense newIrregularExpense = new ConstantExpense(
+						"wydatki nieregularne",
+						irregularExpensesBudget.getNecessaryMonthlySavings(),
+						0);
+				
+				constantExpenses.add(newIrregularExpense);
+			} else if (irregularExpense != null) {
+				
+				irregularExpense.setPlannedAmount(irregularExpensesBudget.getNecessaryMonthlySavings());
+				constantExpenses.add(irregularExpense);
+			}
+			
+			monthlyBudget.setConstantExpenses(constantExpenses);
+			
+			monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+					(monthlyBudget.getConstantExpenses(),
+							monthlyBudget.getOneTimeExpenses(), 
+							monthlyBudget.getPreviousMonthEarnings()));
+			
+			System.out.println("update MonthlyBudget");
 			monthlyBudgetRepository.save(monthlyBudget);
 		}
 	}
