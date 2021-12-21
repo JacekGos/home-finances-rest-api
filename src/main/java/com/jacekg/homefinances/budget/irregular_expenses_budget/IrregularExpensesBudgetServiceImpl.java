@@ -9,10 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jacekg.homefinances.budget.monthly_budget.BudgetUtilities;
+import com.jacekg.homefinances.budget.BudgetUtilities;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
+import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
@@ -28,6 +30,8 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	private IrregularExpensesBudgetRepository irregularExpensesBudgetRepository;
 	
 	private IrregularExpenseRepository irregularExpenseRepository;
+	
+	private MonthlyBudgetRepository monthlyBudgetRepository;
 	
 	private ModelMapper modelMapper;
 	
@@ -94,11 +98,45 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				.findAllByIrregularExpensesBudgetId(irregularExpensesBudget.getId());
 		List<IrregularExpense> updatedIrregularExpenses = irregularExpensesBudget.getIrregularExpenses();
 
-		irregularExpensesBudget.setIrregularExpenses(
-				BudgetUtilities.removeDuplicatedExpenses(currentIrregularExpenses, updatedIrregularExpenses));
-
-		return modelMapper.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget),
+		irregularExpensesBudget.setIrregularExpenses
+			(BudgetUtilities.removeDuplicatedExpenses(currentIrregularExpenses, updatedIrregularExpenses));
+		
+		irregularExpensesBudget.setAnnualExpensesSum
+			(BudgetUtilities.calculateExpenses(irregularExpensesBudget.getIrregularExpenses()));
+		
+		irregularExpensesBudget.setNecessaryMonthlySavings
+			(BudgetUtilities.calculateNecessaryMonthlySavings(irregularExpensesBudget.getAnnualExpensesSum()));
+		
+		addIrregularExpenseToRecentMonthlyBudget(irregularExpensesBudget);
+		
+		return modelMapper.map(irregularExpensesBudgetRepository.save(irregularExpensesBudget), 
 				IrregularExpensesBudgetDTO.class);
+	}
+	
+	@Transactional
+	private void addIrregularExpenseToRecentMonthlyBudget
+		(IrregularExpensesBudget irregularExpensesBudget) {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1); 
+		
+		System.out.println("find monthlyBudget");
+		MonthlyBudget monthlyBudget 
+			= monthlyBudgetRepository.findByUserIdAndDate
+				(irregularExpensesBudget.getUser().getId(), date);
+		
+		if (monthlyBudget != null) {
+			
+			ConstantExpense irregularExpense = new ConstantExpense(
+					"wydatki nieregularne",
+					irregularExpensesBudget.getNecessaryMonthlySavings(),
+					0);
+			
+			System.out.println("get ConstantExpenses");
+			monthlyBudget.getConstantExpenses().add(irregularExpense);
+			
+			System.out.println("save MonthlyBudget");
+			monthlyBudgetRepository.save(monthlyBudget);
+		}
 	}
 
 	@Override

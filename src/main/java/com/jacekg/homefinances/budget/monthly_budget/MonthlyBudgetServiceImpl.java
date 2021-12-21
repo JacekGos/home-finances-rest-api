@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.jacekg.homefinances.budget.BudgetUtilities;
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
@@ -52,11 +53,9 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 	@Transactional
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
 		
-		System.out.println("start");
 		if (findByUserIdAndDate(monthlyBudgetDTO.getUserId(), monthlyBudgetDTO.getDate()) != null) {
 			throw new MonthlyBudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
-		System.out.println("start");
 
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 
@@ -110,6 +109,11 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 				(currentConstantExpenses, updatedConstantExpenses)); 
 		monthlyBudget.setOneTimeExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentOneTimeExpenses, updatedOneTimeExpenses)); 
+		
+		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+				(monthlyBudget.getConstantExpenses(),
+						monthlyBudget.getOneTimeExpenses(), 
+						monthlyBudget.getPreviousMonthEarnings()));
 		
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}

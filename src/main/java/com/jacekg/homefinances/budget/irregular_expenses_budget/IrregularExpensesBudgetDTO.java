@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
+import com.jacekg.homefinances.expenses.model.IrregularExpenseDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,15 +30,15 @@ public class IrregularExpensesBudgetDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
-	@NotNull(message = "wymagane")
-	@Min(value = 0)
-	@Max(value = 10000)
+//	@NotNull(message = "wymagane")
+//	@Min(value = 0)
+//	@Max(value = 1000000)
 	private int annualExpensesSum;
 	
 	private int necessaryMonthlySavings;
 	
 	@Valid
-	private List<IrregularExpense> irregularExpenses;
+	private List<IrregularExpenseDTO> irregularExpenses;
 }
 
 
