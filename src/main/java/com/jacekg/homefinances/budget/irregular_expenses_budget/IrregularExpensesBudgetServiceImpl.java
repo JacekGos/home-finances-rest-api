@@ -118,63 +118,6 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				IrregularExpensesBudgetDTO.class);
 	}
 	
-//	@Transactional
-//	private void addIrregularExpenseToRecentMonthlyBudget
-//		(IrregularExpensesBudget irregularExpensesBudget) {
-//		
-//		LocalDate date = LocalDate.now().withDayOfMonth(1); 
-//		
-//		System.out.println("find monthlyBudget");
-//		MonthlyBudget monthlyBudget 
-//			= monthlyBudgetRepository.findByUserIdAndDate
-//				(irregularExpensesBudget.getUser().getId(), date);
-//		
-//		if (monthlyBudget != null) {
-//			
-//			System.out.println("get ConstantExpenses");
-//			List<ConstantExpense> constantExpenses = monthlyBudget.getConstantExpenses();
-//			
-//			boolean isIrregularExpenseAlreadyExists = constantExpenses
-//					.stream()
-//					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
-//					.findFirst()
-//					.isPresent();
-//			
-//			ConstantExpense isIrregularExpenseAlreadyExists2 = constantExpenses
-//					.stream()
-//					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
-//					.findFirst()
-//					.get();
-//			
-//			System.out.println("is true: " + isIrregularExpenseAlreadyExists2);
-//			
-//			if (isIrregularExpenseAlreadyExists == false) {
-//				
-//				ConstantExpense irregularExpense = new ConstantExpense(
-//						"wydatki nieregularne",
-//						irregularExpensesBudget.getNecessaryMonthlySavings(),
-//						0);
-//				
-//				constantExpenses.add(irregularExpense);
-//				
-//				monthlyBudget.setConstantExpenses(constantExpenses);
-//				monthlyBudget.getOneTimeExpenses();
-//				
-////				MonthlyBudgetDTO monthlyBudgetDTO = modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class);
-//				
-//				monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
-//						(monthlyBudget.getConstantExpenses(),
-//								monthlyBudget.getOneTimeExpenses(), 
-//								monthlyBudget.getPreviousMonthEarnings()));
-//				
-//				System.out.println("update MonthlyBudget");
-//				monthlyBudgetRepository.save(monthlyBudget);
-//				
-////				monthlyBudgetService.update(monthlyBudgetDTO);
-//			}
-//		}
-//	}
-	
 	@Transactional
 	private void addIrregularExpenseToRecentMonthlyBudget
 		(IrregularExpensesBudget irregularExpensesBudget) {
@@ -197,7 +140,7 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 					.stream()
 					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
 					.findFirst()
-					.orElseGet(null);
+					.orElse(null);
 			
 			System.out.println("is true: " + irregularExpense);
 			
