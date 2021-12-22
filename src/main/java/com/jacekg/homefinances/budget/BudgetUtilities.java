@@ -47,7 +47,11 @@ public class BudgetUtilities {
 				List<OneTimeExpense> oneTimeExpenses, 
 				int previousMonthEarnings) {
 		
-		return previousMonthEarnings - calculateExpenses(currentExpenses) + calculateExpenses(oneTimeExpenses);
+		System.out.println("calculate: " + currentExpenses);
+		System.out.println("calculate: " + oneTimeExpenses);
+		System.out.println("earnings: " + previousMonthEarnings);
+		
+		return previousMonthEarnings - (calculateExpenses(currentExpenses) + calculateExpenses(oneTimeExpenses));
 	}
 	
 	public static <T extends Expense> int calculateExpenses(List<T> expenses) {
@@ -55,7 +59,7 @@ public class BudgetUtilities {
 		int sumOfExpenses = 0;
 		
 		for (T expense : expenses) {
-			System.out.println("expense: " + expense.getPlannedAmount());
+			System.out.println("expense: " + expense.getName() + " " + expense.getPlannedAmount());
 			sumOfExpenses += expense.getPlannedAmount();
 		}
 		

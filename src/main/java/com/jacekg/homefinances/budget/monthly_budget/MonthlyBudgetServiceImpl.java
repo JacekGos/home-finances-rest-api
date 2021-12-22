@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.jacekg.homefinances.budget.BudgetUtilities;
+import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudget;
+import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudgetRepository;
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
@@ -33,6 +35,8 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 	private ConstantExpenseRepository constantExpenseRepository;
 	
 	private OneTimeExpenseRepository oneTimeExpenseRepository;
+	
+	private IrregularExpensesBudgetRepository irregularExpensesBudgetRepository;
 
 	private ModelMapper modelMapper;
 
@@ -68,7 +72,17 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 			ConstantExpense constantExpense = new ConstantExpense(preferencedConstantExpense.getName(), 0, 0);
 			constantExpenses.add(constantExpense);
 		}
-
+		
+		//check if IrregularExpensesBudgetExists in current year
+		
+		IrregularExpensesBudget irregularExpensesBudget
+			= irregularExpensesBudgetRepository
+				.findByUserIdAndDate(user.getId(), LocalDate.now().withMonth(1).withDayOfMonth(1));
+		
+		System.out.println("irregular expenses budget: " + irregularExpensesBudget);
+		
+		//create ConstantExpense whith plannedAmount of neccesaryMonthlySavings
+		
 		monthlyBudget.setConstantExpenses(constantExpenses);
 		monthlyBudget.setOneTimeExpenses(oneTimeExpenses); 
 		monthlyBudget.setUser(user);

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -133,7 +134,6 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 			
 			System.out.println("get expenses");
 			List<ConstantExpense> constantExpenses = monthlyBudget.getConstantExpenses();
-			monthlyBudget.getOneTimeExpenses();
 			
 			System.out.println("get irregular");
 			ConstantExpense irregularExpense = constantExpenses
@@ -154,8 +154,14 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 				constantExpenses.add(newIrregularExpense);
 			} else if (irregularExpense != null) {
 				
-				irregularExpense.setPlannedAmount(irregularExpensesBudget.getNecessaryMonthlySavings());
-				constantExpenses.add(irregularExpense);
+				int index = constantExpenses.indexOf(irregularExpense);
+				
+				System.out.println("found index: " + index);
+				
+				if (index >= 0) {
+					constantExpenses.get(index)
+						.setPlannedAmount((irregularExpensesBudget.getNecessaryMonthlySavings()));
+				}
 			}
 			
 			monthlyBudget.setConstantExpenses(constantExpenses);
