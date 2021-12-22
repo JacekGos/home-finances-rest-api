@@ -73,19 +73,28 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 			constantExpenses.add(constantExpense);
 		}
 		
-		//check if IrregularExpensesBudgetExists in current year
-		
 		IrregularExpensesBudget irregularExpensesBudget
 			= irregularExpensesBudgetRepository
 				.findByUserIdAndDate(user.getId(), LocalDate.now().withMonth(1).withDayOfMonth(1));
 		
-		System.out.println("irregular expenses budget: " + irregularExpensesBudget);
-		
-		//create ConstantExpense whith plannedAmount of neccesaryMonthlySavings
+		if (irregularExpensesBudget != null) {
+			
+			ConstantExpense irregularExpense = new ConstantExpense(
+					"wydatki nieregularne",
+					irregularExpensesBudget.getNecessaryMonthlySavings(),
+					0);
+
+			constantExpenses.add(irregularExpense);
+		}
 		
 		monthlyBudget.setConstantExpenses(constantExpenses);
 		monthlyBudget.setOneTimeExpenses(oneTimeExpenses); 
 		monthlyBudget.setUser(user);
+		
+		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+				(monthlyBudget.getConstantExpenses(),
+						monthlyBudget.getOneTimeExpenses(), 
+						monthlyBudget.getPreviousMonthEarnings()));
 
 		return modelMapper.map(monthlyBudgetRepository.save(monthlyBudget), MonthlyBudgetDTO.class);
 	}
