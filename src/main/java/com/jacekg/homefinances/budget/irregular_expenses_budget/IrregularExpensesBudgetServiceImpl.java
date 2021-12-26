@@ -125,24 +125,19 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 		
 		LocalDate date = LocalDate.now().withDayOfMonth(1); 
 		
-		System.out.println("find monthlyBudget");
 		MonthlyBudget monthlyBudget 
 			= monthlyBudgetRepository.findByUserIdAndDate
 				(irregularExpensesBudget.getUser().getId(), date);
 		
 		if (monthlyBudget != null) {
 			
-			System.out.println("get expenses");
 			List<ConstantExpense> constantExpenses = monthlyBudget.getConstantExpenses();
 			
-			System.out.println("get irregular");
 			ConstantExpense irregularExpense = constantExpenses
 					.stream()
 					.filter(expense -> expense.getName().equals("wydatki nieregularne"))
 					.findFirst()
 					.orElse(null);
-			
-			System.out.println("is true: " + irregularExpense);
 			
 			if (irregularExpense == null) {
 				
@@ -155,8 +150,6 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 			} else if (irregularExpense != null) {
 				
 				int index = constantExpenses.indexOf(irregularExpense);
-				
-				System.out.println("found index: " + index);
 				
 				if (index >= 0) {
 					constantExpenses.get(index)
@@ -171,7 +164,6 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 							monthlyBudget.getOneTimeExpenses(), 
 							monthlyBudget.getPreviousMonthEarnings()));
 			
-			System.out.println("update MonthlyBudget");
 			monthlyBudgetRepository.save(monthlyBudget);
 		}
 	}
@@ -179,14 +171,23 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	@Override
 	@Transactional
 	public void deleteByDate(LocalDate monthlyBudgetDate, Long userId) {
-		
-		IrregularExpensesBudget irregularExpensesBudget 
-			= irregularExpensesBudgetRepository.findByUserIdAndDate(userId, monthlyBudgetDate);
-		
+
+		IrregularExpensesBudget irregularExpensesBudget = irregularExpensesBudgetRepository.findByUserIdAndDate(userId,
+				monthlyBudgetDate);
+
 		if (irregularExpensesBudget == null) {
-			throw new IrregularExpensesBudgetDoesntExistsException
-				("Irregular expenses budget with this date doesn't exists!");
+			throw new IrregularExpensesBudgetDoesntExistsException(
+					"Irregular expenses budget with this date doesn't exists!");
 		}
+
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+
+		MonthlyBudget monthlyBudget = monthlyBudgetRepository
+				.findByUserIdAndDate(irregularExpensesBudget.getUser().getId(), date);
+		
+		monthlyBudget.getConstantExpenses().removeIf(expense -> expense.getName().equals("wydatki nieregularne"));
+		
+		monthlyBudgetRepository.save(monthlyBudget);
 		
 		irregularExpensesBudgetRepository.delete(irregularExpensesBudget);
 	}

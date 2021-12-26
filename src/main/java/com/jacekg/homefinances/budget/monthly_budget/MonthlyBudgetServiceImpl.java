@@ -133,6 +133,9 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 		monthlyBudget.setOneTimeExpenses(BudgetUtilities.removeDuplicatedExpenses
 				(currentOneTimeExpenses, updatedOneTimeExpenses)); 
 		
+		updatedConstantExpenses = BudgetUtilities.manageIrregularConstantExpense
+				(updatedConstantExpenses, currentConstantExpenses);
+		
 		monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
 				(monthlyBudget.getConstantExpenses(),
 						monthlyBudget.getOneTimeExpenses(), 
