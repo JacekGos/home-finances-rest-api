@@ -185,9 +185,17 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 		MonthlyBudget monthlyBudget = monthlyBudgetRepository
 				.findByUserIdAndDate(irregularExpensesBudget.getUser().getId(), date);
 		
-		monthlyBudget.getConstantExpenses().removeIf(expense -> expense.getName().equals("wydatki nieregularne"));
-		
-		monthlyBudgetRepository.save(monthlyBudget);
+		if (monthlyBudget != null) {
+
+			monthlyBudget.getConstantExpenses().removeIf(expense -> expense.getName().equals("wydatki nieregularne"));
+			
+			monthlyBudget.setFinalBalance(BudgetUtilities.calculateFinalBalance
+					(monthlyBudget.getConstantExpenses(),
+							monthlyBudget.getOneTimeExpenses(), 
+							monthlyBudget.getPreviousMonthEarnings()));
+			
+			monthlyBudgetRepository.save(monthlyBudget);
+		}
 		
 		irregularExpensesBudgetRepository.delete(irregularExpensesBudget);
 	}

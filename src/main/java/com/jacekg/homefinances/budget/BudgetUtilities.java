@@ -1,12 +1,6 @@
 package com.jacekg.homefinances.budget;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.Expense;
@@ -22,16 +16,8 @@ public class BudgetUtilities {
 		
 		System.out.println("remove before: " + updatedExpenses);
 		
-//		for (T expense : updatedExpenses) {
-//			updatedExpenses.removeIf(item -> item.getName().equals(expense.getName()));
-//		}
+		updatedExpenses = BudgetUtilities.removeDuplicatesFromUpdatedExpenses(updatedExpenses);
 		
-		Set<String> nameSet = new HashSet<>();
-		updatedExpenses = updatedExpenses.stream()
-		            .filter(e -> nameSet.add(e.getName()))
-		            .collect(Collectors.toList());
-		
-		System.out.println("remove after: " + nameSet);
 		System.out.println("remove after: " + updatedExpenses);
 		
 		for (int i = 0; i < updatedExpenses.size(); i++) {
@@ -46,6 +32,36 @@ public class BudgetUtilities {
 						|| !(updatedExpense.getId().equals((currentExpense.getId()))))
 						&& (updatedExpense.getName().equals(currentExpense.getName()))) {
 					updatedExpenses.remove(i);
+				}
+			}
+		}
+
+		return updatedExpenses;
+	}
+	
+	public static <T extends Expense> List<T> removeDuplicatesFromUpdatedExpenses(List<T> updatedExpenses) {
+		
+		T updatedExpense;
+		T expenseToCheck;
+		
+		if (updatedExpenses.size() > 1) {
+
+			for (int i = 0; i < updatedExpenses.size(); i++) {
+
+				updatedExpense = updatedExpenses.get(i);
+				System.out.println("removing: updated: " + updatedExpense);
+				if (updatedExpense.getId() == null) {
+
+					for (int j = i + 1; j < updatedExpenses.size(); j++) {
+
+						expenseToCheck = updatedExpenses.get(j);
+						System.out.println("removing: toCheck: " + expenseToCheck);
+
+						if (expenseToCheck.getId() == null
+								&& expenseToCheck.getName().equals(updatedExpense.getName())) {
+							updatedExpenses.remove(j);
+						}
+					}
 				}
 			}
 		}
