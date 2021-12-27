@@ -60,6 +60,7 @@ public class BudgetUtilities {
 						if (expenseToCheck.getId() == null
 								&& expenseToCheck.getName().equals(updatedExpense.getName())) {
 							updatedExpenses.remove(j);
+							j--;
 						}
 					}
 				}
