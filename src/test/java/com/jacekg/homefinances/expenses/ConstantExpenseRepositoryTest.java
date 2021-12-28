@@ -29,20 +29,10 @@ class ConstantExpenseRepositoryTest {
 	
 		Long monthlyBudgetId = 1L;
 		
-		ConstantExpense constantExpense = new ConstantExpense(
-				"constant expense",
-				0,
-				0
-				);
+		ConstantExpense constantExpense = new ConstantExpense("constant expense", 0, 0);
 		
-		MonthlyBudget monthlyBudget = new MonthlyBudget(
-				1L,
-				LocalDate.now(),
-				0,
-				0,
-				null,
-				List.of(constantExpense),
-				null);
+		MonthlyBudget monthlyBudget = new MonthlyBudget
+				(1L, LocalDate.now(), 0, 0, null, List.of(constantExpense), null);
 		
 		monthlyBudgetRepository.save(monthlyBudget);
 		
