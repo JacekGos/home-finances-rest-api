@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,8 +18,6 @@ class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 	
-	private User user;
-	
 	@Test
 	void findByUsername_ShouldReturn_Valid_User() {
 		
@@ -26,7 +26,7 @@ class UserRepositoryTest {
 		User user = new User(
 				1L,
 				"user",
-				"password",
+				"password",	
 				"name",
 				"lastName",
 				"email@",
@@ -46,13 +46,13 @@ class UserRepositoryTest {
 	}
 
 	@Test
-	void testFindByUserId_ShouldReturn_Valid_User() {
+	void findByUserId_ShouldReturn_Valid_User() {
 		
-		Long userID = 1L;
+		Long userID = 2L;
 		
 		User user = new User(
-				1L,
-				"user",
+				2L,
+				"user2",
 				"password",
 				"name",
 				"lastName",
@@ -69,7 +69,7 @@ class UserRepositoryTest {
 		
 		User returnedUser = userRepository.findByUserId(userID);
 		
-		assertEquals(1L, returnedUser.getId());
+		assertEquals(2L, returnedUser.getId());
 	}
 }
 
