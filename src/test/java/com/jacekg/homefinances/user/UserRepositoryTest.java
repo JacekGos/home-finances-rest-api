@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,7 +19,7 @@ class UserRepositoryTest {
 	private User user;
 	
 	@Test
-	void findByUsername_ShouldReturn_User() {
+	void findByUsername_ShouldReturn_Valid_User() {
 		
 		String username = "user";
 		
@@ -48,7 +46,7 @@ class UserRepositoryTest {
 	}
 
 	@Test
-	void testFindByUserId() {
+	void testFindByUserId_ShouldReturn_Valid_User() {
 		
 		Long userID = 1L;
 		
