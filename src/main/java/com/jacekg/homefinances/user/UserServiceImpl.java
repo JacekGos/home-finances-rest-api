@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		
 		User user = modelMapper.map(userDTO, User.class);
-		user.setEnabled(true);
+		user.setEnabled(true); 
 		user.setNonExpired(true);
 		user.setCredentialsNonExpired(true);
 		user.setNonLocked(true);

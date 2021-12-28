@@ -39,90 +39,6 @@ class UserServiceImplTest {
 	@Mock
 	private ModelMapper modelMapper;
 	
-//	@Test
-//	@Disabled
-//	void save_ShouldReturn_User() {
-//		
-//		ModelMapper modelMapper = new ModelMapper();
-//		
-//		UserDTO inputUserDTO = new UserDTO(
-//				10L,
-//				"username",
-//				"password",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				"ROLE_ADMIN", 
-//				true, true, true, true); 
-//	
-//		User mappedUser = new User(
-//				10L,
-//				"username",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				true, true, true, true,
-//				null, null,
-//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
-//		User expectedUser = new User(
-//				10L,
-//				"username",
-//				"password",
-//				"firstname",
-//				"lastname",
-//				"email",
-//				true, true, true, true,
-//				null,
-//				null,
-//				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
-//		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(new User());
-////		when(modelMapper.map(inputUserDTO, User.class)).thenReturn(mappedUser);
-//		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
-////		
-////		UserDTO returnedUser = service.save(inputUserDTO);
-//		
-//		User inputUser = new User();
-//
-//		inputUser.setId(10L);
-//		inputUser.setUsername("username");
-//		inputUser.setPassword("password");
-//		inputUser.setFirstName("name");
-//		inputUser.setLastName("lastname");
-//		inputUser.setEmail("email");
-//		inputUser.setRoles(Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-//		
-////		when(modelMapper.map(inputUserDTO, org.mockito.ArgumentMatchers.any())).thenReturn(inputUser);
-////		when(modelMapper.map(Mockito.any(UserDTO.class), Mockito.any(User.class))).thenReturn(inputUser);
-////		when(modelMapper.map(new UserDTO(), User.class)).thenReturn(inputUser);
-////		when(modelMapper.map(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).
-////			thenReturn(inputUser);
-//		
-//		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
-//		when(modelMapper.map(new UserDTO(), org.mockito.ArgumentMatchers.any())).thenReturn(mappedUser);
-//		when(userRepository.save(mappedUser)).thenReturn(expectedUser);
-//		
-////		User savedUser = modelMapper.map(inputUserDTO, User.class);
-//		
-//		service.save(inputUserDTO);
-//		
-//		ArgumentCaptor<User> userArgumentCaptor =
-//				ArgumentCaptor.forClass(User.class);
-//		
-//		verify(userRepository).save(userArgumentCaptor.capture());
-//		verify(userRepository).save(inputUser);
-//		
-//		User capturedUser = userArgumentCaptor.getValue();
-//		
-//		assertNotNull(capturedUser);
-//		assertEquals(10L, capturedUser.getId());
-//		assertEquals("ROLE_ADMIN", capturedUser.getRoleName());
-//		
-//	}
-	
 	@Test
 	void save_ShouldReturn_User() {
 		
@@ -161,9 +77,34 @@ class UserServiceImplTest {
 		assertEquals(10L, savedUser.getId());
 		assertEquals("ROLE_ADMIN", savedUser.getRole());
 	}
+	
+	@Test
+	void save_WhenUsernameExists_ShouldThrow_UserNotValidException() {
+		
+		UserDTO userDTO = new UserDTO(
+				10L,
+				"username",
+				"password",
+				"password",
+				"firstname",
+				"lastname",
+				"email",
+				"ROLE_ADMIN", 
+				true, true, true, true);
+		
+		User user = new User();
+		user.setUsername("username");
+		
+		when(userRepository.findByUsername("username")).thenReturn(user);
+		
+		assertThrows(UserNotValidException.class, () -> {
+			service.save(userDTO);
+		});
+		
+	}
 
 	@Test
-	void findByUsername_CanReturn_User() {
+	void findByUsername_ShouldReturn_User() {
 		
 		String username = "username";
 		
@@ -173,7 +114,7 @@ class UserServiceImplTest {
 	}
 	
 	@Test
-	void findByUserId_CanReturn_User() {
+	void findByUserId_ShouldReturn_User() {
 		
 		Long userId = 1L;
 		
