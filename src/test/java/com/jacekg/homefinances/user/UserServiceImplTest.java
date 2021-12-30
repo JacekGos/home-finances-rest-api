@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.role.RoleRepository;
 
-
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {

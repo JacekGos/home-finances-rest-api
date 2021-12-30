@@ -24,6 +24,7 @@ import com.jacekg.homefinances.expenses.model.ExpenseDTO;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpenseDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@AllArgsConstructor
 public class MonthlyBudgetDTO {
 
 	private Long id;
@@ -51,6 +53,7 @@ public class MonthlyBudgetDTO {
 	
 	@Valid
 	private List<ConstantExpenseDTO> constantExpenses;
+	
 	@Valid
 	private List<OneTimeExpenseDTO> oneTimeExpenses;
 }
