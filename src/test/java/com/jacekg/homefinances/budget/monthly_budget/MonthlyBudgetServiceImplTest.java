@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -29,6 +31,7 @@ import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotValidException;
 import com.jacekg.homefinances.user.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,11 +94,7 @@ class MonthlyBudgetServiceImplTest {
 		MonthlyBudget monthlyBudget = new MonthlyBudget
 				(1L, date, 0, 0, null, null, null);
 		
-		UserPreferenceConstantExpense userPreferenceConstantExpense 
-			= new UserPreferenceConstantExpense("user preference expense");
-		
 		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses = new HashSet<>();
-		userPreferenceConstantExpenses.add(userPreferenceConstantExpense);
 		
 		User user = new User(
 				1L,
@@ -122,13 +121,39 @@ class MonthlyBudgetServiceImplTest {
 		verify(userRepository).findByUserId(1L);
 		verify(monthlyBudgetRepository).save(monthlyBudget);
 		
-		assertNotNull(returnedMonthlyBudgetDTO);
 		assertEquals(1L, returnedMonthlyBudgetDTO.getUserId());
 	}
-
+	
 	@Test
-	void testFindAllByUserId() {
-		fail("Not yet implemented");
+	void save_ShouldThrow_MonthlyBudgetAlreadyExistsException() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
+		
+		doReturn(new MonthlyBudgetDTO()).when(service).findByUserIdAndDate(1L, date);
+		
+		assertThrows(MonthlyBudgetAlreadyExistsException.class, () -> {
+			service.save(monthlyBudgetDTO);
+		});
+	}
+	
+	@Test
+	void findAllByUserId_ShouldReturn_MonthlyBudgetDTOList() {
+	
+		Long userId = 1L;
+		
+		List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
+		monthlyBudgets.add(new MonthlyBudget());
+		
+		when(monthlyBudgetRepository.findAllByUserId(userId)).thenReturn(monthlyBudgets);
+		
+		List<MonthlyBudgetDTO> returnedMonthlyBudgetsDTO = service.findAllByUserId(userId);
+
+		verify(monthlyBudgetRepository).findAllByUserId(userId);
+		
+		assertTrue(returnedMonthlyBudgetsDTO.size() > 0);
 	}
 
 	@Test
@@ -137,8 +162,37 @@ class MonthlyBudgetServiceImplTest {
 	}
 
 	@Test
-	void testDeleteByDate() {
-		fail("Not yet implemented");
+	void deleteByDate_ShouldNotThrow_Exception() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudget monthlyBudget = new MonthlyBudget
+				(1L, date, 0, 0, null, null, null);
+		
+		when(monthlyBudgetRepository
+				.findByUserIdAndDate(1L, date)).thenReturn(monthlyBudget);
+		doNothing().when(monthlyBudgetRepository).delete(monthlyBudget);
+		
+		service.deleteByDate(date, 1L);
+		
+		verify(monthlyBudgetRepository).delete(monthlyBudget);
+	}
+	
+	@Test
+	void deleteByDate_ShouldThrow_Exception() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudget monthlyBudget = new MonthlyBudget
+				(1L, date, 0, 0, null, null, null);
+		
+		when(monthlyBudgetRepository
+				.findByUserIdAndDate(1L, date)).thenReturn(monthlyBudget);
+		doNothing().when(monthlyBudgetRepository).delete(monthlyBudget);
+		
+		service.deleteByDate(date, 1L);
+		
+		verify(monthlyBudgetRepository).delete(monthlyBudget);
 	}
 
 }
