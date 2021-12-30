@@ -23,6 +23,7 @@ import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -67,7 +68,9 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
 		List<ConstantExpense> constantExpenses = new ArrayList<ConstantExpense>();
 		List<OneTimeExpense> oneTimeExpenses = new ArrayList<OneTimeExpense>();
-
+		
+		System.out.println("prefs: " + user.getUserPreferenceConstantExpenses());
+		
 		for (UserPreferenceConstantExpense preferencedConstantExpense : user.getUserPreferenceConstantExpenses()) {
 			ConstantExpense constantExpense = new ConstantExpense(preferencedConstantExpense.getName(), 0, 0);
 			constantExpenses.add(constantExpense);
