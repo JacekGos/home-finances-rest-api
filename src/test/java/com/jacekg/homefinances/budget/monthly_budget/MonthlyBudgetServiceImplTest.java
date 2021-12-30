@@ -175,24 +175,23 @@ class MonthlyBudgetServiceImplTest {
 		
 		service.deleteByDate(date, 1L);
 		
+		verify(monthlyBudgetRepository).findByUserIdAndDate(1L, date);
 		verify(monthlyBudgetRepository).delete(monthlyBudget);
 	}
 	
 	@Test
-	void deleteByDate_ShouldThrow_Exception() {
+	void deleteByDate_ShouldThrow_MonthlyBudgetDoesntExistsException() {
 		
 		LocalDate date = LocalDate.now().withDayOfMonth(1);
 		
-		MonthlyBudget monthlyBudget = new MonthlyBudget
-				(1L, date, 0, 0, null, null, null);
-		
 		when(monthlyBudgetRepository
-				.findByUserIdAndDate(1L, date)).thenReturn(monthlyBudget);
-		doNothing().when(monthlyBudgetRepository).delete(monthlyBudget);
+				.findByUserIdAndDate(1L, date)).thenReturn(null);
 		
-		service.deleteByDate(date, 1L);
+		assertThrows(MonthlyBudgetDoesntExistsException.class, () -> {
+			service.deleteByDate(date, 1L);
+		});
 		
-		verify(monthlyBudgetRepository).delete(monthlyBudget);
+		verify(monthlyBudgetRepository).findByUserIdAndDate(1L, date);
 	}
 
 }
