@@ -1,6 +1,8 @@
 package com.jacekg.homefinances.expenses;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -8,10 +10,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,6 +39,20 @@ class ExpenseServiceImplTest {
 	
 	@Mock
 	UserRepository userRepository;
+	
+//	MockedStatic<ExpenseUtilities> expenseUtilities = mockStatic(ExpenseUtilities.class);
+	
+	private static MockedStatic<ExpenseUtilities> expenseUtilities;
+	
+	@BeforeAll
+	public static void init() {
+		expenseUtilities = mockStatic(ExpenseUtilities.class);
+	}
+
+	@AfterAll
+	public static void close() {
+		expenseUtilities.close();
+	}
 	
 	@Test
 	void addUserPreferenceConstantExpense_ShouldSave_UserWithNewPreference() {
@@ -68,6 +88,47 @@ class ExpenseServiceImplTest {
 		
 		verify(userPreferenceConstantExpenseRepository).findAllByUserId(user.getId());
 		verify(userRepository).save(user);
+	}
+	
+	@Test
+	void addUserPreferenceConstantExpense_ShouldNotSave_UserWithNewPreference() {
+		
+		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO();
+		constantExpenseDTO.setName("expense");
+		
+		User user = new User(
+				1L,
+				"username",
+				"password",
+				"firstname", 
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+		UserPreferenceConstantExpense userPreferenceConstantExpense 
+			= new UserPreferenceConstantExpense("current expense");
+		
+		UserPreferenceConstantExpense currentUserPreferenceConstantExpense 
+			= new UserPreferenceConstantExpense(" expense");
+		
+		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
+			= new HashSet<UserPreferenceConstantExpense>();
+		userPreferenceConstantExpenses.add(currentUserPreferenceConstantExpense);
+		
+		when(userPreferenceConstantExpenseRepository.findAllByUserId(user.getId())).thenReturn(userPreferenceConstantExpenses);
+		
+		expenseUtilities
+				.when(() -> ExpenseUtilities.isUserPreferenceConstantExpenseDuplicated(userPreferenceConstantExpenses,
+						currentUserPreferenceConstantExpense))
+				.thenReturn(true);
+
+		serviceUnderTest.addUserPreferenceConstantExpense(constantExpenseDTO, user);
+		
+		verify(userPreferenceConstantExpenseRepository).findAllByUserId(user.getId());
+		verify(userRepository, never()).save(user);
 	}
 
 	@Test

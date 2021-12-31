@@ -44,7 +44,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	@Transactional
 	public void removeUserPreferenceConstantExpense(ConstantExpenseDTO constantExpenseDTO, User user) {
-		System.out.println("Add new expense...3");
+
 		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
 			= userPreferenceConstantExpenseRepository.findAllByUserId(user.getId());
 		
