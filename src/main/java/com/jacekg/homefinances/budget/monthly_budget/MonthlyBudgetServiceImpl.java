@@ -123,6 +123,13 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 			throw new UserNotExistsException("Dany użytkownik nie istnieje!");
 		}
 		
+		System.out.println("current budget: " + findByUserIdAndDate(user.getId(), monthlyBudgetDTO.getDate()) + "  |");
+		
+		if (findByUserIdAndDate(user.getId(), monthlyBudgetDTO.getDate()).getId() != monthlyBudgetDTO.getId()) {
+			throw new MonthlyBudgetAlreadyExistsException
+				("Budżet o podanym Id: " + monthlyBudgetDTO.getId() + ", nie istnieje w danym miesiącu!");
+		}
+		
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 		monthlyBudget.setUser(user);
 		

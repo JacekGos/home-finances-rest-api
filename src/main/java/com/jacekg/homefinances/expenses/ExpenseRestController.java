@@ -36,7 +36,7 @@ public class ExpenseRestController {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 
-		expenseService.save(constantExpenseDTO, loggedUser);
+		expenseService.addUserPreferenceConstantExpense(constantExpenseDTO, loggedUser);
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -47,7 +47,7 @@ public class ExpenseRestController {
 		
 		User loggedUser = userService.findByUsername(principal.getName());
 		
-		expenseService.delete(constantExpenseDTO, loggedUser);
+		expenseService.removeUserPreferenceConstantExpense(constantExpenseDTO, loggedUser);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

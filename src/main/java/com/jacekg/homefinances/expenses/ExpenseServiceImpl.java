@@ -23,7 +23,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	@Transactional
-	public void save(ConstantExpenseDTO constantExpenseDTO, User user) {
+	public void addUserPreferenceConstantExpense(ConstantExpenseDTO constantExpenseDTO, User user) {
 
 		UserPreferenceConstantExpense userPreferenceConstantExpense 
 			= new UserPreferenceConstantExpense(constantExpenseDTO.getName());
@@ -32,7 +32,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 			= userPreferenceConstantExpenseRepository.findAllByUserId(user.getId());
 		
 		if (ExpenseUtilities.isUserPreferenceConstantExpenseDuplicated
-				(userPreferenceConstantExpenses, userPreferenceConstantExpense) == true) {
+				(userPreferenceConstantExpenses, userPreferenceConstantExpense) != true) {
 			
 			userPreferenceConstantExpenses.add(userPreferenceConstantExpense);
 			
@@ -43,7 +43,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	@Transactional
-	public void delete(ConstantExpenseDTO constantExpenseDTO, User user) {
+	public void removeUserPreferenceConstantExpense(ConstantExpenseDTO constantExpenseDTO, User user) {
 		
 		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
 			= userPreferenceConstantExpenseRepository.findAllByUserId(user.getId());

@@ -20,7 +20,7 @@ public class ExpenseUtilities {
 						.equals(constantExpense.getName()))
 				.findFirst().orElse(null);
 
-		return searchedUserPreferenceConstantExpense == null ? true : false;
+		return searchedUserPreferenceConstantExpense == null ? false : true;
 	}
 	
 	public static <T extends Expense> List<T> removeDuplicatedExpenses(List<T> currentExpenses,

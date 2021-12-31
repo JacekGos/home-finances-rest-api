@@ -23,7 +23,7 @@ import com.jacekg.homefinances.role.RoleRepository;
 class UserServiceImplTest {
 	
 	@InjectMocks
-	UserServiceImpl service;
+	UserServiceImpl serviceUnderTest;
 
 	@Mock
 	private UserRepository userRepository; 
@@ -67,7 +67,7 @@ class UserServiceImplTest {
 		when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
 		when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 		
-		UserDTO savedUser = service.save(userDTO);
+		UserDTO savedUser = serviceUnderTest.save(userDTO);
 		
 		verify(userRepository).save(Mockito.any(User.class));
 		
@@ -96,7 +96,7 @@ class UserServiceImplTest {
 		when(userRepository.findByUsername("username")).thenReturn(user);
 		
 		assertThrows(UserNotValidException.class, () -> {
-			service.save(userDTO);
+			serviceUnderTest.save(userDTO);
 		});
 		
 	}
@@ -106,7 +106,7 @@ class UserServiceImplTest {
 		
 		String username = "username";
 		
-		service.findByUsername(username);
+		serviceUnderTest.findByUsername(username);
 		
 		verify(userRepository).findByUsername(username);
 	}
@@ -116,7 +116,7 @@ class UserServiceImplTest {
 		
 		Long userId = 1L;
 		
-		service.findByUserId(userId);
+		serviceUnderTest.findByUserId(userId);
 		
 		verify(userRepository).findByUserId(userId);
 	}

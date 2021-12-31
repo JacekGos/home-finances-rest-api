@@ -13,14 +13,12 @@ import java.util.Set;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -28,12 +26,10 @@ import org.modelmapper.ModelMapper;
 import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudgetRepository;
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
-import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserNotExistsException;
-import com.jacekg.homefinances.user.UserNotValidException;
 import com.jacekg.homefinances.user.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +37,7 @@ class MonthlyBudgetServiceImplTest {
 	
 	@InjectMocks
 	@Spy
-	MonthlyBudgetServiceImpl service;
+	MonthlyBudgetServiceImpl serviceUnderTest;
 	
 	@Mock
 	private MonthlyBudgetRepository monthlyBudgetRepository;
@@ -76,7 +72,7 @@ class MonthlyBudgetServiceImplTest {
 				.findByUserIdAndDate(any(Long.class), any(LocalDate.class))).thenReturn(monthlyBudget);
 		when(modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class)).thenReturn(monthlyBudgetDTO);
 		
-		MonthlyBudgetDTO returnedMonthlyBudgetDTO = service.findByUserIdAndDate(1L, date);
+		MonthlyBudgetDTO returnedMonthlyBudgetDTO = serviceUnderTest.findByUserIdAndDate(1L, date);
 		
 		verify(monthlyBudgetRepository).findByUserIdAndDate(1L, date);
 		
@@ -112,13 +108,13 @@ class MonthlyBudgetServiceImplTest {
 		
 		user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
 		
-		doReturn(null).when(service).findByUserIdAndDate(1L, date);
+		doReturn(null).when(serviceUnderTest).findByUserIdAndDate(1L, date);
 		when(modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class)).thenReturn(monthlyBudget);
 		when(modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class)).thenReturn(monthlyBudgetDTO);
 		when(userRepository.findByUserId(1L)).thenReturn(user);
 		when(monthlyBudgetRepository.save(monthlyBudget)).thenReturn(monthlyBudget);
 		
-		MonthlyBudgetDTO returnedMonthlyBudgetDTO = service.save(monthlyBudgetDTO);
+		MonthlyBudgetDTO returnedMonthlyBudgetDTO = serviceUnderTest.save(monthlyBudgetDTO);
 		
 		verify(userRepository).findByUserId(1L);
 		verify(monthlyBudgetRepository).save(monthlyBudget);
@@ -134,13 +130,13 @@ class MonthlyBudgetServiceImplTest {
 		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
 				(1L, 1L, date, 0, 0, null, null);
 		
-		doReturn(new MonthlyBudgetDTO()).when(service).findByUserIdAndDate(1L, date);
+		doReturn(new MonthlyBudgetDTO()).when(serviceUnderTest).findByUserIdAndDate(1L, date);
 		
 		assertThrows(MonthlyBudgetAlreadyExistsException.class, () -> {
-			service.save(monthlyBudgetDTO);
+			serviceUnderTest.save(monthlyBudgetDTO);
 		});
 		
-		verify(service).findByUserIdAndDate(1L, date);
+		verify(serviceUnderTest).findByUserIdAndDate(1L, date);
 	}
 	
 	@Test
@@ -153,7 +149,7 @@ class MonthlyBudgetServiceImplTest {
 		
 		when(monthlyBudgetRepository.findAllByUserId(userId)).thenReturn(monthlyBudgets);
 		
-		List<MonthlyBudgetDTO> returnedMonthlyBudgetsDTO = service.findAllByUserId(userId);
+		List<MonthlyBudgetDTO> returnedMonthlyBudgetsDTO = serviceUnderTest.findAllByUserId(userId);
 
 		verify(monthlyBudgetRepository).findAllByUserId(userId);
 		
@@ -188,7 +184,7 @@ class MonthlyBudgetServiceImplTest {
 		when(userRepository.findByUserId(1L)).thenReturn(user);
 		when(monthlyBudgetRepository.save(any(MonthlyBudget.class))).thenReturn(monthlyBudget);
 		
-		MonthlyBudgetDTO returnedMonthlyBudgetDTO = service.update(monthlyBudgetDTO);
+		MonthlyBudgetDTO returnedMonthlyBudgetDTO = serviceUnderTest.update(monthlyBudgetDTO);
 		
 		verify(userRepository).findByUserId(1L);
 		verify(monthlyBudgetRepository).save(monthlyBudget);
@@ -207,11 +203,10 @@ class MonthlyBudgetServiceImplTest {
 		when(userRepository.findByUserId(1L)).thenReturn(null);
 		
 		assertThrows(UserNotExistsException.class, () -> {
-			service.update(monthlyBudgetDTO);
+			serviceUnderTest.update(monthlyBudgetDTO);
 		});
 		
 		verify(userRepository).findByUserId(1L);
-		
 	}
 
 	@Test
@@ -226,7 +221,7 @@ class MonthlyBudgetServiceImplTest {
 				.findByUserIdAndDate(1L, date)).thenReturn(monthlyBudget);
 		doNothing().when(monthlyBudgetRepository).delete(monthlyBudget);
 		
-		service.deleteByDate(date, 1L);
+		serviceUnderTest.deleteByDate(date, 1L);
 		
 		verify(monthlyBudgetRepository).findByUserIdAndDate(1L, date);
 		verify(monthlyBudgetRepository).delete(monthlyBudget);
@@ -241,7 +236,7 @@ class MonthlyBudgetServiceImplTest {
 				.findByUserIdAndDate(1L, date)).thenReturn(null);
 		
 		assertThrows(MonthlyBudgetDoesntExistsException.class, () -> {
-			service.deleteByDate(date, 1L);
+			serviceUnderTest.deleteByDate(date, 1L);
 		});
 		
 		verify(monthlyBudgetRepository).findByUserIdAndDate(1L, date);
