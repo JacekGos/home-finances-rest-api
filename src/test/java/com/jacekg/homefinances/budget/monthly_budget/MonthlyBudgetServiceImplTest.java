@@ -28,6 +28,7 @@ import org.modelmapper.ModelMapper;
 import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudgetRepository;
 import com.jacekg.homefinances.expenses.ConstantExpenseRepository;
 import com.jacekg.homefinances.expenses.OneTimeExpenseRepository;
+import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
@@ -137,6 +138,8 @@ class MonthlyBudgetServiceImplTest {
 		assertThrows(MonthlyBudgetAlreadyExistsException.class, () -> {
 			service.save(monthlyBudgetDTO);
 		});
+		
+		verify(service).findByUserIdAndDate(1L, date);
 	}
 	
 	@Test
@@ -157,8 +160,43 @@ class MonthlyBudgetServiceImplTest {
 	}
 
 	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
+	void update_ShouldReturn_MonthlyBudgetDTO() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
+		
+		MonthlyBudget monthlyBudget = new MonthlyBudget
+				(1L, date, 0, 0, null, new ArrayList<>(), new ArrayList<>());
+		
+		User user = new User(
+				1L,
+				"username",
+				"password",
+				"firstname", 
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+//		List<ConstantExpenseDTO> constantExpenses;
+		
+		when(modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class)).thenReturn(monthlyBudget);
+		when(modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class)).thenReturn(monthlyBudgetDTO);
+		when(userRepository.findByUserId(1L)).thenReturn(user);
+//		when(constantExpenseRepository.findAllByMonthlyBudgetId(1L)).thenReturn(new ArrayList<>());
+//		when(oneTimeExpenseRepository.findAllByMonthlyBudgetId(1L)).thenReturn(new ArrayList<>());
+		when(monthlyBudgetRepository.save(any(MonthlyBudget.class))).thenReturn(monthlyBudget);
+		
+		MonthlyBudgetDTO returnedMonthlyBudgetDTO = service.update(monthlyBudgetDTO);
+		
+		verify(userRepository).findByUserId(1L);
+		verify(monthlyBudgetRepository).save(monthlyBudget);
+		
+		assertEquals(1L, returnedMonthlyBudgetDTO.getId());
 	}
 
 	@Test
