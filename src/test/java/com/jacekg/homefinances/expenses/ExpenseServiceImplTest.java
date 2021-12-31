@@ -77,8 +77,37 @@ class ExpenseServiceImplTest {
 	}
 	
 	@Test
-	void testDelete() {
-		fail("Not yet implemented");
+	void removeUserPreferenceConstantExpense_ShouldSave_UserWithoutPreference() {
+		
+		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO();
+		constantExpenseDTO.setName("expense");
+		
+		User user = new User(
+				1L,
+				"username",
+				"password",
+				"firstname", 
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+		UserPreferenceConstantExpense userPreferenceConstantExpense 
+			= new UserPreferenceConstantExpense("current expense");
+		
+		UserPreferenceConstantExpense currentUserPreferenceConstantExpense 
+			= new UserPreferenceConstantExpense("current expense");
+		
+		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
+			= new HashSet<UserPreferenceConstantExpense>();
+		userPreferenceConstantExpenses.add(currentUserPreferenceConstantExpense);
+		
+		when(userPreferenceConstantExpenseRepository.findAllByUserId(user.getId())).thenReturn(userPreferenceConstantExpenses);
+		
+		serviceUnderTest.addUserPreferenceConstantExpense(constantExpenseDTO, user);
+	
 	}
 
 }
