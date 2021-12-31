@@ -117,14 +117,13 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 	@Transactional
 	public MonthlyBudgetDTO update(MonthlyBudgetDTO monthlyBudgetDTO) {
 		
-		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
-		
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
 		
 		if (user == null) {
 			throw new UserNotExistsException("Dany użytkownik nie istnieje!");
 		}
 		
+		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 		monthlyBudget.setUser(user);
 		
 		List<ConstantExpense> currentConstantExpenses 

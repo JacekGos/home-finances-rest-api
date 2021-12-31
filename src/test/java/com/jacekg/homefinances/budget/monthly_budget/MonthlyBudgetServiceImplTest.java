@@ -32,6 +32,7 @@ import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotExistsException;
 import com.jacekg.homefinances.user.UserNotValidException;
 import com.jacekg.homefinances.user.UserRepository;
 
@@ -193,6 +194,24 @@ class MonthlyBudgetServiceImplTest {
 		verify(monthlyBudgetRepository).save(monthlyBudget);
 		
 		assertEquals(1L, returnedMonthlyBudgetDTO.getId());
+	}
+	
+	@Test
+	void update_ShouldThrow_UserNotExistsException() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
+		
+		when(userRepository.findByUserId(1L)).thenReturn(null);
+		
+		assertThrows(UserNotExistsException.class, () -> {
+			service.update(monthlyBudgetDTO);
+		});
+		
+		verify(userRepository).findByUserId(1L);
+		
 	}
 
 	@Test
