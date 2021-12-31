@@ -24,7 +24,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	@Transactional
 	public void addUserPreferenceConstantExpense(ConstantExpenseDTO constantExpenseDTO, User user) {
-
+		System.out.println("Add new expense...1");
 		UserPreferenceConstantExpense userPreferenceConstantExpense 
 			= new UserPreferenceConstantExpense(constantExpenseDTO.getName());
 
@@ -35,7 +35,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 				(userPreferenceConstantExpenses, userPreferenceConstantExpense) != true) {
 			
 			userPreferenceConstantExpenses.add(userPreferenceConstantExpense);
-			
+			System.out.println("Add new expense...2");
 			user.setUserPreferenceConstantExpenses(userPreferenceConstantExpenses);
 			userRepository.save(user);
 		} 
