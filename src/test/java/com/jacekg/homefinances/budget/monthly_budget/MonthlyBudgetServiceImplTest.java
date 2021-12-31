@@ -182,13 +182,9 @@ class MonthlyBudgetServiceImplTest {
 				null,
 				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
 		
-//		List<ConstantExpenseDTO> constantExpenses;
-		
 		when(modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class)).thenReturn(monthlyBudget);
 		when(modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class)).thenReturn(monthlyBudgetDTO);
 		when(userRepository.findByUserId(1L)).thenReturn(user);
-//		when(constantExpenseRepository.findAllByMonthlyBudgetId(1L)).thenReturn(new ArrayList<>());
-//		when(oneTimeExpenseRepository.findAllByMonthlyBudgetId(1L)).thenReturn(new ArrayList<>());
 		when(monthlyBudgetRepository.save(any(MonthlyBudget.class))).thenReturn(monthlyBudget);
 		
 		MonthlyBudgetDTO returnedMonthlyBudgetDTO = service.update(monthlyBudgetDTO);
