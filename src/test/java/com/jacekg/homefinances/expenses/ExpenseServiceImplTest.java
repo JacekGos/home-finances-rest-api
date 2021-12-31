@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
@@ -34,9 +35,8 @@ class ExpenseServiceImplTest {
 	UserRepository userRepository;
 	
 	@Test
-	void addUserPreferenceConstantExpense() {
+	void addUserPreferenceConstantExpense_ShouldSave_UserWithNewPreference() {
 		
-//		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO(1L, "expense", 0, 0);
 		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO();
 		constantExpenseDTO.setName("expense");
 		
@@ -64,8 +64,10 @@ class ExpenseServiceImplTest {
 		
 		when(userPreferenceConstantExpenseRepository.findAllByUserId(user.getId())).thenReturn(userPreferenceConstantExpenses);
 		
+		serviceUnderTest.addUserPreferenceConstantExpense(constantExpenseDTO, user);
+		
 		verify(userPreferenceConstantExpenseRepository).findAllByUserId(user.getId());
-//		verify(userRepository).save(user);
+		verify(userRepository).save(user);
 	}
 
 	@Test

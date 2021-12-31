@@ -58,7 +58,7 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 	@Override
 	@Transactional
 	public MonthlyBudgetDTO save(MonthlyBudgetDTO monthlyBudgetDTO) {
-		
+
 		if (findByUserIdAndDate(monthlyBudgetDTO.getUserId(), monthlyBudgetDTO.getDate()) != null) {
 			throw new MonthlyBudgetAlreadyExistsException("Budżet na dany miesiąc istnieje!");
 		}
