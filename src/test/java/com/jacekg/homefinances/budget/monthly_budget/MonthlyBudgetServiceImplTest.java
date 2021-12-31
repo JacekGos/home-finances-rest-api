@@ -182,6 +182,7 @@ class MonthlyBudgetServiceImplTest {
 		when(modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class)).thenReturn(monthlyBudget);
 		when(modelMapper.map(monthlyBudget, MonthlyBudgetDTO.class)).thenReturn(monthlyBudgetDTO);
 		when(userRepository.findByUserId(1L)).thenReturn(user);
+		doReturn(monthlyBudgetDTO).when(serviceUnderTest).findByUserIdAndDate(1L, date);
 		when(monthlyBudgetRepository.save(any(MonthlyBudget.class))).thenReturn(monthlyBudget);
 		
 		MonthlyBudgetDTO returnedMonthlyBudgetDTO = serviceUnderTest.update(monthlyBudgetDTO);
@@ -203,6 +204,30 @@ class MonthlyBudgetServiceImplTest {
 		when(userRepository.findByUserId(1L)).thenReturn(null);
 		
 		assertThrows(UserNotExistsException.class, () -> {
+			serviceUnderTest.update(monthlyBudgetDTO);
+		});
+		
+		verify(userRepository).findByUserId(1L);
+	}
+	
+	@Test
+	void update_ShouldThrow_MonthlyBudgetAlreadyExistsException() {
+		
+		User user = new User();
+		user.setId(1L);
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
+		
+		MonthlyBudgetDTO searchedMonthlyBudgetDTO = new MonthlyBudgetDTO
+				(2L, 1L, date, 0, 0, null, null);
+		
+		when(userRepository.findByUserId(1L)).thenReturn(user);
+		doReturn(searchedMonthlyBudgetDTO).when(serviceUnderTest).findByUserIdAndDate(1L, date);
+		
+		assertThrows(MonthlyBudgetAlreadyExistsException.class, () -> {
 			serviceUnderTest.update(monthlyBudgetDTO);
 		});
 		
