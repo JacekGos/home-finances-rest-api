@@ -20,6 +20,7 @@ import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.OneTimeExpense;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotExistsException;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -119,6 +120,11 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 		MonthlyBudget monthlyBudget = modelMapper.map(monthlyBudgetDTO, MonthlyBudget.class);
 		
 		User user = userRepository.findByUserId(monthlyBudgetDTO.getUserId());
+		
+		if (user == null) {
+			throw new UserNotExistsException("Dany użytkownik nie istnieje!");
+		}
+		
 		monthlyBudget.setUser(user);
 		
 		List<ConstantExpense> currentConstantExpenses 
