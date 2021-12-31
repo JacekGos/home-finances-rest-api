@@ -40,20 +40,6 @@ class ExpenseServiceImplTest {
 	@Mock
 	UserRepository userRepository;
 	
-//	MockedStatic<ExpenseUtilities> expenseUtilities = mockStatic(ExpenseUtilities.class);
-	
-	private static MockedStatic<ExpenseUtilities> expenseUtilities;
-	
-	@BeforeAll
-	public static void init() {
-		expenseUtilities = mockStatic(ExpenseUtilities.class);
-	}
-
-	@AfterAll
-	public static void close() {
-		expenseUtilities.close();
-	}
-	
 	@Test
 	void addUserPreferenceConstantExpense_ShouldSave_UserWithNewPreference() {
 		
@@ -90,47 +76,6 @@ class ExpenseServiceImplTest {
 		verify(userRepository).save(user);
 	}
 	
-	@Test
-	void addUserPreferenceConstantExpense_ShouldNotSave_UserWithNewPreference() {
-		
-		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO();
-		constantExpenseDTO.setName("expense");
-		
-		User user = new User(
-				1L,
-				"username",
-				"password",
-				"firstname", 
-				"lastname",
-				"email",
-				true, true, true, true,
-				null,
-				null,
-				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
-		
-		UserPreferenceConstantExpense userPreferenceConstantExpense 
-			= new UserPreferenceConstantExpense("current expense");
-		
-		UserPreferenceConstantExpense currentUserPreferenceConstantExpense 
-			= new UserPreferenceConstantExpense(" expense");
-		
-		Set<UserPreferenceConstantExpense> userPreferenceConstantExpenses 
-			= new HashSet<UserPreferenceConstantExpense>();
-		userPreferenceConstantExpenses.add(currentUserPreferenceConstantExpense);
-		
-		when(userPreferenceConstantExpenseRepository.findAllByUserId(user.getId())).thenReturn(userPreferenceConstantExpenses);
-		
-		expenseUtilities
-				.when(() -> ExpenseUtilities.isUserPreferenceConstantExpenseDuplicated(userPreferenceConstantExpenses,
-						currentUserPreferenceConstantExpense))
-				.thenReturn(true);
-
-		serviceUnderTest.addUserPreferenceConstantExpense(constantExpenseDTO, user);
-		
-		verify(userPreferenceConstantExpenseRepository).findAllByUserId(user.getId());
-		verify(userRepository, never()).save(user);
-	}
-
 	@Test
 	void testDelete() {
 		fail("Not yet implemented");
