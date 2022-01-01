@@ -59,8 +59,8 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	@Transactional
 	public IrregularExpensesBudgetDTO save(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO) {
 		
-		if (findByUserIdAndDate(irregularExpensesBudgetDTO.getUserId(), 
-				irregularExpensesBudgetDTO.getDate()) != null) {
+		if (findByUserIdAndDate
+				(irregularExpensesBudgetDTO.getUserId(), irregularExpensesBudgetDTO.getDate()) != null) {
 			throw new IrregularExpensesBudgetAlreadyExistsException
 				("Budżet wydatków nieregularnych na dany rok istnieje!");
 		}
