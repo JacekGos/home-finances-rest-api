@@ -23,6 +23,7 @@ import org.modelmapper.ModelMapper;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetAlreadyExistsException;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetService;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
@@ -257,8 +258,18 @@ class IrregularExpensesBudgetServiceImplTest {
 	}
 	
 	@Test
-	void testDeleteByDate() {
-		fail("Not yet implemented");
+	void deleteByDate_ShouldThrow_IrregularExpensesBudgetDoesntExistsException() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		when(irregularExpensesBudgetRepository
+				.findByUserIdAndDate(any(Long.class), any(LocalDate.class))).thenReturn(null);
+		
+		assertThrows(IrregularExpensesBudgetDoesntExistsException.class, () -> {
+			serviceUnderTest.deleteByDate(date, 1L);
+		});
+
+		verify(irregularExpensesBudgetRepository).findByUserIdAndDate(1L, date);
 	}
 
 }
