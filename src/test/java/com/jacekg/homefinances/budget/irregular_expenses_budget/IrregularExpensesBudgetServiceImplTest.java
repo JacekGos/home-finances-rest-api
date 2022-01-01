@@ -27,6 +27,7 @@ import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetService;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.role.Role;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotExistsException;
 import com.jacekg.homefinances.user.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -185,6 +186,23 @@ class IrregularExpensesBudgetServiceImplTest {
 		verify(irregularExpensesBudgetRepository).save(irregularExpensesBudget);
 		
 		assertEquals(1L, returnedIrregularExpensesBudgetDTO.getId());
+	}
+	
+	@Test
+	void update_ShouldThrow_UserNotExistsException() {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		IrregularExpensesBudgetDTO irregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(1L, 1L, date, 0, 0, null);
+		
+		when(userRepository.findByUserId(1L)).thenReturn(null);
+		
+		assertThrows(UserNotExistsException.class, () -> {
+			serviceUnderTest.update(irregularExpensesBudgetDTO);
+		});
+		
+		verify(userRepository).findByUserId(1L);
 	}
 
 	@Test
