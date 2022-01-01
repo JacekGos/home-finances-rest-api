@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -12,15 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jacekg.homefinances.budget.BudgetUtilities;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDoesntExistsException;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetService;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
-import com.jacekg.homefinances.expenses.model.Expense;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 import com.jacekg.homefinances.user.User;
+import com.jacekg.homefinances.user.UserNotExistsException;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -94,10 +91,20 @@ public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudg
 	@Transactional
 	public IrregularExpensesBudgetDTO update(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO) {
 
+		User user = userRepository.findByUserId(irregularExpensesBudgetDTO.getUserId());
+		
+		if (user == null) {
+			throw new UserNotExistsException("Dany użytkownik nie istnieje!");
+		}
+		
+		if (findByUserIdAndDate(user.getId(), irregularExpensesBudgetDTO.getDate()).getId() != irregularExpensesBudgetDTO.getId()) {
+			throw new IrregularExpensesBudgetAlreadyExistsException
+				("Budżet wydatków nieregularnych o podanym Id: " + irregularExpensesBudgetDTO.getId() 
+				+ ", nie istnieje w danym roku!");
+		}
+		
 		IrregularExpensesBudget irregularExpensesBudget = modelMapper.map(irregularExpensesBudgetDTO,
 				IrregularExpensesBudget.class);
-
-		User user = userRepository.findByUserId(irregularExpensesBudgetDTO.getUserId());
 		irregularExpensesBudget.setUser(user);
 
 		List<IrregularExpense> currentIrregularExpenses = irregularExpenseRepository

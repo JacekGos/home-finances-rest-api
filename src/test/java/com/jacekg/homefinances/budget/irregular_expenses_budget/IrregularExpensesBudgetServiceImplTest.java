@@ -151,8 +151,40 @@ class IrregularExpensesBudgetServiceImplTest {
 	}
 
 	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
+	void update_ShouldReturn_IrregularExpensesBudgetDTO() {
+	
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		IrregularExpensesBudgetDTO irregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(1L, 1L, date, 0, 0, null);
+		
+		IrregularExpensesBudget irregularExpensesBudget = new IrregularExpensesBudget
+				(1L, date, 0, 0, null, new ArrayList<>());
+		
+		User user = new User(
+				1L,
+				"username",
+				"password",
+				"firstname", 
+				"lastname",
+				"email",
+				true, true, true, true,
+				null,
+				null,
+				Arrays.asList(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_ADMIN")));
+		
+		when(modelMapper.map(irregularExpensesBudgetDTO, IrregularExpensesBudget.class)).thenReturn(irregularExpensesBudget);
+		when(modelMapper.map(irregularExpensesBudget, IrregularExpensesBudgetDTO.class)).thenReturn(irregularExpensesBudgetDTO);
+		when(userRepository.findByUserId(1L)).thenReturn(user);
+		doReturn(irregularExpensesBudgetDTO).when(serviceUnderTest).findByUserIdAndDate(1L, date);
+		when(irregularExpensesBudgetRepository.save(any(IrregularExpensesBudget.class))).thenReturn(irregularExpensesBudget);
+		
+		IrregularExpensesBudgetDTO returnedIrregularExpensesBudgetDTO = serviceUnderTest.update(irregularExpensesBudgetDTO);
+		
+		verify(userRepository).findByUserId(1L);
+		verify(irregularExpensesBudgetRepository).save(irregularExpensesBudget);
+		
+		assertEquals(1L, returnedIrregularExpensesBudgetDTO.getId());
 	}
 
 	@Test
