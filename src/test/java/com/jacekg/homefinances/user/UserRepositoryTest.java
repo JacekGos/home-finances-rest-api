@@ -4,14 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 import com.jacekg.homefinances.role.Role;
 
 @DataJpaTest
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserRepositoryTest {
 	
 	@Autowired
@@ -47,10 +49,10 @@ class UserRepositoryTest {
 	@Test
 	void findByUserId_ShouldReturn_Valid_User() {
 		
-		Long userID = 2L;
+		Long userID = 1L;
 		
 		User user = new User(
-				2L,
+				1L,
 				"user2",
 				"password",
 				"name",
@@ -68,7 +70,7 @@ class UserRepositoryTest {
 		
 		User returnedUser = userRepository.findByUserId(userID);
 		
-		assertEquals(2L, returnedUser.getId());
+		assertEquals(1L, returnedUser.getId());
 	}
 }
 

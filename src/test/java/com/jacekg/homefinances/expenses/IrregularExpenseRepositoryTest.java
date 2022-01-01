@@ -8,12 +8,15 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudget;
 import com.jacekg.homefinances.budget.irregular_expenses_budget.IrregularExpensesBudgetRepository;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;
 
 @DataJpaTest
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 class IrregularExpenseRepositoryTest {
 
 	@Autowired
