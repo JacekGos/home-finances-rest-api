@@ -2,6 +2,7 @@ package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -228,7 +229,33 @@ class IrregularExpensesBudgetServiceImplTest {
 		
 		verify(userRepository).findByUserId(1L);
 	}
-
+	
+	@Test
+	void deleteByDate_ShouldNotThrow_Exception() {
+		
+		User user = new User();
+		user.setId(1L);
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		IrregularExpensesBudget irregularExpensesBudget = new IrregularExpensesBudget
+				(1L, date, 0, 0, user, null);
+		
+		MonthlyBudget monthlyBudget = new MonthlyBudget
+				(1L, date, 0, 0, null, new ArrayList<>(), new ArrayList<>());
+		
+		when(irregularExpensesBudgetRepository
+				.findByUserIdAndDate(1L, date)).thenReturn(irregularExpensesBudget);
+		when(monthlyBudgetRepository
+				.findByUserIdAndDate(1L, date)).thenReturn(monthlyBudget);
+		doNothing().when(irregularExpensesBudgetRepository).delete(irregularExpensesBudget);
+		
+		serviceUnderTest.deleteByDate(date, 1L);
+		
+		verify(irregularExpensesBudgetRepository).findByUserIdAndDate(1L, date);
+		verify(irregularExpensesBudgetRepository).delete(irregularExpensesBudget);
+	}
+	
 	@Test
 	void testDeleteByDate() {
 		fail("Not yet implemented");
