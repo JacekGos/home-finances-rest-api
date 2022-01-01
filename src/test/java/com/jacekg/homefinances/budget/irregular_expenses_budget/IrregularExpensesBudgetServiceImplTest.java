@@ -7,7 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetAlreadyExistsException;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
@@ -131,8 +134,20 @@ class IrregularExpensesBudgetServiceImplTest {
 	
 
 	@Test
-	void testFindAllByUserId() {
-		fail("Not yet implemented");
+	void findAllByUserId_ShouldReturn_IrregularExpensesBudgetDTOList() {
+	
+		Long userId = 1L;
+		
+		List<IrregularExpensesBudget> irregularExpensesBudgets = new ArrayList<>();
+		irregularExpensesBudgets.add(new IrregularExpensesBudget());
+		
+		when(irregularExpensesBudgetRepository.findAllByUserId(userId)).thenReturn(irregularExpensesBudgets);
+		
+		List<IrregularExpensesBudgetDTO> returnedIrregularExpensesBudgetsDTO = serviceUnderTest.findAllByUserId(userId);
+
+		verify(irregularExpensesBudgetRepository).findAllByUserId(userId);
+		
+		assertTrue(returnedIrregularExpensesBudgetsDTO.size() > 0);
 	}
 
 	@Test
