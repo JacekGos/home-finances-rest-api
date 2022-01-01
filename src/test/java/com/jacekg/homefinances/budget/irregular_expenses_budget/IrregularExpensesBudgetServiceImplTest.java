@@ -204,6 +204,30 @@ class IrregularExpensesBudgetServiceImplTest {
 		
 		verify(userRepository).findByUserId(1L);
 	}
+	
+	@Test
+	void update_ShouldThrow_IrregularExpensesBudgetAlreadyExistsException() {
+		
+		User user = new User();
+		user.setId(1L);
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		IrregularExpensesBudgetDTO irregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(1L, 1L, date, 0, 0, null);
+		
+		IrregularExpensesBudgetDTO searchedIrregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(2L, 1L, date, 0, 0, null);
+		
+		when(userRepository.findByUserId(1L)).thenReturn(user);
+		doReturn(searchedIrregularExpensesBudgetDTO).when(serviceUnderTest).findByUserIdAndDate(1L, date);
+		
+		assertThrows(IrregularExpensesBudgetAlreadyExistsException.class, () -> {
+			serviceUnderTest.update(irregularExpensesBudgetDTO);
+		});
+		
+		verify(userRepository).findByUserId(1L);
+	}
 
 	@Test
 	void testDeleteByDate() {

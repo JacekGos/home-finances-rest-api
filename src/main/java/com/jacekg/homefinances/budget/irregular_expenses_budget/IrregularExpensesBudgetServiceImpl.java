@@ -26,8 +26,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class IrregularExpensesBudgetServiceImpl implements IrregularExpensesBudgetService {
 	
-	private MonthlyBudgetService monthlyBudgetService;
-	
 	private UserRepository userRepository;
 	
 	private IrregularExpensesBudgetRepository irregularExpensesBudgetRepository;
