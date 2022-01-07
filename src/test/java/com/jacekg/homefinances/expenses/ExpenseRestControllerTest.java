@@ -80,8 +80,23 @@ class ExpenseRestControllerTest {
 	}
 
 	@Test
-	void testRemoveUserPreferenceConstantExpense() {
-		fail("Not yet implemented");
+	void testRemoveUserPreferenceConstantExpense() throws Exception{
+		
+		User user = new User();
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO(1L, "expense", 0, 0);
+		
+		doNothing().when(expenseService).removeUserPreferenceConstantExpense(constantExpenseDTO, user);
+		
+		String jsonBody = objectMapper.writeValueAsString(constantExpenseDTO);
+		
+		String url = "/budget/expenses";
+		
+		mockMvc.perform(delete(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.principal(testingAuthenticationToken)
+                .content(jsonBody))
+				.andExpect(status().isOk());
 	}
 
 }
