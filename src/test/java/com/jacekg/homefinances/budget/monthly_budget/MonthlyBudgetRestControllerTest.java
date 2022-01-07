@@ -106,9 +106,28 @@ class MonthlyBudgetRestControllerTest {
 	}
 	
 	@Test
-	void testUpdateMonthlyBudget() {
-		fail("Not yet implemented");
-	}
+	void updateMonthlyBudget_ShouldReturn_StatusOk() throws Exception {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
+		
+		User user = new User();
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
+		
+		when(monthlyBudgetService.update(any(MonthlyBudgetDTO.class))).thenReturn(monthlyBudgetDTO);
+		
+		String jsonBody = objectMapper.writeValueAsString(monthlyBudgetDTO);
+		
+		String url = "/budget/monthly-budgets";
+		
+		mockMvc.perform(put(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.principal(testingAuthenticationToken)
+                .content(jsonBody))
+				.andExpect(status().isOk());
+	}	
 
 	@Test
 	void testDeleteMonthlyBudget() {
