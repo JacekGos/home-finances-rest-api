@@ -1,12 +1,14 @@
-package com.jacekg.homefinances.expenses;
+package com.jacekg.homefinances.budget.monthly_budget;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.mockito.Mockito.any;
+
 import java.security.Principal;
-
-import static org.mockito.Mockito.doNothing;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,25 +21,25 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.jwt.JwtAuthenticationEntryPoint;
 import com.jacekg.homefinances.jwt.JwtRequestFilter;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 
-@WebMvcTest(ExpenseRestController.class)
+@WebMvcTest(MonthlyBudgetRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class ExpenseRestControllerTest {
+class MonthlyBudgetRestControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
-	ExpenseService expenseService;
+	private MonthlyBudgetService monthlyBudgetService;
 	
 	@MockBean
-	UserService userService;
+	private UserService userService;
 	
 	@MockBean
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -55,17 +57,22 @@ class ExpenseRestControllerTest {
 	Principal principal;
 	
 	@Test
-	void addUserPreferenceConstantExpense_ShouldReturn_SatusCreated() throws Exception {
+	void addMonthlyBudget_ShouldReturn_StatusCreated() throws Exception {
+		
+		LocalDate date = LocalDate.now().withDayOfMonth(1);
 		
 		User user = new User();
+		user.setId(1L);
 		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
-		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO(1L, "expense", 0, 0);
+		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
+				(1L, 1L, date, 0, 0, null, null);
 		
-		doNothing().when(expenseService).addUserPreferenceConstantExpense(constantExpenseDTO, user);
+		when(userService.findByUsername(any(String.class))).thenReturn(user);
+		when(monthlyBudgetService.save(monthlyBudgetDTO)).thenReturn(monthlyBudgetDTO);
 		
-		String jsonBody = objectMapper.writeValueAsString(constantExpenseDTO);
+		String jsonBody = objectMapper.writeValueAsString(monthlyBudgetDTO);
 		
-		String url = "/budget/expenses";
+		String url = "/budget/monthly-budgets";
 		
 		mockMvc.perform(post(url)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -73,25 +80,20 @@ class ExpenseRestControllerTest {
                 .content(jsonBody))
 				.andExpect(status().isCreated());
 	}
+	
+	@Test
+	void testGetAllMonthlyBudgets() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	void testUpdateMonthlyBudget() {
+		fail("Not yet implemented");
+	}
 
 	@Test
-	void removeUserPreferenceConstantExpense_ShouldReturn_SatusOk() throws Exception{
-		
-		User user = new User();
-		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
-		ConstantExpenseDTO constantExpenseDTO = new ConstantExpenseDTO(1L, "expense", 0, 0);
-		
-		doNothing().when(expenseService).removeUserPreferenceConstantExpense(constantExpenseDTO, user);
-		
-		String jsonBody = objectMapper.writeValueAsString(constantExpenseDTO);
-		
-		String url = "/budget/expenses";
-		
-		mockMvc.perform(delete(url)
-				.contentType(MediaType.APPLICATION_JSON)
-				.principal(testingAuthenticationToken)
-                .content(jsonBody))
-				.andExpect(status().isOk());
+	void testDeleteMonthlyBudget() {
+		fail("Not yet implemented");
 	}
 
 }
