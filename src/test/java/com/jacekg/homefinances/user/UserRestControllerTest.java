@@ -7,18 +7,21 @@ import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jacekg.homefinances.jwt.JwtAuthenticationEntryPoint;
+import com.jacekg.homefinances.jwt.JwtRequestFilter;
 
 @WebMvcTest(UserRestController.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class UserRestControllerTest {
 	
 	@Autowired
@@ -27,8 +30,17 @@ class UserRestControllerTest {
 	@MockBean
 	private UserService userService;
 	
+	@MockBean
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@MockBean
+	private UserDetailsService jwtUserDetailsService;
+
+	@MockBean
+	private JwtRequestFilter jwtRequestFilter;
+	
 	@Test
-	void addUser_ShouldReturn_UserDTO() throws Exception {
+	void addUser_ShouldReturn_StatusCreated() throws Exception {
 		
 		UserDTO userDTO = new UserDTO(
 				10L,
@@ -37,16 +49,21 @@ class UserRestControllerTest {
 				"password",
 				"firstname",
 				"lastname",
-				"email",
+				"email@email.com",
 				"ROLE_ADMIN", 
 				true, true, true, true);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(userDTO);
 		
 		when(userService.save(any(UserDTO.class))).thenReturn(userDTO);
 		
 		String url = "/signup";
 		
-		mockMvc.perform(get(url))
-			.andExpect(status().isOk());
+		mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+				.andExpect(status().isCreated());
 		
 	}
 

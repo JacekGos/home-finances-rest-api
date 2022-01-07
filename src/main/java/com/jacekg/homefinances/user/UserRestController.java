@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserRestController {
 
-	private final UserService userService;
+	private UserService userService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> addUser(@Valid @RequestBody UserDTO userDTO) {
