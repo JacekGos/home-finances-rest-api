@@ -5,10 +5,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.mockito.Mockito.any;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -64,6 +68,7 @@ class MonthlyBudgetRestControllerTest {
 		User user = new User();
 		user.setId(1L);
 		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		
 		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
 				(1L, 1L, date, 0, 0, null, null);
 		
@@ -82,8 +87,22 @@ class MonthlyBudgetRestControllerTest {
 	}
 	
 	@Test
-	void testGetAllMonthlyBudgets() {
-		fail("Not yet implemented");
+	void getAllMonthlyBudgets_ShouldReturn_StatusOk() throws Exception {
+		
+		User user = new User();
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		
+		List<MonthlyBudgetDTO> monthlyBudgetDTOs = new ArrayList<>();
+		monthlyBudgetDTOs.add(new MonthlyBudgetDTO());
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(user);
+		when(monthlyBudgetService.findAllByUserId(any(Long.class))).thenReturn(monthlyBudgetDTOs);
+		
+		String url = "/budget/monthly-budgets";
+		
+		mockMvc.perform(get(url)
+				.principal(testingAuthenticationToken))
+				.andExpect(status().isOk());
 	}
 	
 	@Test
