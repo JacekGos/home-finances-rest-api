@@ -39,6 +39,9 @@ class UserRestControllerTest {
 	@MockBean
 	private JwtRequestFilter jwtRequestFilter;
 	
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@Test
 	void addUser_ShouldReturn_StatusCreated() throws Exception {
 		
@@ -53,8 +56,7 @@ class UserRestControllerTest {
 				"ROLE_ADMIN", 
 				true, true, true, true);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(userDTO);
+        String jsonBody = objectMapper.writeValueAsString(userDTO);
 		
 		when(userService.save(any(UserDTO.class))).thenReturn(userDTO);
 		
@@ -62,7 +64,7 @@ class UserRestControllerTest {
 		
 		mockMvc.perform(post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                .content(jsonBody))
 				.andExpect(status().isCreated());
 		
 	}
