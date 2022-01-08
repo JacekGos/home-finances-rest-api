@@ -1,14 +1,12 @@
-package com.jacekg.homefinances.budget.monthly_budget;
+package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -26,25 +24,26 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
+import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRestController;
 import com.jacekg.homefinances.jwt.JwtAuthenticationEntryPoint;
 import com.jacekg.homefinances.jwt.JwtRequestFilter;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 
-@WebMvcTest(MonthlyBudgetRestController.class)
+@WebMvcTest(IrregularExpensesBudgetRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class MonthlyBudgetRestControllerTest {
+class IrregularExpensesBudgetRestControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
-	private MonthlyBudgetService monthlyBudgetService;
+	UserService userService;
 	
 	@MockBean
-	private UserService userService;
+	IrregularExpensesBudgetService irregularExpensesBudgetService;
 	
 	@MockBean
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -59,7 +58,7 @@ class MonthlyBudgetRestControllerTest {
 	private ObjectMapper objectMapper;
 	
 	@Test
-	void addMonthlyBudget_ShouldReturn_StatusCreated() throws Exception {
+	void addIrreguarExpenseBudget_ShouldReturn_StatusCreated() throws Exception {
 		
 		LocalDate date = LocalDate.now().withDayOfMonth(1);
 		
@@ -67,15 +66,15 @@ class MonthlyBudgetRestControllerTest {
 		user.setId(1L);
 		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
 		
-		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
-				(1L, 1L, date, 0, 0, null, null);
+		IrregularExpensesBudgetDTO irregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(1L, 1L, date, 0, 0, null);
 		
 		when(userService.findByUsername(any(String.class))).thenReturn(user);
-		when(monthlyBudgetService.save(monthlyBudgetDTO)).thenReturn(monthlyBudgetDTO);
+		when(irregularExpensesBudgetService.save(irregularExpensesBudgetDTO)).thenReturn(irregularExpensesBudgetDTO);
 		
-		String jsonBody = objectMapper.writeValueAsString(monthlyBudgetDTO);
+		String jsonBody = objectMapper.writeValueAsString(irregularExpensesBudgetDTO);
 		
-		String url = "/budget/monthly-budgets";
+		String url = "/budget/irregular-exepnses-budgets";
 		
 		mockMvc.perform(post(url)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -83,69 +82,54 @@ class MonthlyBudgetRestControllerTest {
                 .content(jsonBody))
 				.andExpect(status().isCreated());
 	}
-	
+
 	@Test
-	void getAllMonthlyBudgets_ShouldReturn_StatusOk() throws Exception {
+	void getAllIrregularExpensesBudgets_ShouldReturn_StatusOk() throws Exception {
 		
 		User user = new User();
 		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
 		
-		List<MonthlyBudgetDTO> monthlyBudgetDTOs = new ArrayList<>();
-		monthlyBudgetDTOs.add(new MonthlyBudgetDTO());
+		List<IrregularExpensesBudgetDTO> irregularExpensesBudgetDTOs = new ArrayList<>();
+		irregularExpensesBudgetDTOs.add(new IrregularExpensesBudgetDTO());
 		
 		when(userService.findByUsername(any(String.class))).thenReturn(user);
-		when(monthlyBudgetService.findAllByUserId(any(Long.class))).thenReturn(monthlyBudgetDTOs);
+		when(irregularExpensesBudgetService.findAllByUserId(any(Long.class))).thenReturn(irregularExpensesBudgetDTOs);
 		
-		String url = "/budget/monthly-budgets";
+		String url = "/budget/irregular-exepnses-budgets";
 		
 		mockMvc.perform(get(url)
 				.principal(testingAuthenticationToken))
 				.andExpect(status().isOk());
 	}
-	
+
 	@Test
-	void updateMonthlyBudget_ShouldReturn_StatusOk() throws Exception {
+	void updateIrregularExpensesBudget_ShouldReturn_StatusOk() throws Exception {
 		
 		LocalDate date = LocalDate.now().withDayOfMonth(1);
 		
 		User user = new User();
 		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
 		
-		MonthlyBudgetDTO monthlyBudgetDTO = new MonthlyBudgetDTO
-				(1L, 1L, date, 0, 0, null, null);
+		IrregularExpensesBudgetDTO irregularExpensesBudgetDTO = new IrregularExpensesBudgetDTO
+				(1L, 1L, date, 0, 0, null);
 		
-		when(monthlyBudgetService.update(any(MonthlyBudgetDTO.class))).thenReturn(monthlyBudgetDTO);
+		when(irregularExpensesBudgetService.update(any(IrregularExpensesBudgetDTO.class)))
+			.thenReturn(irregularExpensesBudgetDTO);
 		
-		String jsonBody = objectMapper.writeValueAsString(monthlyBudgetDTO);
+		String jsonBody = objectMapper.writeValueAsString(irregularExpensesBudgetDTO);
 		
-		String url = "/budget/monthly-budgets";
+		String url = "/budget/irregular-exepnses-budgets";
 		
 		mockMvc.perform(put(url)
 				.contentType(MediaType.APPLICATION_JSON)
 				.principal(testingAuthenticationToken)
                 .content(jsonBody))
 				.andExpect(status().isOk());
-	}	
+	}
 
 	@Test
-	void deleteMonthlyBudget_ShouldReturn_StatusOk() throws Exception {
-		
-		User user = new User();
-		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
-		
-		when(userService.findByUsername(any(String.class))).thenReturn(user);
-		doNothing().when(monthlyBudgetService).deleteByDate(any(LocalDate.class), any(Long.class));
-		
-		String url = "/budget/monthly-budgets/{date}";
-		
-		mockMvc.perform(delete(url, "2022-01-01")
-				.principal(testingAuthenticationToken))
-				.andExpect(status().isOk());
+	void testDeleteMonthlyBudget() {
+		fail("Not yet implemented");
 	}
 
 }
-
-
-
-
-
