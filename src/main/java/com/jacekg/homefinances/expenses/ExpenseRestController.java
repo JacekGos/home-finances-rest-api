@@ -8,14 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
-import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 
-import static org.springframework.http.ResponseEntity.status;
-
 import java.security.Principal;
-import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 

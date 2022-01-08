@@ -1,6 +1,5 @@
 package com.jacekg.homefinances.expenses.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

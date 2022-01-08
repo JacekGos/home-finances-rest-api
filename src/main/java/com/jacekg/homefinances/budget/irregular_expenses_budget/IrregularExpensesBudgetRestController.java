@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
 import com.jacekg.homefinances.user.User;
 import com.jacekg.homefinances.user.UserService;
 

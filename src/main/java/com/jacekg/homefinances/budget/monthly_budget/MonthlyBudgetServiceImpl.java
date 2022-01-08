@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//import javax.transaction.Transactional;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -24,7 +23,6 @@ import com.jacekg.homefinances.user.UserNotExistsException;
 import com.jacekg.homefinances.user.UserRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
 @AllArgsConstructor

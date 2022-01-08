@@ -1,14 +1,12 @@
 package com.jacekg.homefinances.user;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

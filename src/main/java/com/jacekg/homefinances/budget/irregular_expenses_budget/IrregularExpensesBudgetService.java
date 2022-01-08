@@ -3,8 +3,6 @@ package com.jacekg.homefinances.budget.irregular_expenses_budget;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.validation.Valid;
-
 public interface IrregularExpensesBudgetService {
 
 	IrregularExpensesBudgetDTO save(IrregularExpensesBudgetDTO irregularExpensesBudgetDTO);

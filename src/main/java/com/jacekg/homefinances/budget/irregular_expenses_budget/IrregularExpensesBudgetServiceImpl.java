@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jacekg.homefinances.budget.BudgetUtilities;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRepository;
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetService;
 import com.jacekg.homefinances.expenses.IrregularExpenseRepository;
 import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.IrregularExpense;

@@ -1,7 +1,6 @@
 package com.jacekg.homefinances.user;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudget;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;

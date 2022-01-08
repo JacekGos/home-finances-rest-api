@@ -1,10 +1,8 @@
 package com.jacekg.homefinances.user;
 
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jacekg.homefinances.validation.FieldMatch;
 import com.jacekg.homefinances.validation.ValidEmail;
 
