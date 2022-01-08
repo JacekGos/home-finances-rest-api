@@ -16,11 +16,11 @@ A REST API created to manage and plan your home budget and daily expenses.
 - Spring Boot 2.5
 - Spring Security 5
 - Spring Data JPA
+- JWT
 - Hibernate 5
 - PostgeSQL 13
 - JUnit 5
 - Mockito 3.9
-- JWT
 
 
 <h2 align="left">Demo</h2>
