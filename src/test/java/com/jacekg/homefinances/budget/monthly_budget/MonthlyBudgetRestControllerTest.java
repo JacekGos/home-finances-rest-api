@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -130,8 +131,24 @@ class MonthlyBudgetRestControllerTest {
 	}	
 
 	@Test
-	void testDeleteMonthlyBudget() {
-		fail("Not yet implemented");
+	void deleteMonthlyBudget_ShouldReturn_StatusOk() throws Exception {
+		
+		User user = new User();
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(user);
+		doNothing().when(monthlyBudgetService).deleteByDate(any(LocalDate.class), any(Long.class));
+		
+		String url = "/budget/monthly-budgets/{date}";
+		
+		mockMvc.perform(delete(url, "2022-01-01")
+				.principal(testingAuthenticationToken))
+				.andExpect(status().isOk());
 	}
 
 }
+
+
+
+
+
