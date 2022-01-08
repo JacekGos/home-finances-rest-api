@@ -3,7 +3,6 @@ package com.jacekg.homefinances.budget.monthly_budget;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

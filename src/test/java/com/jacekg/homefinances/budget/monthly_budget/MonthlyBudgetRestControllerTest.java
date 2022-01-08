@@ -1,6 +1,5 @@
 package com.jacekg.homefinances.budget.monthly_budget;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -10,13 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +23,6 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jacekg.homefinances.jwt.JwtAuthenticationEntryPoint;
 import com.jacekg.homefinances.jwt.JwtRequestFilter;
@@ -138,7 +134,7 @@ class MonthlyBudgetRestControllerTest {
 		
 		String url = "/budget/monthly-budgets/{date}";
 		
-		mockMvc.perform(delete(url, "2022-01-01")
+		mockMvc.perform(delete(url, LocalDate.now().withDayOfMonth(1))
 				.principal(testingAuthenticationToken))
 				.andExpect(status().isOk());
 	}

@@ -1,6 +1,5 @@
 package com.jacekg.homefinances.user;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
 

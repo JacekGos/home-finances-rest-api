@@ -1,20 +1,19 @@
 package com.jacekg.homefinances.budget.irregular_expenses_budget;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,8 +24,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetDTO;
-import com.jacekg.homefinances.budget.monthly_budget.MonthlyBudgetRestController;
 import com.jacekg.homefinances.jwt.JwtAuthenticationEntryPoint;
 import com.jacekg.homefinances.jwt.JwtRequestFilter;
 import com.jacekg.homefinances.user.User;
@@ -128,8 +125,19 @@ class IrregularExpensesBudgetRestControllerTest {
 	}
 
 	@Test
-	void testDeleteMonthlyBudget() {
-		fail("Not yet implemented");
+	void deleteMonthlyBudget_ShouldReturn_StatusOk() throws Exception {
+		
+		User user = new User();
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(user);
+		doNothing().when(irregularExpensesBudgetService).deleteByDate(any(LocalDate.class), any(Long.class));
+		
+		String url = "/budget/irregular-exepnses-budgets/{date}";
+		
+		mockMvc.perform(delete(url, LocalDate.now().withDayOfMonth(1))
+				.principal(testingAuthenticationToken))
+				.andExpect(status().isOk());
 	}
 
 }

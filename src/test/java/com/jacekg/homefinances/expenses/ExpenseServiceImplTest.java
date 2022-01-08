@@ -1,8 +1,5 @@
 package com.jacekg.homefinances.expenses;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,18 +7,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.jacekg.homefinances.expenses.model.ConstantExpense;
 import com.jacekg.homefinances.expenses.model.ConstantExpenseDTO;
 import com.jacekg.homefinances.expenses.model.UserPreferenceConstantExpense;
 import com.jacekg.homefinances.role.Role;
